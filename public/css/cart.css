@@ -1,0 +1,84 @@
+.nutsearch {
+  border-radius: 10px;
+}
+
+.mybtn {
+  background-color: #E5D4FF;
+  border: 40px;
+  height: auto;
+  width: 60px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+
+
+/* Sidebar styling */
+.cart-sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.cart-sidebar .cart-header {
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-sidebar .cart-content {
+  padding: 20px;
+}
+
+.cart-sidebar .cart-actions {
+  margin-top: 20px;
+}
+
+.cart-sidebar .cart-actions .view-cart,
+.cart-sidebar .cart-actions .checkout {
+  display: inline-block;
+  background-color: #a00;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.cart-sidebar .cart-actions .checkout {
+  background-color: #d00;
+}
+
+.close-btn {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* When the sidebar is visible */
+.cart-sidebar.open {
+  width: 300px;
+  /* Set the desired width of the sidebar */
+}
+
+/* Cart button styling (optional) */
+/* #cartButton {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #a00;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+} */

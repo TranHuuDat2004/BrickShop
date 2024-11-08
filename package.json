@@ -1,0 +1,32 @@
+{
+  "name": "Keeppley_Docker",
+  "version": "1.0.0",
+  "description": "Mình đang tập thiết kế giao diện ạ",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TranHuuDat2004/Keeppley-Shop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TranHuuDat2004/Keeppley-Shop/issues"
+  },
+  "homepage": "https://github.com/TranHuuDat2004/Keeppley-Shop#readme",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^3.1.7",
+    "session": "^0.1.0"
+  }
+}

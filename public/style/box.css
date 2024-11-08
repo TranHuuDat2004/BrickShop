@@ -1,0 +1,142 @@
+.box
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+    
+}
+.box1
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box2
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box3
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box4
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box5
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box6
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box7
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box7
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box8
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box9
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+.box10
+{
+    box-sizing: inherit;
+    
+    border: 0.1px dashed #000;
+    border-radius: 40px;
+}
+
+
+
+
+.text-image-container {
+    display: flex;
+    
+  }
+.text-left {
+    flex: 500 500 auto;
+    margin-right: 50000px; /* Adjust the margin as needed */
+ 
+  }  
+#materialButton:hover
+{
+    color: #FD8585;
+    
+}
+.checkbox-label {
+    display: inline-block;
+    vertical-align: middle;
+}
+legend:hover{
+    color: #FD8585;
+}
+.text
+{
+    margin-left: 90px;
+}
+.text1
+{
+    margin-left: 100px;
+}
+.textdeer
+{
+    margin-left: 100px;
+}
+.textDeer
+{
+    margin-left: 100px;
+}
+.textRobot
+{
+    margin-left: 120px;
+}
+.text2
+{
+    margin-left: 120px;
+}
+.price
+{
+    margin-left: 100px;
+}
+.price2
+{
+    margin-left: 120px;
+}

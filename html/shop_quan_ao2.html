@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZStyle Online Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo-search">
+            <img src="logo.png" alt="ZStyle Logo" class="logo">
+            <input type="text" placeholder="Tìm kiếm sản phẩm">
+            <button class="search-btn">Tìm kiếm</button>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Sản phẩm</a></li>
+                <li><a href="#">Thiết kế</a></li>
+                <li><a href="#">Tin tức</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Product Section -->
+    <main>
+        <div class="product-container">
+            <div class="product-images">
+                <img src="product1.png" alt="Product Main Image" class="main-image">
+                <div class="thumbnail-images">
+                    <img src="product1.png" alt="Product Thumbnail">
+                    <img src="product2.png" alt="Product Thumbnail">
+                    <img src="product3.png" alt="Product Thumbnail">
+                    <img src="product4.png" alt="Product Thumbnail">
+                </div>
+            </div>
+            <div class="product-info">
+                <h1>Áo Thun Regular Glorious Hour</h1>
+                <p class="product-code">Mã sản phẩm: ATID0298-01</p>
+                <p class="product-price">1.200.000₫</p>
+                <div class="product-variations">
+                    <label>Màu sắc:</label>
+                    <span>Xanh blue</span>
+                </div>
+                <div class="size-options">
+                    <label>Size:</label>
+                    <button>S</button>
+                    <button>M</button>
+                    <button>L</button>
+                    <button>XL</button>
+                </div>
+                <div class="quantity">
+                    <label>Số lượng:</label>
+                    <input type="number" value="1" min="1">
+                </div>
+                <button class="buy-now">Mua ngay</button>
+                <button class="add-to-cart">Thêm vào giỏ hàng</button>
+            </div>
+        </div>
+
+        <!-- Tabs for Product Information -->
+        <div class="tabs">
+            <button class="tablink">Thông tin chi tiết</button>
+            <button class="tablink">Chính sách bán hàng</button>
+            <button class="tablink">Đánh giá sản phẩm</button>
+        </div>
+
+        <!-- Product Policy Section -->
+        <div class="policy">
+            <h3>CHÍNH SÁCH ĐỔI SẢN PHẨM:</h3>
+            <ol>
+                <li>Bạn lưu ý giữ lại hóa đơn để đổi hàng trong vòng 30 ngày.</li>
+                <li>Đổi với mặt hàng giảm giá, phụ kiện cần nhắn trước khi nhận đổi.</li>
+                <li>Sản phẩm chưa qua sử dụng, còn tag và hóa đơn.</li>
+            </ol>
+        </div>
+
+        <!-- Related Products Section -->
+        <div class="related-products">
+            <h3>Sản phẩm cùng danh mục</h3>
+            <div class="related-item">
+                <img src="related1.png" alt="Related Product">
+                <p>Áo Thun Regular Bear Cool</p>
+                <p>290,000₫</p>
+            </div>
+            <div class="related-item">
+                <img src="related2.png" alt="Related Product">
+                <p>Áo Thun Regular Bear Cool</p>
+                <p>290,000₫</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-info">
+            <p>ZStyle Online - Cửa hàng phân phối áo chính hãng</p>
+            <p>Địa chỉ: Quận 12, TP.HCM | SĐT: 123456789</p>
+        </div>
+        <div class="footer-links">
+            <ul>
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#">Chính sách</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+<style>
+    /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #004d25;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-search {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.logo {
+    height: 50px;
+    margin-right: 20px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 300px;
+}
+
+.search-btn {
+    padding: 8px;
+    background-color: #008c4a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    padding-right: 20px;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Main Product Section */
+.product-container {
+    display: flex;
+    padding: 20px;
+    background-color: white;
+}
+
+.product-images {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.main-image {
+    width: 100%;
+    height: auto;
+}
+
+.thumbnail-images {
+    display: flex;
+    margin-top: 10px;
+}
+
+.thumbnail-images img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.product-info {
+    flex: 2;
+}
+
+.product-info h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 22px;
+    color: red;
+    margin-bottom: 10px;
+}
+
+.size-options button, .buy-now, .add-to-cart {
+    padding: 10px;
+    margin: 5px;
+    background-color: #008c4a;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    background-color: #e0e0e0;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.tabs button {
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.tabs button:hover {
+    background-color: #ccc;
+}
+
+/* Footer */
+footer {
+    background-color: #004d25;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer ul li {
+    margin-bottom: 10px;
+}
+
+</style>
+</html>

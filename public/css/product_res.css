@@ -1,0 +1,72 @@
+#footer_res{
+    transform: translateY(200px);
+}
+#filter2{
+    display: none;
+}
+#materialButton1{
+    display: none;
+}
+#PriceButtonMobile
+{
+    display: none;
+}
+@media only screen and (max-width: 600px) and (min-width: 300px) {
+    #filter1
+    {
+        display: none;
+    }
+    #product_res
+    {
+        transform: translateX(-100px);
+    }
+    #footer_res{
+        transform: translateX(103px) translateY(140px);
+    }
+    #myBtn{
+        transform: translateX(100px);
+    }
+    #materialButton1{
+        display: block;
+        transform: translateY(-60px) translateX(-120px);
+    
+    }
+    .materialwhen2
+    {
+        transform: t;
+    }
+    #materialButton1:hover{
+       color: #FD8585;
+    
+    }
+    #toy{
+        transform: translateX(-60px);
+    }
+    #imgBear{
+        width: 300px;
+    }
+    .allproductMobile
+    {
+        transform: translateY(200px);
+    }
+    .pillowMobile
+    {
+        transform: translateX(100px) translateY(130px);
+    }
+    #PriceButtonMobile
+    {
+        display: block;
+    }
+    #searchMobile
+    {
+        
+    }
+    /* .mucxuathien
+    {
+        display: block;
+    }
+    .mucbienmat
+    {
+        display: none;
+    } */
+}

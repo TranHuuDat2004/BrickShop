@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brick Shop</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="../style/index.css" rel="stylesheet" type="text/css">
+</head>
+
+<style>
+    /* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none; /* Bỏ gạch chân dưới liên kết */
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+/* Desktop Navbar */
+.navbar.desktop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.navbar.desktop ul {
+  display: flex;
+  list-style: none;
+}
+
+.navbar.desktop ul li {
+  margin-left: 20px;
+}
+
+.navbar.desktop ul li .active {
+  font-weight: 700;
+}
+
+
+.navbar.desktop ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.navbar.desktop .btn,
+.navbar.desktop .btn-login {
+  margin: 10px;
+  /* Điều chỉnh khoảng cách giữa hai nút */
+}
+
+.navbar.mobile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.logo img {
+  max-width: 200px;
+}
+
+.hamburger-menu {
+  padding: 15px 15px;
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+/* Mobile Menu Layer */
+.navLayer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 9999;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.navLayer.active {
+  display: flex;
+}
+
+.navbar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeBtn {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.nav-items {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-items li {
+  margin: 20px 0;
+}
+
+.nav-items li a {
+  display: block;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #ff5c5c;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid #ff5c5c;
+  transition: background-color 0.3s ease;
+}
+
+.nav-items .active {
+  background-color: #ff5c5c;
+  color: white;
+}
+
+/* Language Switch */
+.lang-switch {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.lang-btn {
+  background-color: #fff;
+  color: #ff5c5c;
+  border: 1px solid #ff5c5c;
+  padding: 10px 20px;
+  border-radius: 50px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.lang-btn.active,
+.lang-btn:hover {
+  background-color: #ff5c5c;
+  color: white;
+}
+
+.navbar.desktop {
+  display: flex;
+}
+
+.navbar.mobile {
+  display: none;
+}
+
+/* Responsive Styles Header */
+@media (max-width: 768px) {
+  .navbar.desktop {
+    display: none;
+  }
+
+  .navbar.mobile {
+    display: flex;
+  }
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+
+.hamburger-menu {
+  padding: 10px 10px;
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+
+}
+
+.btn-login {
+  padding: 10px 20px;
+  background-color: #ffffff;
+  /* Màu nền trắng */
+  color: #ff5c5c;
+  /* Màu chữ */
+  border: 1px solid #ff5c5c;
+  /* Viền với màu #ff5c5c */
+  border-radius: 16px;
+  /* Độ bo tròn viền */
+  cursor: pointer;
+}
+
+
+
+/* Qman Section */
+.qman-section {
+  display: flex;
+  padding: 50px;
+  height: 900px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* Hình nền bao phủ toàn bộ phần tử */
+  background-position: center;
+  background-image: url("../images/index.png");
+  /* Căn giữa hình nền */
+}
+
+/* Responsive chỉnh sửa cho màn hình nhỏ hơn */
+@media only screen and (max-width: 768px) {
+  .qman-section {
+    background-image: url("../images/index-phone.png");
+    height: 1400px;
+    /* Chiều cao tự động điều chỉnh theo nội dung */
+  }
+
+}
+
+
+.qman-text {
+  flex: 1;
+}
+
+.qman-text h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.qman-image img {
+  max-width: 100%;
+  padding-left: 30px;
+}
+
+/* Keeppley Section */
+.keeppley-section {
+  margin-top: 20px;
+  display: flex;
+  padding: 50px;
+  color: white;
+  height: 900px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* Hình nền bao phủ toàn bộ phần tử */
+  background-position: center;
+  /* Căn giữa hình nền */
+  background-image: url('../images/20220906090844329.jpg');
+}
+
+/* Responsive chỉnh sửa cho màn hình nhỏ hơn */
+@media only screen and (max-width: 768px) {
+  .keeppley-section {
+    max-height: 1800px;
+    /* Chiều cao tự động điều chỉnh theo nội dung */
+    background-image: url('../images/20220906090914242.jpg');
+  }
+}
+
+.keeppley-text {
+  flex: 1;
+}
+
+.keeppley-text h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.keeppley-image img {
+  max-width: 100%;
+  padding-left: 30px;
+}
+
+/* LEGO Section */
+.lego-section {
+  padding: 50px;
+  background-color: #fff;
+}
+
+/* Default for larger screens (desktop) */
+
+.img-lego {
+  flex: 1 1 25%;
+  /* Each image takes up 25% of the container width */
+  max-width: 25%;
+  padding: 20px;
+  box-sizing: border-box;
+  /* Include padding in width calculations */
+}
+
+.lego-products {
+  display: flex;
+  flex-wrap: wrap;
+  /* Ensure wrapping on smaller screens */
+}
+
+.lego-products .product {
+  width: 350px;
+  flex-basis: 350px;
+  /* Ensures the element respects the set width */
+  margin: 10px;
+  /* Optional: Adds spacing between products */
+  box-sizing: border-box;
+  /* Ensure padding/borders don’t affect width */
+}
+
+
+.lego-products .product img {
+  max-width: 100px;
+}
+
+/* Tablet - kích thước màn hình từ 768px đến 1024px */
+@media only screen and (max-width: 1024px) {
+  .img-lego {
+    /* Each image takes up 50% of the container width */
+    max-width: 33%;
+  }
+}
+
+/* Phone - kích thước màn hình dưới 768px */
+@media only screen and (max-width: 768px) {
+  .img-lego {
+    /* Each image takes up 50% of the container width */
+    max-width: 50%;
+  }
+}
+
+/* Rất nhỏ - kích thước màn hình dưới 480px */
+@media only screen and (max-width: 480px) {
+  .img-lego {
+    /* Each image takes up 50% of the container width */
+    max-width: 110%;
+  }
+}
+
+/* For mobile phones: 2 images per row */
+@media only screen and (max-width: 600px) {
+  .img-lego {
+    /* Each image takes up 50% of the container width */
+    max-width: 110%;
+  }
+
+  .para2 {
+    color: white;
+  }
+}
+
+/* Tablet - kích thước màn hình từ 768px đến 1024px */
+@media only screen and (max-width: 1024px) {
+  .lego-products .product {
+    flex: 1 1 32%;
+    /* Tablet: Chiều rộng tối đa là 32% */
+  }
+}
+
+/* Phone - kích thước màn hình dưới 768px */
+@media only screen and (max-width: 768px) {
+  .lego-products .product {
+    flex: 1 1 50%;
+    /* Phone: Chiều rộng tối đa là 50% */
+  }
+}
+
+/* Rất nhỏ - kích thước màn hình dưới 480px */
+@media only screen and (max-width: 480px) {
+  .lego-products .product {
+    flex: 1 1 100%;
+    /* Màn hình rất nhỏ: Chiều rộng tối đa là 100% */
+  }
+}
+
+
+/* Footer */
+footer a {
+  color: #000;
+  text-decoration: none;
+  font-size: 14px;
+  padding-bottom: 30px
+}
+
+footer p {
+  color: #000;
+  text-decoration: none;
+  font-size: 14px;
+  padding-bottom: 30px;
+  padding-top: 18px
+}
+
+footer a:hover {
+  text-decoration: underline;
+  padding-bottom: 30px
+}
+
+footer i {
+  margin: 0 5px;
+  font-size: 14px;
+}
+
+footer input[type="email"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding-bottom: 30px
+}
+
+footer button {
+  border-radius: 16px;
+  padding-bottom: 30px
+}
+
+.label-footer {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.footer-column {
+  flex: 1 1 200px;
+  max-width: 15%;
+  background-color: #f5f5f5;
+}
+
+/* Language switcher container */
+.language-switcher {
+  position: relative;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+/* Current language flag icon */
+.current-lang img {
+  padding-top: 20px;
+  width: 48px;
+  cursor: pointer;
+}
+
+/* Dropdown styling */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  width: 150px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.dropdown-content a {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Language option flag icons */
+.lang-option img {
+  width: 18px;
+  margin-right: 8px;
+}
+
+/* Show dropdown when hovering */
+.language-switcher:hover .dropdown-content {
+  display: block;
+}
+
+@media only screen and (max-width: 600px) {
+  .footer-column {
+    flex: 1 1 100px;
+    /* Giảm xuống còn 100px cho màn hình nhỏ */
+    max-width: 100%;
+    /* Chiếm 100% chiều rộng của màn hình */
+  }
+
+  footer p {
+    color: #000;
+    text-decoration: none;
+    font-size: 12px;
+    padding-bottom: 30px;
+    padding-top: 18px;
+  }
+
+  footer i {
+    margin: 0 5px;
+    font-size: 12px;
+  }
+
+  .label-footer {
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .f-cute {
+    width: 75%;
+  }
+
+  footer input[type="email"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding-bottom: 30px;
+    width: 250px;
+  }
+}
+</style>
+<body>
+    <!-- Header Section -->
+    <header>
+
+        <!-- Thanh điều hướng trên Desktop -->
+        <div class="navbar desktop">
+            <div class="logo">
+                <img src="../images/logo.png" width="200" alt="Logo Brick Shop">
+            </div>
+            <ul>
+                <li><a class="active" href="#">Trang chủ</a></li>
+                <li><a href="#">Sản phẩm</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+            <ul>
+                <div class="language-switcher">
+                    <div class="current-lang">
+                        <img src="../images/flags/vn.png" alt="Cờ Việt Nam">
+                    </div>
+                    <div class="dropdown-content">
+                        <a href="../html/index-chatgpt_en.html" class="lang-option">
+                            <img src="../images/flags/en.png" alt="Cờ Anh"> English
+                        </a>
+                        <a href="../html/index-chatgpt_vn.html" class="lang-option">
+                            <img src="../images/flags/vn.png" alt="Cờ Việt Nam"> Tiếng Việt
+                        </a>
+                    </div>
+                </div>
+                <a href="#" class="btn-login">Đăng ký</a>
+                <a href="#" class="btn">Đăng nhập</a>
+            </ul>
+        </div>
+
+        
+        <!-- Thanh điều hướng trên Mobile -->
+        <div class="navbar mobile">
+            <div class="menu-icon navA" onclick="toggleMenu()">
+                <button class="hamburger-menu" id="btn-hamburger">☰</button>
+            </div>
+            <div class="logo">
+                <img src="../images/logo.png" width="200" alt="Logo Brick Shop">
+            </div>
+        </div>
+
+        <!-- Lớp Menu trên Mobile -->
+        <div class="navLayer" id="nav-menu">
+            <div class="navbar-header">
+                <img src="../images/logo.png" width="200" alt="Logo Brick Shop">
+                <span class="closeBtn" onclick="toggleMenu()">X</span>
+            </div>
+            <ul class="nav-items">
+                <li><a href="#" class="active">Câu chuyện của chúng tôi</a></li>
+                <li><a href="#">Sản phẩm của chúng tôi</a></li>
+                <li><a href="#">Liên hệ</a></li>
+                <li><a href="#">Đăng ký</a></li>
+                <li><a href="#">Đăng nhập</a></li>
+            </ul>
+
+            <!-- Chuyển đổi ngôn ngữ -->
+            <div class="lang-switch">
+                <a href="../html/index-chatgpt_en.html"><button class="lang-btn">EN</button></a>
+                <a href="../html/index-chatgpt_vn.html"><button class="lang-btn active">VN</button></a>
+            </div>
+        </div>
+
+        <script>
+            function toggleMenu() {
+                var navLayer = document.getElementById("nav-menu");
+                navLayer.classList.toggle("active");
+            }
+        </script>
+    </header>
+    <!-- Phần Qman -->
+    <section style="padding-left: 80px;" class="qman-section">
+        <div class="qman-text">
+            <img style="padding-left: 30px;" src="../images/2022101014476761.png" alt="Sản phẩm Keeppley">
+            <h1 style="margin-bottom: 30px; max-width: 700px;">Thương hiệu đồ chơi hàng đầu Trung Quốc, chuyên về gạch
+                xây dựng từ năm 1994.</h1>
+            <p style="margin-bottom: 30px; max-width: 700px;">Hành trình của Qman bắt đầu vào năm 1994, bắt nguồn từ
+                việc ông Zhan Kehua nhận ra niềm đam mê của con mình với các khối xây dựng. Điều này đã truyền cảm hứng
+                để ông tạo ra một thương hiệu Trung Quốc nguyên bản, tập trung vào các khối xây dựng.</p>
+            <p class="p2" style="margin-bottom: 50px; max-width: 700px;">Ngày nay, Qman không chỉ là một thương hiệu đồ
+                chơi trẻ em—nó là một thương hiệu quốc gia được yêu thích, đã phát triển cùng với nhiều thế hệ. Chúng
+                tôi cam kết với triết lý thương hiệu rằng "<b>Qman blocks make dreams come true</b>", và cùng với khách
+                hàng, chúng tôi sử dụng những mảnh ghép nhỏ để hiện thực hóa những giấc mơ.</p>
+            <a href="#" class="btn">Xem sản phẩm</a>
+        </div>
+        <div class="qman-image">
+            <!-- Phần hình ảnh -->
+        </div>
+    </section>
+
+    <!-- Phần Keeppley -->
+    <section style="padding-left: 100px;" class="keeppley-section">
+        <div class="keeppley-text">
+            <img style="padding-left: 30px;" src="../images/2022082419251955.png" alt="Sản phẩm Keeppley" height="40">
+            <h1>Thương hiệu gạch xây dựng thế hệ mới, ra đời năm 2019.</h1>
+            <p style="margin-bottom: 30px; max-width: 800px;">Keeppley là thương hiệu thế hệ mới thuộc Qman, một công ty
+                đã chuyên sản xuất các mô hình khối xây dựng tương tự LEGO từ năm 1994. Keeppley tập trung cung cấp các
+                sản phẩm chính hãng, chất lượng cao với giá cả hợp lý, giúp mọi người dễ dàng tiếp cận.</p>
+            <p style="margin-bottom: 50px; max-width: 800px;">Dòng sản phẩm của Keeppley rất đa dạng, bao gồm các mô
+                hình nhà cửa, cửa hàng sáng tạo, các công trình kiến trúc tráng lệ, cũng như các chủ đề đặc biệt như
+                <b>Pokémon, Doraemon</b> và các series anime và manga khác.
+            </p>
+            <a href="#" class="btn">Xem sản phẩm</a>
+        </div>
+        <div class="keeppley-image">
+            <!-- Phần hình ảnh -->
+        </div>
+    </section>
+
+    <!-- Phần LEGO -->
+    <section class="lego-section">
+        <div class="lego-text">
+            <div style="display: flex; justify-content: center;">
+                <img src="../images/LEGO_logo.png" alt="Logo LEGO" height="100">
+            </div>
+            <p style="margin-bottom: 30px;">LEGO, thương hiệu đồ chơi mang tính biểu tượng toàn cầu, nổi tiếng với các
+                viên gạch nhựa ghép nối kích thích sự sáng tạo và trí tưởng tượng. Được thành lập vào năm 1932 bởi Ole
+                Kirk Christiansen tại Đan Mạch, LEGO bắt đầu là nhà sản xuất đồ chơi bằng gỗ trước khi chuyển sang hệ
+                thống gạch nhựa mà chúng ta biết ngày nay vào năm 1958.</p>
+            <p style="margin-bottom: 30px;">Các bộ LEGO có nhiều chủ đề, bao gồm <b> LEGO City, Ninjago, Nexo Knight,
+                    Chima</b>
+                và các loạt phim được cấp phép như <b>Harry Potter, Despicable Me 4.</b> Ngoài đồ chơi vật lý, LEGO còn
+                mở
+                rộng sang trò chơi điện tử, phim ảnh (The LEGO Movie), và các ứng dụng kỹ thuật số, mang lại những cơ
+                hội sáng tạo vô tận cho cả trẻ em và người lớn.</p>
+            <p style="margin-bottom: 30px;">Trọng tâm của sứ mệnh LEGO là sáu giá trị cốt lõi: <b>trí tưởng tượng, sự
+                    sáng
+                    tạo, niềm vui, học hỏi, quan tâm và chất lượng.</b> Những giá trị này giúp trẻ em và gia đình khám
+                phá tiềm
+                năng của mình trong khi đảm bảo chất lượng sản phẩm hàng đầu và những trải nghiệm vui vẻ.</p>
+        </div>
+        <div class="img-container">
+            <a href="#"><img class="img-lego" src="../images/LegoChima.jfif" alt="" height="150" width="275"></a>
+            <a href="#"><img class="img-lego" src="../images/LegoNexoKnights.jfif" alt="" height="150" width="275"></a>
+            <a href="#"><img class="img-lego" src="../images/LEGO-City-logo.jpg" alt="" height="150" width="275"></a>
+            <a href="#"><img class="img-lego" src="../images/LegoNinjago.jfif" alt="" height="150" width="275"></a>
+        </div>
+    </section>
+
+    <footer style="padding: 20px 0; font-family: Arial, sans-serif; font-size:20px ">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <img src="../images/17.png" alt="" class="f-cute">
+        </div>
+        <div
+            style="background-color: #f5f5f5; display: flex; justify-content: space-around; flex-wrap: wrap; padding-left:30px">
+            <!-- PHÁP LÝ -->
+            <div class="footer-column">
+                <p class="label-footer">PHÁP LÝ</p>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Nhà bán lẻ</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Cookie</a></li>
+                </ul>
+            </div>
+
+            <!-- DỊCH VỤ -->
+            <div class="footer-column">
+                <p class="label-footer">DỊCH VỤ</p>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li><a href="#">Theo dõi đơn hàng</a></li>
+                    <li><a href="#">Trả hàng</a></li>
+                    <li><a href="#">Giao hàng</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                </ul>
+            </div>
+
+            <!-- LIÊN HỆ -->
+            <div class="footer-column">
+                <p class="label-footer">LIÊN HỆ</p>
+                <p>Bất kỳ câu hỏi nào? Hãy cho chúng tôi biết tại cửa hàng tại tầng 8, 379 Hudson St, New York, NY 10018
+                    <br> hoặc gọi chúng tôi theo số (+1) 96 716 6879
+                </p>
+                <div>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- ĐĂNG KÝ NHẬN TIN -->
+            <div class="footer-column">
+                <p class="label-footer">ĐĂNG KÝ NHẬN TIN</p>
+                <input type="email" placeholder="email@example.com"
+                    style="width: 150px; padding: 10px; margin-bottom: 10px;">
+                <button
+                    style="background-color: #ff4081; color: white; padding: 10px 20px; border: none; cursor: pointer;">ĐĂNG
+                    KÝ</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; background-color: #f5f5f5;">
+            <img src="../icons/icon-pay-01.png" alt="Phương thức thanh toán" style="margin-top: 10px;">
+            <img src="../icons/icon-pay-02.png" alt="Phương thức thanh toán" style="margin-top: 10px;">
+            <img src="../icons/icon-pay-03.png" alt="Phương thức thanh toán" style="margin-top: 10px;">
+            <img src="../icons/icon-pay-04.png" alt="Phương thức thanh toán" style="margin-top: 10px;">
+            <img src="../icons/icon-pay-05.png" alt="Phương thức thanh toán" style="margin-top: 10px;">
+            <p>&copy; 2024 Bản quyền thuộc về Group 5 | Tạo bởi <i class="fas fa-heart"></i> Group 5</p>
+        </div>
+    </footer>
+
+</body>
+<script>
+    function toggleMenu() {
+        var navLayer = document.getElementById("nav-menu");
+        navLayer.classList.toggle("active");
+    }
+</script>
+
+</html>

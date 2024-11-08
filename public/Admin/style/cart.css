@@ -1,0 +1,13 @@
+.nutsearch
+{
+    border-radius: 10px;
+}
+.mybtn
+{
+    background-color: #E5D4FF;
+    border: 40px;
+    height: auto;
+    width: 60px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

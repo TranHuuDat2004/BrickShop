@@ -1,0 +1,68 @@
+@font-face {font-family:regular; src:url(../font/Montserrat-Regular.otf);}
+@font-face {font-family:bold; src:url(../font/MontserratBold.ttf);}
+
+body{font-family:regular;}
+
+.productBox .list li .btnDiv {font-size: 14px;text-indent: 22px;}
+.productBox .list li .btnDiv:after{right: 24px;}
+
+.productList .list li .txt{text-transform: uppercase;}
+
+.indexP1 .content {font-size: 0.2rem;line-height: 0.28rem;}
+
+.productBox .btnGroup li a{width:218px;}
+
+.productBox{padding-top:2rem;}
+.productBox .btnGroup{padding-top:1rem}
+
+.productBox .list li .botDiv{height:200px;}
+.productBox .list li .name a{color: #242424;}
+.productBox .list li .name a:hover{color: #242424;}
+.productBox .list li .btnDiv a{color:#fff;display: block;}
+.productBox .list li .btnDiv2 a{color: #242424;}
+.productBox .list li .btnDiv a:hover{color:#fff;}
+.productBox .list li .btnDiv2 a:hover{color: #242424;}
+.productBox .list li .btnVideo{margin:0 auto;width: 172px;}
+.productBox .list li .btnVideo{text-align:center;margin-top:0;font-size: 14px;}
+.productBox .list li .btnVideo a{color:#e84448;}
+
+
+@media screen and (max-width: 1600px) {
+    .indexP1 .txt {padding: 0.1rem 0;font-size: 0.3rem;line-height: 0.3rem;}
+    .indexP1 .content {font-size: 0.18rem;line-height: 0.28rem;}
+    .indexP1 .limg img{height: 0.5rem;}
+
+    .indexP2 .txt {font-size: 0.28rem;line-height: 0.28rem;}
+}
+
+@media screen and (max-width: 1440px){
+    .indexP1 .limg img{height: auto;}
+
+    .productBox .list li .botDiv{height:174px;}
+    .productBox .list li .btnDiv{width: 174px;}
+    .productBox .list li .btnVideo{width: 174px;}
+}
+
+@media screen and ( max-width:1024px ) {
+    .productBox .btnGroup li{margin-bottom: 0.2rem;}
+    .productBox .btnGroup li a{width: 3.2rem;background-size: 3.2rem;}
+    .productBox .btnGroup li:last-child a {width: 3.5rem;background-size: 3.5rem;}
+    .productBox .list li .btnDiv{font-size:0.2rem;text-indent: 0.22rem;text-align:left;}
+    .productBox .list li .btnDiv:after{right: 0.22rem;}
+
+    .indexP1 .txt {font-size: 0.42rem;line-height: 0.52rem;padding: 0.25rem 0.3rem 0.4rem;}
+    .indexP1 .content {font-size: 0.26rem;line-height: 0.48rem;}
+
+    .indexP2 .txt {font-size: 0.42rem;line-height: 0.42rem;padding: 0.25rem 0;}
+
+    .productBox{padding: 3.2rem 0.3rem 0.8rem;}
+
+    .productBox .list li .botDiv{height: 3rem;}
+    .productBox .list li .btnDiv{width: 100%;}
+    /*.productBox .list li .btnVideo{width: 2.4rem;}*/
+    .productBox .list li .btnVideo{width: 100%;}
+    .productBox .list li .btnVideo a{font-size:0.2rem;}
+    .productBox .list li .btnVideo a img{width: 100%;}
+    
+
+}

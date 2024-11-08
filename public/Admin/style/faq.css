@@ -1,0 +1,77 @@
+#icon1
+{
+    margin-left: 200px;
+
+}
+#icon2
+{
+    position: relative;
+}
+#khuvucxuathien
+{
+    display: none;
+}
+@media only screen and (max-width: 600px) and (min-width: 301px) {
+    /* Trường hợp từ 600px đến 301px */
+    #icon1 {
+        position: relative;
+        right: 100px;
+        width: 200px; 
+    }
+    #icon5 {
+        left: 90px;
+        width: 200px;
+    }
+    #hinhbienmat {
+        display: none;
+    }
+    #hinhauto {
+        width: auto; 
+    }
+    .header, .logo-header, .footer-res, .icon-res {
+        width: 430px;
+    }
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 801px) {
+    /* Trường hợp từ 1200px đến 801px */
+    #icon1 {
+        position: relative;
+        right: 100px;
+        width: 200px; 
+    }
+    #icon5 {
+        left: 90px;
+        width: 200px;
+    }
+    #khuvucbienmat {
+        display: none;
+    }
+    #khuvucxuathien {
+        display: block;
+        width: 400px;
+    }
+    #bienmat {
+        display: none;
+    }
+    #hinhauto {
+        width: auto; 
+    }
+    .header {
+        width: 1000px;
+        height: 400px;
+    }
+    .logo-header {
+        width: 4300px;
+    }
+    .footer-res {
+        width: 430px;
+    }
+    .icon-res {
+        width: 430px;
+    }
+}
+#thanhbarbienmat
+{
+    display: none;
+}

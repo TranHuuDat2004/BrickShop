@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteBase /
+
+# Nếu tệp hoặc thư mục không tồn tại, chuyển hướng tới 404.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /en/404.php [L]
+
+# Chỉ định trang lỗi 404
+ErrorDocument 404 /en/404.php

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    .navbar {
+  background-color: #333;
+  padding: 10px;
+}
+
+.nav-items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav-item {
+  position: relative;
+  margin-right: 20px;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  display: block;
+}
+
+.nav-item:hover .dropdown {
+  display: block;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown li a {
+  color: black;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown li a:hover {
+  background-color: #ddd;
+}
+
+</style>
+<body>
+    <nav class="navbar">
+        <ul class="nav-items">
+          <li class="nav-item">
+            <a href="#">Danh mục sản phẩm</a>
+            <ul class="dropdown">
+              <li><a href="#">Tổng Hợp Khuyến Mãi</a></li>
+              <li><a href="#">Linh Kiện Mới</a></li>
+              <li><a href="#">Linh Kiện Cũ</a></li>
+              <li><a href="#">SSD - HDD - USB</a></li>
+              <li><a href="#">Laptop</a></li>
+              <li><a href="#">PC Gaming - Đồ Họa</a></li>
+              <li><a href="#">PC Văn Phòng - Làm Việc</a></li>
+              <li><a href="#">PC AI - Trí tuệ nhân tạo</a></li>
+              <li><a href="#">Màn hình máy tính</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      
+</body>
+</html>
