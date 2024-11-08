@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<style>
+	body {
+  font-family: Arial, Helvetica, sans-serif;    
+}
+
+#timer
+{
+	width:540px;
+	float:left;	
+	text-align:center;
+}
+#timer ul
+{
+	list-style:none;
+	display:inline-block;	
+	padding:0;
+	margin:0;
+}
+#timer ul li
+{
+	float:left;	
+	margin:10px;
+}
+#timer span {
+  display: block;
+  font-size: 14px;
+  color: white;
+}
+
+#days, #hours, #minutes, #seconds {
+  font-size: 20px;
+  color: #fff;
+  width:60px;
+  height:60px;
+  background-color:#000;
+  float:left;  
+  padding-top:10px;
+  box-sizing:border-box;
+  text-align:center;
+}
+
+</style>
+<body>
+<div id="timer">
+<ul>
+  <li><div id="days"></div></li>
+  <li><div id="hours"></div></li>
+  <li><div id="minutes"></div></li>
+  <li><div id="seconds"></div></li>
+</ul>
+</div>
+<script src="jquery-3.1.1.min.js"></script>
+<script>
+	function makeTimer() {
+
+	//		var endTime = new Date("29 April 2018 9:56:00 GMT+01:00");	
+		var endTime = new Date("15 May 2024 9:56:00 GMT+07:00");			
+			endTime = (Date.parse(endTime) / 1000);
+
+			var now = new Date();
+			now = (Date.parse(now) / 1000);
+
+			var timeLeft = endTime - now;
+
+			var days = Math.floor(timeLeft / 86400); 
+			var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+			var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+			var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+  
+			if (hours < "10") { hours = "0" + hours; }
+			if (minutes < "10") { minutes = "0" + minutes; }
+			if (seconds < "10") { seconds = "0" + seconds; }
+
+			$("#days").html(days + "<span>Days</span>");
+			$("#hours").html(hours + "<span>Hours</span>");
+			$("#minutes").html(minutes + "<span>Minutes</span>");
+			$("#seconds").html(seconds + "<span>Seconds</span>");		
+
+	}
+
+	setInterval(function() { makeTimer(); }, 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        :root {
+            --sidebar-width: 300px;
+            --transition-duration: 0.5s;
+            --sidebar-bg: white;
+            --header-bg: #333;
+            --header-color: white;
+            --button-bg: #a00;
+            --button-color: white;
+            --checkout-bg: #d00;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Sidebar styling */
+        .cart-sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: var(--sidebar-bg);
+            overflow-x: hidden;
+            transition: var(--transition-duration);
+            padding-top: 60px;
+            box-shadow: -2px 0px 5px var(--shadow-color);
+            z-index: 1000;
+        }
+
+        .cart-sidebar .cart-header {
+            padding: 10px;
+            background-color: var(--header-bg);
+            color: var(--header-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-sidebar .cart-content {
+            padding: 20px;
+        }
+
+        .cart-sidebar .cart-actions {
+            margin-top: 20px;
+        }
+
+        .cart-sidebar .cart-actions .view-cart,
+        .cart-sidebar .cart-actions .checkout {
+            display: inline-block;
+            background-color: var(--button-bg);
+            color: var(--button-color);
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .cart-sidebar .cart-actions .checkout {
+            background-color: var(--checkout-bg);
+        }
+
+        .close-btn {
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        /* When the sidebar is visible */
+        .cart-sidebar.open {
+            width: var(--sidebar-width);
+        }
+
+        /* Cart button styling (optional) */
+        #cartButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--button-bg);
+            color: var(--button-color);
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Giỏ hàng Button -->
+    <button id="cartButton">Giỏ hàng</button>
+
+    <!-- Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Giỏ hàng</h2>
+            <span id="closeSidebar" class="close-btn">&times;</span>
+        </div>
+        <div class="cart-content">
+            <p>Hiện chưa có sản phẩm</p>
+            <hr>
+            <p><strong>Tổng tiền:</strong> 0₫</p>
+            <div class="cart-actions">
+                <button class="view-cart">Xem giỏ hàng</button>
+                <button class="checkout">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartButton = document.getElementById('cartButton');
+            const cartSidebar = document.getElementById('cartSidebar');
+            const closeSidebar = document.getElementById('closeSidebar');
+
+            function toggleSidebar() {
+                cartSidebar.classList.toggle('open');
+            }
+
+            function closeSidebarIfClickedOutside(event) {
+                if (!cartSidebar.contains(event.target) && !cartButton.contains(event.target)) {
+                    cartSidebar.classList.remove('open');
+                }
+            }
+
+            cartButton.addEventListener('click', toggleSidebar);
+            closeSidebar.addEventListener('click', toggleSidebar);
+            window.addEventListener('click', closeSidebarIfClickedOutside);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brick Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Desktop Navbar */
+        .navbar.desktop {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .navbar.desktop ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .navbar.desktop ul li {
+            margin-left: 20px;
+        }
+
+        .navbar.desktop ul li a {
+            text-decoration: none;
+            color: black;
+            font-weight: 500;
+        }
+
+        /* Mobile Navbar */
+        .navbar.mobile {
+            display: none;
+            /* Hide on desktop by default */
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .hamburger-menu {
+            padding: 15px 15px;
+            background-color: #ff5c5c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Mobile Menu Layer */
+        .navLayer {
+            display: none;
+            /* Hide the menu initially */
+            position: fixed;
+            top: 0;
+            right: -100%;
+            /* Off-screen initially */
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            transition: right 0.5s ease;
+            /* Smooth slide-in transition */
+        }
+
+        .navLayer.active {
+            display: flex;
+            /* Show the menu when active */
+            right: 0;
+        }
+
+        .closeBtn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .navLayer li {
+            margin: 10px 0;
+        }
+
+        .navLayer li a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar.desktop {
+                display: none;
+                /* Hide desktop navbar */
+            }
+
+            .navbar.mobile {
+                display: flex;
+                /* Show mobile navbar */
+            }
+        }
+
+        /* Hamburger menu icon */
+        .menu-icon {
+            font-size: 30px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        /* Hidden by default */
+        .hidden {
+            display: none;
+        }
+
+        /* When menu is visible */
+        .show {
+            display: block;
+        }
+
+        /* Qman Section */
+        .qman-section {
+            display: flex;
+            padding: 50px;
+            height: 900px;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-image: url("../images/index.png");
+        }
+
+        /* Responsive chỉnh sửa cho màn hình nhỏ hơn */
+        @media only screen and (max-width: 768px) {
+            .qman-section {
+                background-image: url("../images/index-phone.png");
+                height: 1400px;
+            }
+        }
+
+        /* Add your existing styles here... */
+        /* Include the rest of your styles from the original code as needed */
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+
+        <!-- Desktop Navbar -->
+        <div class="navbar desktop">
+            <div class="logo">
+                <img src="../images/logo.png" width="200" alt="Brick Shop Logo">
+            </div>
+            <ul>
+                <li><a class="active" href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+            <a href="#" class="btn">Sign Up</a>
+        </div>
+
+        <!-- Mobile Navbar -->
+        <div class="navbar mobile">
+            <div class="menu-icon navA" onclick="toggleMenu()">
+                <button class="hamburger-menu" id="btn-hamburger">☰</button>
+            </div>
+            <div class="logo">
+                <img src="../images/logo.png" width="150" alt="Brick Shop Logo">
+            </div>
+            <a href="#" class="btn">Sign Up</a>
+        </div>
+
+        <!-- Mobile Menu Layer -->
+        <ul class="navLayer" id="nav-menu">
+            <div class="closeBtn" onclick="toggleMenu()">X</div>
+            <li><a class="active" href="#">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+
+    </header>
+
+    <!-- Qman Section -->
+    <section class="qman-section">
+        <div class="qman-text">
+            <img style="padding-left: 30px;" src="../images/2022101014476761.png" alt="Keeppley Product">
+            <h1 style="margin-bottom: 30px; max-width: 700px;">A leading Chinese toy brand, specializing in original
+                building blocks since 1994.</h1>
+            <p style="margin-bottom: 30px; max-width: 700px;">The journey of Qman began in 1994, sparked by Mr. Zhan
+                Kehua's realization
+                of his children's deep love for building blocks. This passion inspired the creation of an original
+                Chinese brand focused on building blocks.</p>
+            <p class="p2" style="margin-bottom: 50px; max-width: 700px;">Today, Qman has evolved into more than just a
+                children's
+                toy brand—it is a celebrated national brand that has grown alongside multiple generations. We are
+                committed to the brand philosophy that "Qman blocks make dreams come true," and together with our
+                customers, we use small building pieces to bring dreams to life.</p>
+            <a href="#" class="btn">View Products</a>
+        </div>
+        <div class="qman-image">
+
+        </div>
+    </section>
+
+    <!-- Keeppley Section -->
+    <section class="keeppley-section">
+        <div class="keeppley-text">
+            <img style="padding-left: 30px;" src="../images/2022082419251955.png" alt="Keeppley Product" height="40">
+            <h1>A new generation block brand, born in 2019.</h1>
+            <p style="margin-bottom: 50px;">Keeppley is a new-generation brand under Qman, a company that has
+                specialized in producing building block models similar to LEGO since 1994. Keeppley focuses on offering
+                players high-quality, officially licensed products at affordable prices, making them accessible to
+                anyone.
+                <br>
+                Keeppley's product range is incredibly diverse, spanning creative house and shop models,magnificent
+                architectural structures, as well as unique themes like Pokémon, Doraemon, and other anime and manga
+                series.
+            </p>
+            <a href="#" class="btn">View Products</a>
+        </div>
+        <div class="keeppley-image">
+
+        </div>
+    </section>
+
+    <!-- LEGO Section -->
+    <section class="lego-section">
+        <div class="lego-text">
+            <div style="display: flex; justify-content: center;">
+                <img src="../images/LEGO_logo.png" alt="LEGO Logo" height="100">
+            </div>
+
+            <p>LEGO, a globally iconic toy brand, is celebrated for its interlocking plastic bricks...</p>
+        </div>
+        <div class="img-container">
+            <a href="#"><img class="img-lego" src="../images/LegoChima.jfif" alt="" height="150" width="275"></a>
+            <a href="#"><img class="img-lego" src="../images/LegoNexoKnights.jfif" alt="" height="150" width="275"></a>
+            <a href="#"><img class="img-lego" src="../images/LEGO-City-logo.jpg" alt="" height="150" width="275"></a>
+            <a href="#"><img class="img-lego" src="../images/LegoNinjago.jfif" alt="" height="150" width="275"></a>
+        </div>
+    </section>
+
+    <footer style="padding: 20px 0; font-family: Arial, sans-serif; font-size:20px ">
+        <p style="text-align: center;">Brick Shop &copy; 2024</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            var navLayer = document.getElementById("nav-menu");
+            navLayer.classList.toggle("active");
+        }
+    </script>
+</body>
+
+</html>

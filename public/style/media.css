@@ -1,0 +1,221 @@
+/*! www.vancheer.com  |  Powered by vancheer */
+@media screen and ( max-width:1820px ){
+	.indexP1 .botImg{ width:18.0rem; margin-left:-9rem;}
+	.indexP1 .botImg img{ width:95%;}
+	}
+
+@media screen and ( max-width:1720px ){
+	.indexP1 .botImg img{ width:85%;}
+	}
+
+@media screen and ( max-width:1600px ){
+	.indexP0 .txt{ font-size: 60px; line-height: 60px;}
+	.indexP0 .wen{ font-size: 32px; line-height: 32px; }
+	.indexP1 .txt{ font-size: 36px; line-height: 36px; padding: 25px 0; }
+	.indexP1 .botImg{ width:17.0rem; margin-left:-8.5rem;}
+	.indexP1 .content{ font-size: 18px; line-height: 32px; }
+	.indexP2 .limg img{ width: 320px; }
+	.indexP2 .txt{ font-size: 36px; line-height: 36px; padding: 25px 0;}
+	.indexP2 .content{ font-size: 18px; line-height: 32px; }
+	.indexP3 .txt{ font-size: 36px; line-height: 36px; padding: 25px 0 15px; }
+	.indexP3 .content{ font-size: 18px; line-height: 32px; }
+	.productBox{ padding: 250px 0 70px;}
+	.patch .content{ font-size: 18px; line-height: 32px; }
+	.patch .mxfDiv .content{ font-size: 18px; line-height: 32px; }
+
+
+
+}
+
+@media screen and ( max-width:1440px ){
+	.nav li{ padding: 0 24px; font-size: 16px; }
+	.headDiv .lan li{ font-size: 16px; }
+	.indexP0 .txt{ font-size: 50px; line-height: 50px;}
+	.indexP0 .wen{ font-size: 26px; line-height: 26px; }
+	.indexP1 .limg img{ width: 145px; }
+	.indexP1 .txt{ font-size: 32px; line-height: 32px; padding: 20px 0; }
+	.indexP1 .content{ font-size: 14px; line-height: 30px; }
+	.indexP1 .botImg{ width:16.0rem; margin-left:-8.0rem;}
+	.indexP1 .botImg img{ width: 85%; }
+	.indexP2 .limg img{ width: 280px; }
+	.indexP2 .txt{ font-size: 32px; line-height: 32px;}
+	.indexP2 .content{ font-size: 14px; line-height: 30px; }
+	.indexP3 .txt{ font-size: 32px; line-height: 32px; padding: 20px 0 15px; }
+	.indexP3 .content{ font-size: 14px; line-height: 30px; }
+	.indexP3 .txtImg{ padding-top:35px;}
+	.foot{ font-size: 16px; }
+	.productBox{ padding: 200px 0 70px;}
+	.productBox .txtDiv .txt{ font-size: 48px; line-height: 48px; }
+	.productBox .txtDiv .msg{ font-size: 22px; line-height: 40px; padding-top: 25px; }
+	.productBox .btnGroup{ padding: 150px 0 110px; }
+	.productBox .title{ font-size:32px; line-height:32px;}
+	.productBox .list li .botDiv{ height: 140px; }
+	.productBox .list li .name{ font-size:16px; height: 56px; line-height: 28px;}
+	.productBox .list li .btnDiv{ width: 120px; height: 34px; line-height: 34px; font-size: 15px; text-indent: 16px;}
+	.productBox .list li .btnDiv:after{ right: 16px; }
+	.productList .list li .box{padding-top: 35px; height:400px;}
+	.productList .list li .num{line-height: 26px; font-size: 18px;}
+	.productList .list li .name{ height: 80px; line-height: 40px; font-size: 20px;}
+	.patch .content{ font-size: 16px; line-height: 30px; }
+	.patch .list{ padding:65px 80px 55px;}
+	.patch .list li .box{ height: 320px;}
+	.patch .list li .ico{ padding-top: 65px; width: 50px; height: 50px; }
+	.patch .list li .ico img{ width:50px; }
+	.patch .list li .name{ font-size: 20px; line-height: 20px; padding: 30px 0 15px; }
+	.patch .list li .wen{ font-size: 16px; line-height: 16px; padding-bottom:25px; }
+	.patch .list li .btnDiv{ width: 126px; }
+	.patch .list li .btnDiv a{ text-indent: 18px; font-size: 16px; width: 126px; height: 34px; line-height: 34px; }
+	.patch .list li .btnDiv a:after{ right: 18px;}
+	.patch .list li .limg img{ width:168px;}
+	.patch .list li .txt{ font-size: 16px; line-height: 16px; }
+	.patch .mxfDiv .content{ font-size: 14px; line-height: 26px; }
+	.service .list li .box{ padding-top: 40px; height: 300px;}
+	.service .list li .name{ font-size: 20px; line-height: 20px;}
+	.service .list li .wen { font-size: 16px; line-height: 16px; padding-bottom:20px;}
+	.service .list li .btnDiv{ width:126px;}
+	.service .list li .btnDiv a{ text-indent: 18px; font-size: 16px; width: 126px; height: 34px; line-height: 34px; }
+	.service .list li .btnDiv a:after{ right: 18px; }
+	.service .bigBox{ height: 240px; }
+	.service .msgList{ padding-top: 30px; width: 178px;}
+	.service .msgList li{ padding-bottom: 15px; font-size: 20px; }
+	.service .msgList li .txt{padding-top: 6px; width: 178px; height: 40px; line-height: 40px; background-size:178px;}
+	.service .msgList li p{ font-size: 18px; line-height: 18px; }
+	.service .ewmList li{ margin-left: 20px; font-size: 15px; }
+	.service .ewmList li .limg img{ width:148px; }
+	.service .ewmList li p{ line-height: 16px; }
+	}
+
+@media screen and ( max-width:1366px ){
+	.nav li{ padding: 0 20px; }
+	.home .wal, .indexP1 .wal, .indexP2 .wal, .indexP3 .wal{ width:1000px;}
+	.indexP1 .txt{ font-size: 28px; line-height: 28px; padding: 15px 0;}
+	.indexP1 .content{ font-size: 14px; line-height: 26px; }
+	.indexP1 .botImg{ width:15.0rem; margin-left:-7.5rem;}
+	.indexP2 .txt{ font-size: 28px; line-height: 28px; }
+	.indexP2 .content{ font-size: 14px; line-height: 26px; }
+	.indexP3 .txt{ font-size: 28px; line-height: 28px; padding: 15px 0;}
+	.indexP3 .content{ font-size: 14px; line-height: 26px; }
+	}
+
+
+@media screen and ( max-width:1024px ){
+	.wal, .home .wal, .indexP1 .wal, .indexP2 .wal, .indexP3 .wal{ width: 100%; }
+	.PC-Box, .nav, .headDiv .lan{ display: none; }
+	.Phone-Box{ display: block; }
+	.headD{ height: 1.2rem; }
+	.headDiv, .headDiv .wal{ height: 1.2rem; background: #242424;}
+	.headDiv .logo{ left: 0.3rem; top: 0.42rem; }
+	.headDiv .logo img{ width: 3.4rem; }
+	.headDiv .txt{ display:none;}
+	.navA { display: block; position: absolute; z-index: 10; left: auto; right: 0rem; top: 0; bottom: auto; width: 1.2rem; height: 1.2rem; background: url("../images/navIco.png") center no-repeat; background-size: .48rem; }
+	.indexP0{ height: 100vh; }
+	.indexP0 .txt{ font-size: 0.48rem; line-height: 0.48rem;}
+	.indexP0 .wen{ font-size: 0.32rem; line-height: 0.32rem; padding-top: 0.3rem; padding-left:0.3rem; padding-right:0.3rem; }
+	.indexP1{ padding: 1.0rem 0; }
+	.indexP1 .limg{ padding-top: 0; }
+	.indexP1 .limg img{ width: 2.4rem; }
+	.indexP1 .txt{ font-size: 0.42rem; line-height: 0.52rem; padding: 0.25rem 0.3rem 0.4rem; }
+	.indexP1 .title{ font-size: 0.42rem; line-height: 0.42rem;}
+	.indexP1 .content{ font-size: 0.26rem; padding: 0 0.3rem; line-height: 0.48rem; }
+	.indexP1 .botImg{ position: relative; left: 0; width:100%; margin-left:0; text-align:center; }
+	.indexP1 .botImg img{ margin:0 auto;}
+	.indexP2 .bg{ position: relative; }
+	.indexP2 .bg img{ width: 100%; }
+	.indexP2 .conDiv{ position: absolute; text-align: center; padding-top: 0.8rem; top: 0; left: 0.3rem; right: 0.3rem; width: auto; }
+	.indexP2 .limg img{ width: 3.0rem; }
+	.indexP2 .txt{ font-size: 0.42rem; line-height: 0.42rem; padding: 0.25rem 0;}
+	.indexP2 .content{ font-size: 0.26rem; line-height: 0.48rem; }
+	.indexP3{ display: block; }
+	.indexP3 .txt{ font-size: 0.42rem; line-height: 0.42rem; padding: 1rem 0.3rem 0.3rem; }
+	.indexP3 .txt:after{ width:0.7rem; height:2px; margin-left:-0.35rem;}
+	.indexP3 .content{ font-size: 0.26rem; padding: 0.35rem 0.3rem 0; line-height: 0.48rem; text-align:center; }
+	.indexP3 .txtImg{ padding: 0.7rem 0.3rem 1.0rem; }
+	.indexP3 .txtImg img{ width: 100%; }
+	.foot{ position: relative; font-size: 0.24rem; line-height: 0.48rem; padding: 0.3rem; box-sizing: border-box; height: auto; }
+	.productBox{ padding: 3.2rem 0.3rem 0.8rem; background: right top no-repeat; background-size: 130%;}
+	.productBox .txtDiv .txt{ font-size: 0.38rem; line-height: 0.38rem; }
+	.productBox .txtDiv .msg{ font-size: 0.24rem; line-height: 0.46rem; padding-top: 0.5rem; }
+	.productBox .btnGroup{ padding: 1.2rem 0 0.7rem; overflow: hidden;  }
+	.productBox .btnGroup li{ float: left; padding-bottom: 0; padding-right: 0.3rem;}
+	.productBox .btnGroup li a{ width: 2.64rem; padding-top: 0.12rem; height: 0.74rem; line-height: 0.74rem; font-size: 0.28rem; text-indent: 0.24rem; background-size: 2.64rem; }
+	.productBox .btnGroup li a:after{ right: 0.25rem; bottom: 0.24rem; width: 0.32rem; height: 0.24rem; background-size: 0.32rem; }
+	.productBox .btnGroup li:last-child a{ width: 2.64rem; background-size: 2.64rem; }
+	.productBox .btnGroup li:last-child a:after{ background-size: 0.32rem; }
+
+	.productBox .title{ padding-bottom: 0.3rem; font-size: 0.42rem; line-height: 0.42rem; }
+	.productBox .title:after{ width: 0.8rem; height: 2px; margin-left: -0.4rem; }
+	.productBox .list{ padding-top: 0.5rem; }
+	.productBox .list ul{ margin-right: -0.2rem; }
+	.productBox .list li{ width: 50%; padding-bottom: 0.3rem; }
+	.productBox .list li .box{ margin-right: 0.2rem; }
+	.productBox .list li .imgDiv img{ width: 100%; height: auto; }
+	.productBox .list li .botDiv{ height: 2.5rem; padding: 0.25rem 0.3rem 0; }
+	.productBox .list li .name{ height: 1rem; line-height: 0.5rem; font-size: 0.28rem; padding:0;}
+	.productBox .list li .btnDiv{ width: 2.4rem; height: 0.74rem; line-height: 0.74rem; font-size: 0.28rem; text-indent: 0.4rem; }
+	.productBox .list li .btnDiv:after{ right: 0.38rem; margin-top: -0.12rem; width: 0.32rem; height: 0.24rem; background-size: 0.32rem; }
+	.productBox .list li .btnDiv2:after{ background-size: 0.32rem; }
+	.pageMore{ padding: 0.25rem 0 0.75rem; }
+	.pageMore a{ font-size: 0.32rem; }
+	.productList{ padding: 0 0 1.0rem; }
+	.productList .pbanner{ border-radius: 0; }
+	.productList .pbanner img{ width: 100%; }
+	.productList .title{ padding: 0.6rem 0 0.3rem; font-size: 0.42rem; line-height: 0.42rem; }
+	.productList .title:after{ width: 0.8rem; height: 2px; margin-left: -0.4rem; }
+	.productList .list{ padding: 0.7rem 0.3rem 0; }
+	.productList .list ul{ margin-right: -0.3rem; }
+	.productList .list li{ width: 50%; padding-bottom: 0.3rem;}
+	.productList .list li .box{ margin-right: 0.3rem; border-radius: 0.24rem; padding-top: 0.5rem; height: 4.3rem; box-shadow: 0px 1px 0.5rem 0px rgba(0, 0, 0, 0.05);}
+	.productList .list li .num{ padding-top: 0.2rem; line-height: 0.4rem; font-size: 0.26rem; }
+	.productList .list li .name{ height: 1.0rem; line-height: 0.5rem; font-size: 0.28rem; padding: 0 0.15rem; }
+	.productList .list li .txt{ font-size: 0.42rem; line-height: 0.72rem;}
+	.service{ padding: 0.9rem 0.3rem 0.8rem; }
+	.service .list{ padding-bottom: 0.5rem; }
+	.service .list ul{ margin-right: 0; }
+	.service .list li{ float: none; width: auto; padding-bottom: 0.4rem;}
+	.service .list li .box{ margin-right: 0; padding-top: 0.5rem; height: 4.5rem; border-radius: 0.24rem; box-shadow: 0px 1px 0.5rem 0px rgba(0, 0, 0, 0.05);}
+	.service .list li .ico{ width: 1.0rem; height: 1.0rem; }
+	.service .list li .ico img{ width: 1.0rem; }
+	.service .list li .name{ font-size: 0.38rem; line-height: 0.38rem; padding: 0.4rem 0 0.25rem; }
+	.service .list li .wen{ font-size: 0.32rem; line-height: 0.32rem; padding-bottom: 0.3rem; }
+	.service .list li .btnDiv{ width: 2.4rem; }
+	.service .list li .btnDiv a{ width: 100%; height: 0.74rem; line-height: 0.74rem; font-size: 0.28rem; text-indent:0.4rem; }
+	.service .list li .btnDiv a:after{ right: 0.38rem; margin-top: -0.12rem; width: 0.32rem; height: 0.24rem; background-size: 0.32rem;}
+
+	.service .mxfDiv{ padding: 0.5rem 0 0.35rem; }
+	.service .bigBox{ height: auto; border-radius: 0.26rem; padding: 0 0.5rem 0.8rem; }
+	.service .imgDiv{ display: none; position: absolute; left: 352px; top: 0; z-index: 1; }
+	.service .msgList{ float: none; padding-top: 0.5rem; width: 3.32rem; margin:0 auto;}
+	.service .msgList li{ padding-bottom: 0.3rem; font-size: 0.36rem; }
+	.service .msgList li .txt{ width: 3.32rem; padding-top: 0.12rem; height: 0.74rem; line-height: 0.74rem; background-size: 3.32rem; }
+	.service .msgList li p{ padding-top: 0.15rem; font-size: 0.3rem; line-height: 0.3rem; }
+	.service .ewmList{ padding-top: 0.3rem; float: none; text-align:center; }
+	.service .ewmList li{ float:none; display:inline-block; margin: 0 0.2rem; font-size: 0.26rem; }
+	.service .ewmList li .limg{ border-radius: 0.26rem; }
+	.service .ewmList li .limg img{ width: 2.4rem; }
+	.service .ewmList li p{ padding-top: 0.15rem; line-height: 0.3rem; }
+
+	.patch{ padding: 0.9rem 0.3rem 1.2rem; }
+	.patch .title{ font-size: 0.42rem; line-height: 0.42rem; padding-bottom: 0.3rem; }
+	.patch .title:after{ width: 0.8rem; height: 2px; margin-left: -0.4rem; }
+	.patch .content{ font-size: 0.3rem; line-height: 0.52rem; padding-top: 0.35rem; }
+	.patch .list{ padding: 0.85rem 0 0.6rem; }
+	.patch .list ul{ margin-right: 0; }
+	.patch .list li{ float: none; width: auto; padding-bottom: 0.4rem;}
+	.patch .list li .box{ margin-right: 0; height: 4.5rem; border-radius: 0.24rem; box-shadow: 0px 1px 0.5rem 0px rgba(0, 0, 0, 0.05); }
+	.patch .list li .ico{ padding-top: 0.5rem; width: 1.0rem; height: 1.0rem; }
+	.patch .list li .ico img{ width: 1.0rem; }
+	.patch .list li .name{ font-size: 0.38rem; line-height: 0.38rem; padding: 0.4rem 0 0.25rem; }
+	.patch .list li .wen{ font-size: 0.32rem; line-height: 0.32rem; padding-bottom: 0.3rem; }
+	.patch .list li .btnDiv{ width: 2.4rem; }
+	.patch .list li .btnDiv a{ width: 100%; height: 0.74rem; line-height: 0.74rem; font-size: 0.28rem; text-indent:0.4rem; }
+	.patch .list li .btnDiv a:after{ right: 0.38rem; margin-top: -0.12rem; width: 0.32rem; height: 0.24rem; background-size: 0.32rem;}
+	.patch .list li .limg{ padding-top: 0.65rem; }
+	.patch .list li .limg img{ width: 2.4rem; }
+	.patch .list li .txt{ padding-top: 0.3rem; font-size: 0.3rem; line-height: 0.3rem; }
+	.patch .mxfDiv{ margin-bottom: 0.3rem; padding: 0.4rem 0.5rem; box-shadow: 0px 1px 0.5rem 0px rgba(0, 0, 0, 0.05); border-radius: 0.24rem; }
+	.patch .mxfDiv .txt{ font-size: 0.38rem; line-height: 0.38rem; padding-bottom: 0.15rem; }
+	.patch .mxfDiv .content{ font-size: 0.3rem; line-height: 0.52rem; }
+	.contact{ padding-top: 0; }
+
+
+	}

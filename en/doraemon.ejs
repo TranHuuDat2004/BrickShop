@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('head.ejs') %>
+        <title>Brick Shop - Qman Products</title>
+        <link rel="stylesheet" href="../css/product.css" />
+</head>
+
+
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <%- include('header_home_en.ejs') %>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../en/index.php">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="../en/product.php">Sản phẩm</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Qman</li>
+        </ol>
+    </nav>
+
+    <!-- Brands Section -->
+    <section class="brands">
+        <div class="brand-logo">
+            <img src="../images/" alt="Product">
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products">
+        <h2>Qman Products</h2>
+        <div class="product-grid">
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20401">
+                    <img class="img1 w-100" src="../images/20221111120123714.jpg" alt="Time Machine">
+                    <p class="p_name">Time Machine</p>
+                    <p class="p_num">K20401</p>
+                    <p class="p_price">$ 20.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20402">
+                    <img class="img1 w-100" src="../images/20221111120147229.jpg" alt="Nobita's Room">
+                    <p class="p_name">Nobita's Room</p>
+                    <p class="p_num">K20402</p>
+                    <p class="p_price">$ 25.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20406">
+                    <img class="img1 w-100" src="../images/20221111120213761.jpg" alt="Doraemon-Beatles">
+                    <p class="p_name">Doraemon-Beatles</p>
+                    <p class="p_num">K20406</p>
+                    <p class="p_price">$ 22.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20407">
+                    <img class="img1 w-100" src="../images/20221111120359010.jpg" alt="Doraemon-Bus">
+                    <p class="p_name">Doraemon-Bus</p>
+                    <p class="p_num">K20407</p>
+                    <p class="p_price">$ 23.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20408">
+                    <img class="img1 w-100" src="../images/20221111120421729.jpg" alt="Doraemon-Tv">
+                    <p class="p_name">Doraemon-Tv</p>
+                    <p class="p_num">K20408</p>
+                    <p class="p_price">$ 21.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20409">
+                    <img class="img1 w-100" src="../images/20221111120447995.jpg" alt="Doraemon-Cement Pipe Space">
+                    <p class="p_name">Doraemon-Cement Pipe Space</p>
+                    <p class="p_num">K20409</p>
+                    <p class="p_price">$ 24.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20411">
+                    <img class="img1 w-100" src="../images/20221111120551198.jpg" alt="Doraemon-Classic">
+                    <p class="p_name">Doraemon-Classic</p>
+                    <p class="p_num">K20411</p>
+                    <p class="p_price">$ 20.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20412">
+                    <img class="img1 w-100" src="../images/20221111120614604.jpg" alt="Doraemon-Maneki-neko">
+                    <p class="p_name">Doraemon-Maneki-neko</p>
+                    <p class="p_num">K20412</p>
+                    <p class="p_price">$ 26.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20413">
+                    <img class="img1 w-100" src="../images/20221111120638323.jpg" alt="Doraemon-Astronaut">
+                    <p class="p_name">Doraemon-Astronaut</p>
+                    <p class="p_num">K20413</p>
+                    <p class="p_price">$ 27.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=K20421">
+                    <img class="img1 w-100" src="../images/2022111112071463.jpg" alt="Doraemon-Space Exploration">
+                    <p class="p_name">Doraemon-Space Exploration</p>
+                    <p class="p_num">K20421</p>
+                    <p class="p_price">$ 28.00</p>
+                </a>
+            </div>
+
+            <div class="product animation">
+                <a href="Product_Detail.php?p_id=S0104">
+                    <img class="img1 w-100" src="../images/20221111120727826.jpg" alt="Doraemon">
+                    <p class="p_name">Doraemon</p>
+                    <p class="p_num">S0104</p>
+                    <p class="p_price">$ 18.00</p>
+                </a>
+            </div>
+
+
+        </div>
+
+    </section>
+
+    <!-- Footer Section -->
+    <footer id="footer-section">
+        <%- include('footer.ejs') %>
+    </footer>
+
+    <!-- Cart Section -->
+    <%- include('cart.ejs') %>
+
+
+</body>
+
+</html>

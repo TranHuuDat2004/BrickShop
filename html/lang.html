@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Selector</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        .hamburger-menu {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .hamburger-menu span {
+            height: 4px;
+            width: 30px;
+            background-color: black;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            list-style: none;
+        }
+
+        .dropdown-menu li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dropdown-menu a {
+            text-decoration: none;
+            color: black;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Hamburger Menu Button -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Dropdown Menu for Language Selection -->
+    <ul class="dropdown-menu" id="languageMenu">
+        <li><a href="../en/<?php echo $website ?>">EN</a></li>
+        <li><a href="../vn/<?php echo $website ?>">VN</a></li>
+    </ul>
+</div>
+
+<script>
+    // JavaScript to toggle dropdown menu
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const languageMenu = document.getElementById('languageMenu');
+
+    hamburgerMenu.addEventListener('click', function () {
+        languageMenu.style.display = languageMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Hide menu when clicked outside
+    document.addEventListener('click', function (event) {
+        if (!hamburgerMenu.contains(event.target) && !languageMenu.contains(event.target)) {
+            languageMenu.style.display = 'none';
+        }
+    });
+</script>
+
+</body>
+</html>

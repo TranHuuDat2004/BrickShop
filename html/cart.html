@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    /* Sidebar styling */
+.cart-sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.cart-sidebar .cart-header {
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-sidebar .cart-content {
+  padding: 20px;
+}
+
+.cart-sidebar .cart-actions {
+  margin-top: 20px;
+}
+
+.cart-sidebar .cart-actions .view-cart,
+.cart-sidebar .cart-actions .checkout {
+  display: inline-block;
+  background-color: #a00;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.cart-sidebar .cart-actions .checkout {
+  background-color: #d00;
+}
+
+.close-btn {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* When the sidebar is visible */
+.cart-sidebar.open {
+  width: 300px; /* Set the desired width of the sidebar */
+}
+
+/* Cart button styling (optional) */
+#cartButton {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #a00;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+</style>
+<body>
+    <!-- Giỏ hàng Button -->
+<button id="cartButton">Giỏ hàng</button>
+
+<!-- Sidebar -->
+<div id="cartSidebar" class="cart-sidebar">
+  <div class="cart-header">
+    <h2>Giỏ hàng</h2>
+    <span id="closeSidebar" class="close-btn">&times;</span>
+  </div>
+  <div class="cart-content">
+    <p>Hiện chưa có sản phẩm</p>
+    <hr>
+    <p><strong>Tổng tiền:</strong> 0₫</p>
+    <div class="cart-actions">
+      <button class="view-cart">Xem giỏ hàng</button>
+      <button class="checkout">Thanh toán</button>
+    </div>
+  </div>
+</div>
+<script>
+    // Get elements
+const cartButton = document.getElementById('cartButton');
+const cartSidebar = document.getElementById('cartSidebar');
+const closeSidebar = document.getElementById('closeSidebar');
+
+// Open the sidebar when clicking the "Giỏ hàng" button
+cartButton.addEventListener('click', function() {
+  cartSidebar.classList.add('open');
+});
+
+// Close the sidebar when clicking the close button
+closeSidebar.addEventListener('click', function() {
+  cartSidebar.classList.remove('open');
+});
+
+// Optionally close the sidebar when clicking outside of it
+window.addEventListener('click', function(event) {
+  if (!cartSidebar.contains(event.target) && !cartButton.contains(event.target)) {
+    cartSidebar.classList.remove('open');
+  }
+});
+
+</script>
+</body>
+</html>
