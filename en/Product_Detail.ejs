@@ -1,531 +1,680 @@
-<?php
-
-include '../php/login.php';
-include '../php/getUser.php';
-if (isset($_GET['p_id'])) {
-    $p_id = $_GET['p_id'];
-
-    $sqlProduct = "SELECT * FROM `product` WHERE `p_id` = '$p_id'";
-    $resultProduct = mysqli_query($conn, $sqlProduct);
-
-    // Kiểm tra xem có kết quả trả về không
-    if ($resultProduct->num_rows > 0) {
-        // Khởi tạo mảng để lưu trữ các sản phẩm
-        $products = array();
-
-        while ($row = $resultProduct->fetch_assoc()) {
-            // Đưa từng sản phẩm vào mảng products
-            $products = array(
-                "p_id" => $row["p_id"],
-                "p_number" => $row["p_number"],
-                "p_image" => $row["p_image"],
-                "p_name_en" => $row["p_name_en"],
-                "p_name_vn" => $row["p_name_vn"],
-                "p_price_en" => $row["p_price_en"],
-                "p_price_vn" => $row["p_price_vn"],
-                "p_age" => $row["p_age"],
-                "p_category" => $row["p_category"], // Thêm trường p_category
-                "p_tutorial" => $row["p_tutorial"],
-                "p_description_en" => $row["p_description_en"],
-                "p_description_vn" => $row["p_description_vn"],
-                "p_sold" => $row["p_sold"],
-                "p_stock_status" => $row["p_stock_status"], // Thêm trường p_stock_status
-                "p_product_status" => $row["p_product_status"] // Thêm trường p_product_status
-            );
-        }
-
-        // Tách chuỗi hình ảnh thành mảng và loại bỏ khoảng trắng thừa
-        $product_images = array_map('trim', explode(',', $products["p_image"]));
-
-        // Kiểm tra và gán lại giá trị nếu ảnh thứ 2 và thứ 3 trống
-        if (empty($product_images[1])) {
-            $product_images[1] = $product_images[0];
-        }
-
-        if (empty($product_images[2])) {
-            $product_images[2] = $product_images[0];
-        }
-        // Giờ bạn có thể sử dụng $products để hiển thị sản phẩm trên trang web của mình.
-    } else {
-        // echo "Không tìm thấy sản phẩm với danh mục là $category_name_en";
-        // header("Location: 404.php");
-        // exit(); // Dừng thực thi mã
-    }
-} else {
-    echo "Không tìm thấy danh mục với id là $id";
-    // header("Location: 404.php");
-    // exit(); // Dừng thực thi mã
-}
-// Truy vấn chi tiết danh mục dựa trên id
-$sqlCategory = "SELECT * FROM `category` WHERE `name_en` = '" . $products['p_category'] . "'";
-$resultCategory = mysqli_query($conn, $sqlCategory);
-
-// Kiểm tra xem có kết quả trả về không
-if ($resultCategory->num_rows > 0) {
-    // Lấy thông tin chi tiết của danh mục
-    $category = $resultCategory->fetch_assoc();
-
-    $category_name_en = $category["name_en"];
-    $category_name_vn = $category["name_vn"];
-    $provider = $category["provider"];
-
-    $category_website = '';
-    if ($provider == 'Keeppley') {
-        $category_website = 'Keeppley-Products.php';
-    } else if ($provider == 'Qman') {
-        $category_website = 'Qman-Products.php';
-    } else if ($provider == 'LEGO') {
-        $category_website = 'LEGO-Products.php';
-    }
-}
-$website = "Product_Detail.php?p_id=" . $product['p_id'];
-?>
-
-
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <%- include('head.ejs') %>
-    <title>Brick Shop - LEGO Products</title>
-    <link rel="stylesheet" href="../css/product.css" />
-</head>
+        <title>Brick Shop</title>
+        <link rel="stylesheet" href="../css/index.css"> <!-- Đường dẫn tới tệp CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+        <style>
+            h6 {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
 
-<style>
-    body{
-        background-color: #f5f5f5;
-    }
+            .container {
+                background-color: #fff;
+                max-width: 1200px;
+                margin: 20px auto;
+                display: flex;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
 
-    h3 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-    .container {
-            background-color: #fff;
-            max-width: 1200px;
-            margin: 20px auto;
-            display: flex;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+            .left-column {
+                flex: 70%;
+                display: flex;
+            }
 
-        .left-column {
-            flex: 70%;
-            display: flex;
-        }
+            .left-column img#main-image {
+                width: 70%;
+                border-radius: 10px;
+            }
 
-        .left-column img#main-image {
-            width: 70%;
-            border-radius: 10px;
-        }
+            /* Ảnh nhỏ bên trái */
+            .thumbnails {
+                display: flex;
+                flex-direction: column;
+                margin-right: 10px;
+                width: 33%;
+            }
 
-        /* Ảnh nhỏ bên trái */
-        .thumbnails {
-            display: flex;
-            flex-direction: column;
-            margin-right: 10px;
-            width: 33%;
-        }
+            .thumbnails img {
+                max-width: 100%;
+                margin-bottom: 10px;
+                border: 1px solid #ddd;
+                cursor: pointer;
+                border-radius: 10px;
 
-        .thumbnails img {
-            max-width: 100%;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            cursor: pointer;
-            border-radius: 10px;
+            }
 
-        }
-
-        .right-column {
-            flex: 50%;
-            padding: 20px;
-        }
+            .right-column {
+                flex: 50%;
+                padding: 20px;
+            }
 
 
-        .product-title {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
+            .product-title {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
 
-        .price {
-            font-size: 28px;
-            color: #e74c3c;
-            margin-bottom: 20px;
-        }
+            .price {
+                font-size: 28px;
+                color: #e74c3c;
+                margin-bottom: 20px;
+            }
 
-        .quantity {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+            .quantity {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
 
-        .quantity input {
-            width: 50px;
-            height: 30px;
-            text-align: center;
-            border-radius: 5px;
-            margin: 0 10px;
-            border: 1px solid #ddd;
-        }
+            .quantity input {
+                width: 50px;
+                height: 30px;
+                text-align: center;
+                border-radius: 5px;
+                margin: 0 10px;
+                border: 1px solid #ddd;
+            }
 
-        .add-to-cart-btn {
-            background-color: #e74c3c;
-            color: white;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 22px;
-        }
+            .add-to-cart-btn {
+                background-color: #e74c3c;
+                color: white;
+                padding: 15px 20px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 22px;
+            }
 
-        .instruction-btn {
-            margin-left: 20px;
-            background-color: #007bff;
-            color: white;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 22px;
-        }
+            .zoom-container {
+                overflow: hidden;
+                position: relative;
+                width: 600px;
+                /* Chọn kích thước phù hợp */
+                height: 400px;
+            }
 
+            .zoom-container img {
+                transition: transform 0.2s ease;
+            }
 
-        .store-info,
-        .product-info {
-            margin-top: 20px;
-            font-size: 22px;
-        }
+            .zoom-container:hover img {
+                transform: scale(2);
+                /* Điều chỉnh tỉ lệ phóng to */
+            }
 
-        h3 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
+            .store-info,
+            .product-info {
+                margin-top: 20px;
+                font-size: 22px;
+            }
 
-        .store-info div,
-        .product-info div {
-            margin-bottom: 10px;
+            h6 {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
 
-        }
+            .store-info div,
+            .product-info div {
+                margin-bottom: 10px;
 
-        .productBox {
-            margin-bottom: 0;
-            /* Đảm bảo không có margin phía dưới */
-            padding-bottom: 0;
-            /* Đảm bảo không có padding phía dưới */
-        }
+            }
 
-        /* Đối với Chrome, Safari, Edge, và Opera */
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+            .productBox {
+                margin-bottom: 0;
+                /* Đảm bảo không có margin phía dưới */
+                padding-bottom: 0;
+                /* Đảm bảo không có padding phía dưới */
+            }
 
-        /* Đối với Firefox */
-        /* input[type=number] {
+            /* Đối với Chrome, Safari, Edge, và Opera */
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            /* Đối với Firefox */
+            /* input[type=number] {
             -moz-appearance: textfield;
         } */
 
-        /* Định dạng container của các nút và trường nhập */
-        .quantity {
-            display: flex;
-            align-items: center;
-        }
+            /* Định dạng container của các nút và trường nhập */
+            .quantity {
+                display: flex;
+                align-items: center;
+            }
 
-        .quantity input[type="number"] {
-            width: 50px;
-            height: 40px;
-            text-align: center;
-            font-size: 22px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin: 0 10px;
-        }
+            .quantity input[type="number"] {
+                width: 50px;
+                height: 40px;
+                text-align: center;
+                font-size: 22px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin: 0 10px;
+            }
 
-        /* Định dạng cho nút + và - */
-        .quantity .quantity-btn {
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            color: #333;
-            font-size: 20px;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+            /* Định dạng cho nút + và - */
+            .quantity .quantity-btn {
+                background-color: #f0f0f0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                color: #333;
+                font-size: 20px;
+                width: 40px;
+                height: 40px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
 
-        .quantity .quantity-btn:hover {
-            background-color: #ddd;
-        }
+            .quantity .quantity-btn:hover {
+                background-color: #ddd;
+            }
 
-        .quantity .quantity-btn:active {
-            background-color: #ccc;
-        }
+            .quantity .quantity-btn:active {
+                background-color: #ccc;
+            }
 
-        /* Zoom image */
-        .zoom-container {
-            position: relative;
-            overflow: hidden;
-            width: 150%;
-        }
+            .description {
+                padding: 12px;
+                background-color: #fff;
+                font-size: 22px;
+            }
 
-        /* Ensure the image fits within the container */
-        .zoom-container img {
-            padding-left: 50px;
-            width: 150%;
-            border-radius: 10px;
-            height: auto;
-            transition: transform 0.3s ease;
-        }
+            .update-later {
+                font-size: 60px;
+                color: #888;
+                font-weight: bold;
+                text-align: center;
+            }
 
-        /* Zoom Hover */
-        .zoom-container:hover img {
-            transform: scale(1.5);
-            /* Scale upsize 150% on hover */
-        }
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f5f5f5;
+            }
 
-        .description {
-            padding: 12px;
-            background-color: #fff;
-            font-size: 22px;
-        }
+            .container {
+                display: flex;
+                padding: 20px;
+            }
 
-        .update-later {
-            font-size: 60px;
-            color: #888;
-            font-weight: bold;
-            text-align: center;
-        }
-</style>
+            .image-section {
+                flex: 1;
+                padding-right: 20px;
+            }
+
+            .image-section img {
+                width: 100%;
+                border-radius: 10px;
+            }
+
+            .thumbnail-section {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+
+            .thumbnail-section img {
+                width: 23%;
+                border-radius: 5px;
+            }
+
+            .thumbnail-section .arrow {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 10%;
+            }
+
+            .thumbnail-section .arrow i {
+                font-size: 24px;
+                color: #d0021b;
+            }
+
+            .details-section {
+                flex: 1;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+            }
+
+            .details-section h1 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            .details-section .brand {
+                color: #d0021b;
+                font-weight: bold;
+            }
+
+            .details-section .price {
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+            }
+
+            .details-section .price .original-price {
+                text-decoration: line-through;
+                color: #999;
+                margin-right: 10px;
+            }
+
+            .details-section .price .discounted-price {
+                color: #d0021b;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .details-section .price .discount {
+                background-color: #d0021b;
+                color: #fff;
+                padding: 5px 10px;
+                border-radius: 5px;
+                margin-left: 10px;
+                font-size: 16px;
+            }
+
+            .details-section .exclusive {
+                background-color: #d0021b;
+                color: #fff;
+                padding: 10px;
+                border-radius: 5px;
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .details-section .features {
+                margin-top: 20px;
+            }
+
+            .details-section .features li {
+                list-style: none;
+                margin-bottom: 10px;
+            }
+
+            .details-section .quantity {
+                display: flex;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .details-section .quantity input {
+                width: 50px;
+                text-align: center;
+                margin: 0 10px;
+            }
+
+            .details-section .btn-num {
+                background-color: #d0021b;
+                color: #fff;
+                border: none;
+                padding: 10px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .details-section .add-to-cart {
+                margin-top: 20px;
+                background-color: #d0021b;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .details-section .tutorial {
+                margin-top: 20px;
+                background-color: #007bff;
+                ;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .details-section .store-availability {
+                margin-top: 20px;
+                max-height: 150px;
+                overflow-y: auto;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 5px;
+            }
+
+            .details-section .store-availability p {
+                margin: 0;
+                padding: 5px 0;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .details-section .product-info {
+                margin-top: 20px;
+            }
+
+            .details-section .product-info table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .details-section .product-info table th,
+            .details-section .product-info table td {
+                text-align: left;
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .details-section .product-info table th {
+                width: 30%;
+                color: #999;
+            }
+
+            .details-section .product-info .view-more {
+                color: #d0021b;
+                cursor: pointer;
+            }
+
+            .breadcrumb {
+                display: flex;
+                flex-wrap: wrap;
+                padding: 10px 300px;
+                margin-bottom: 1rem;
+                list-style: none;
+                background-color: transparent;
+                border-radius: 0.25rem;
+            }
+
+            .breadcrumb-item+.breadcrumb-item::before {
+                display: inline-block;
+                padding-right: 0.5rem;
+                padding-left: 0.5rem;
+                color: #6c757d;
+                content: "/";
+            }
+
+            .breadcrumb-item a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+            .breadcrumb-item a:hover {
+                text-decoration: underline;
+            }
+
+            .breadcrumb-item.active {
+                color: #6c757d;
+            }
+
+            
+
+            .notification {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #f5f5f5;
+                padding: 20px 40px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 1.2em;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.5s ease, transform 0.5s ease;
+            }
+
+            .notification.hidden {
+                opacity: 0;
+                pointer-events: none;
+                transform: translate(-50%, -60%);
+            }
+
+            .notification.slide-in {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+
+            .notification.slide-out {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+
+            .checkmark {
+                font-size: 1.8em;
+                animation: rotateCheckmark 0.8s ease forwards;
+            }
+
+            @keyframes rotateCheckmark {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+</head>
+
 <body>
 
     <!-- Header Section -->
-
-    <?php include '../php/header_home_en.php' ?>
-
-    <!-- Cart Section -->
-    <?php include '../en/cart.php' ?>
+    <header>
+        <%- include('header_home_en.ejs') %>
+    </header>
 
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="../en/index.php">Trang chủ</a></li>
-            <li class="breadcrumb-item"><a href="../en/product.php">Sản phẩm</a></li>
-            <li class="breadcrumb-item"><a href="../en/<?php echo $category_website ?>">
-                    <?php echo $provider ?></a></li>
-            <li class="breadcrumb-item active" aria-current="page"><?php echo $category_name_en ?></li>
-            <li class="breadcrumb-item active" aria-current="page"><?php echo $products['p_name_en'] ?></li>
+            <li class="breadcrumb-item"><a href="/index">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="/product">Sản phẩm</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <%= product.p_category %></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <%= product.p_name_en %>
+            </li>
         </ol>
     </nav>
 
-    <div class="container">
-        <div class="left-column">
-            <div class="thumbnails">
-                <img src="../images/<?php echo $product_images[0] ?>" alt="Thumbnail 1" onclick="changeImage(this)">
-                <img src="../images/<?php echo $product_images[1] ?>" alt="Thumbnail 2" onclick="changeImage(this)">
-                <img src="../images/<?php echo $product_images[2] ?>" alt="Thumbnail 3" onclick="changeImage(this)">
-            </div>
-            <div class="zoom-container">
-                <img src="../images/<?php echo $product_images[0] ?>" alt="Product Image" id="main-image">
-            </div>
 
+    <div class="container">
+        <div class="image-section">
+            <div class="zoom-container">
+                <img id="main-image" alt="Close-up of product image" height="400"
+                    src="../images/<%= productImages[0] %>" width="600">
+            </div>
+            <div class="thumbnail-section">
+                <div class="arrow" onclick="prevImage()">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <% productImages.forEach((image, index)=> { %>
+                    <img alt="Thumbnail of product image" height="100" src="../images/<%= image %>" width="100"
+                        onclick="changeImage('../images/<%= image %>')" />
+                    <% }); %>
+                        <div class="arrow" onclick="nextImage()">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+            </div>
         </div>
 
-        <div class="right-column">
-            <h1 class="product-title"><?php echo $products['p_name_en'] ?></h1>
-            <div class="price">$ <?php echo $products['p_price_en'] ?></div>
+        <div class="details-section">
+            <h1>
+                <%= product.p_name_en %>
+            </h1>
+            <p class="brand">
+                <%= product.p_category %>
+            </p>
+            <p>SKU <%= product.p_number %>
+            </p>
+            <div class="price">
+                <span class="original-price">
+                    <%= product.p_price_en %>$
+                </span>
+                <span class="discounted-price">
+                    <%= (product.p_price_en * 0.8).toFixed(2) %>$ <!-- giữ lại 2 chữ số sau dấu thập phân -->
+                </span>
+                <span class="discount">-20%</span>
+            </div>
+            <div class="exclusive">Exclusive price when purchasing on the website</div>
+            <ul class="features">
+                <li>Authentic Product</li>
+                <li>Free Nationwide Shipping on Orders Over 20$</li>
+                <li>Fast Delivery in 4-7 Hours</li>
+            </ul>
+            <div class="quantity">
+                <button class="btn-num" onclick="decreaseQuantity()">-</button>
+                <input type="text" id="quantity" value="1" />
+                <button class="btn-num" onclick="increaseQuantity()">+</button>
+            </div>
+            <div>
+                <button onclick="buyItem()" class="add-to-cart">Add to Cart</button>
+                <!-- Thông báo cho Add to Cart -->
+                <div id="notification-cart" class="notification hidden">
+                    <i class="fas fa-check-circle checkmark"></i>
+                    <p><b>This feature will be updated soon!</b></p>
+                </div>
 
-            <!-- <div class="product-info">
-                <h3>Thông tin sản phẩm:</h3>
-                <div>Chủ đề: <?php echo $products['p_category'] ?></div>
-                <div>Mã sản phẩm: <?php echo $products['p_number'] ?> </div>
-                <div>Nhà cung cấp: <?php echo $provider ?></div>
-                <div>Tuổi: <?php echo $products['p_age'] ?></div>
-                <!-- Thêm thông tin sản phẩm khác -->
-            <!--</div> -->
+                <% if (product.p_tutorial) { %>
+                    <a href="../pdf/<%= product.p_category %>/<%= product.p_tutorial %>" target="_blank">
+                        <button class="tutorial">View Instruction</button>
+                    </a>
+                    <% } else { %>
+                        <button onclick="showTutorialNotification()" class="tutorial">View Instruction</button>
+                        <!-- Thông báo cho View Instruction -->
+                        <div id="notification-tutorial" class="notification hidden">
+                            <i class="fas fa-check-circle checkmark"></i>
+                            <p><b>Instruction available for Keeppley Products</b></p>
+                        </div>
+                        <% } %>
+            </div>
+
 
             <div class="product-info">
-                <h3>Product Information:</h3>
-                <div>Category: <?php echo $products['p_category'] ?></div>
-                <div>Product Code: <?php echo $products['p_number'] ?></div>
-                <div>Supplier: <?php echo $provider ?></div>
-                <div>Age: <?php echo $products['p_age'] ?></div>
-                <!-- Add other product information -->
+                <table>
+                    <tr>
+                        <th>Category:</th>
+                        <td>
+                            <%= product.p_category %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Product Code:</th>
+                        <td>
+                            <%= product.p_number %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Age:</th>
+                        <td>
+                            <%= product.p_age %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Supplier:</th>
+                        <td>
+                            <%= provider %>
+                        </td>
+                    </tr>
+                </table>
             </div>
-
-
-
-            <div class="quantity">
-                <button onclick="decreaseQuantity()" class="quantity-btn">-</button>
-                <input id="quantity-input" type="number" value="1" min="1">
-                <button onclick="increaseQuantity()" class="quantity-btn">+</button>
-            </div>
-
-            <button id="button-add"
-                class="add-to-cart-btn flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">Add
-                to cart</button>
-
-            <?php if ($products['p_tutorial']): ?>
-                <a href="../pdf/<?php echo $products['p_tutorial']; ?>"><button class="instruction-btn">View
-                        Instruction</button></a>
-            <?php else: ?>
-                <a href="404.php"><button class="instruction-btn">View Instruction</button></a>
-            <?php endif; ?>
-
-
         </div>
     </div>
-
-    <div style="padding-top: 10px; padding-bottom:10px" class="productBox">
-        <div class="wal">
-            <div class="title title2" id="page-100000010724924">Description</div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="product-info">
-            <div class="description">
-                <?php
-                // Kiểm tra xem mô tả có tồn tại và không trống
-                if (!empty($products['p_description_en'])) {
-                    echo $products['p_description_en'];
-                } else {
-                    // Thêm một class cho thông báo "Cập nhật sau"
-                    echo "<div class='update-later'>Update later</div>";
-                }
-                ?>
-            </div>
-            <!-- Add other product information -->
-        </div>
-    </div>
-
-    <!-- Products Section -->
-    <section class="products">
-        <h2>LEGO Products</h2>
-        <div class="product-grid">
-
-            <?php
-            $sqlQman = "SELECT * FROM `Category` WHERE `provider` = 'LEGO'";
-            $result = mysqli_query($conn, $sqlQman);
-
-            // Kiểm tra xem có kết quả trả về không
-            if ($result->num_rows > 0)
-                while ($category = $result->fetch_assoc()):
-
-                    // Tách chuỗi hình ảnh thành mảng và loại bỏ khoảng trắng thừa
-                    $product_images = array_map('trim', explode(',', $category["images"]));
-                    ?>
-
-                    <div class="product">
-                        <a href="../en/Category_Product.php?id=<?php echo $category['id']; ?>">
-                            <img src="../images/<?php echo $product_images[0]; ?>" alt="Pokémon Keeppley">
-                            <p><?php echo $category['name_en'] ?></p>
-                        </a>
-                    </div>
-                    <?php
-
-                endwhile;
-            ?>
-
-        </div>
-
-    </section>
-
     <!-- Footer Section -->
-    <footer style="padding: 20px 0; font-family: Arial, sans-serif; font-size:20px ">
-        <div style="display: flex; justify-content: center; align-items: center;">
-            <img src="../images/17.png" alt="" class="f-cute">
-        </div>
-        <div
-            style="background-color: #f5f5f5; display: flex; justify-content: space-around; flex-wrap: wrap; padding-left:30px">
-            <!-- LEGAL -->
-            <div class="footer-column">
-                <p class="label-footer">LEGAL</p>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li><a href="#">Faq</a></li>
-                    <li><a href="#">Retailers</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Cookies</a></li>
-                </ul>
-            </div>
-
-            <!-- SERVICES -->
-            <div class="footer-column">
-                <p class="label-footer">SERVICES</p>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li><a href="#">Track Order</a></li>
-                    <li><a href="#">Returns</a></li>
-                    <li><a href="#">Shipping</a></li>
-                    <li><a href="#">FAQs</a></li>
-                </ul>
-            </div>
-
-            <!-- GET IN TOUCH -->
-            <div class="footer-column">
-                <p class="label-footer">GET IN TOUCH</p>
-                <p>Any questions? Let us know in store at 8th floor,
-                    379 Hudson St, New York, NY 10018 <br>
-                    or call us on (+1) 96 716 6879</p>
-                <div>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-
-            <!-- NEWSLETTER -->
-            <div class="footer-column">
-                <p class="label-footer">NEWSLETTER</p>
-                <input type="email" placeholder="email@example.com"
-                    style="width: 150px; padding: 10px; margin-bottom: 10px;">
-                <button
-                    style="background-color: #ff4081; color: white; padding: 10px 20px; border: none; cursor: pointer;">SUBSCRIBE</button>
-            </div>
-        </div>
-
-        <div style="text-align: center; background-color: #f5f5f5;">
-            <img src="../icons/icon-pay-01.png" alt="Payment Methods" style="margin-top: 10px;">
-            <img src="../icons/icon-pay-02.png" alt="Payment Methods" style="margin-top: 10px;">
-            <img src="../icons/icon-pay-03.png" alt="Payment Methods" style="margin-top: 10px;">
-            <img src="../icons/icon-pay-04.png" alt="Payment Methods" style="margin-top: 10px;">
-            <img src="../icons/icon-pay-05.png" alt="Payment Methods" style="margin-top: 10px;">
-            <p>&copy; 2024 All rights reserved | Made with <i class="fas fa-heart"></i> Group 5</p>
-        </div>
+    <footer id="footer-section">
+        <%- include('footer.ejs') %>
     </footer>
 
+    <!-- Cart Section -->
+    <%- include('cart.ejs') %>
+        <script>
+            // Chuyển hình ảnh chính
+            function changeImage(imageUrl) {
+                document.getElementById('main-image').src = imageUrl;
+            }
+
+            // Chuyển sang hình ảnh tiếp theo trong phần thumbnail
+            let currentImageIndex = 0;
+
+            function prevImage() {
+                currentImageIndex = (currentImageIndex === 0) ? productImages.length - 1 : currentImageIndex - 1;
+                changeImage(productImages[currentImageIndex]);
+            }
+
+            function nextImage() {
+                currentImageIndex = (currentImageIndex === productImages.length - 1) ? 0 : currentImageIndex + 1;
+                changeImage(productImages[currentImageIndex]);
+            }
+
+            // Tăng/giảm số lượng sản phẩm
+            function increaseQuantity() {
+                const quantityInput = document.getElementById('quantity');
+                quantityInput.value = parseInt(quantityInput.value) + 1;
+            }
+
+            function decreaseQuantity() {
+                const quantityInput = document.getElementById('quantity');
+                if (parseInt(quantityInput.value) > 1) {
+                    quantityInput.value = parseInt(quantityInput.value) - 1;
+                }
+            }
+
+            // Công thức zoom ảnh
+            $(document).ready(function () {
+                $(".zoom-container").mousemove(function (e) {
+                    var image = $(this).find("img");
+                    var offsetX = e.pageX - $(this).offset().left;
+                    var offsetY = e.pageY - $(this).offset().top;
+                    var posX = (offsetX / $(this).width()) * 100;
+                    var posY = (offsetY / $(this).height()) * 100;
+                    image.css("transform-origin", posX + "% " + posY + "%");
+                });
+            });
+
+            function showNotification(notificationId) {
+                const notification = document.getElementById(notificationId);
+                const checkmark = notification.querySelector('.checkmark');
+
+                notification.classList.remove('hidden', 'slide-out');
+                notification.classList.add('slide-in');
+
+                // Kích hoạt hoạt ảnh xoay cho dấu checkmark
+                checkmark.style.animation = 'none';
+                setTimeout(() => {
+                    checkmark.style.animation = '';
+                }, 10);
+
+                // Ẩn thông báo sau 3 giây
+                setTimeout(() => {
+                    notification.classList.remove('slide-in');
+                    notification.classList.add('slide-out');
+                    setTimeout(() => {
+                        notification.classList.add('hidden');
+                    }, 500);
+                }, 3000);
+            }
+
+            // Hàm thông báo cho Add to Cart
+            function buyItem() {
+                showNotification('notification-cart');
+            }
+
+            // Hàm thông báo cho View Instruction
+            function showTutorialNotification() {
+                showNotification('notification-tutorial');
+            }
+
+        </script>
 </body>
 
-    <script>
-        function changeImage(element) {
-            document.getElementById('main-image').src = element.src;
-        }
-
-        function increaseQuantity() {
-            var quantityInput = document.getElementById('quantity-input');
-            var currentValue = parseInt(quantityInput.value);
-            quantityInput.value = currentValue + 1;
-        }
-
-        function decreaseQuantity() {
-            var quantityInput = document.getElementById('quantity-input');
-            var currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;
-            }
-        }
-
-        // Công thức zoom ảnh
-        $(document).ready(function() {
-            $(".zoom-container").mousemove(function(e) {
-                var image = $(this).find("img");
-                var offsetX = e.pageX - $(this).offset().left;
-                var offsetY = e.pageY - $(this).offset().top;
-                var posX = offsetX / $(this).width() * 100;
-                var posY = offsetY / $(this).height() * 100;
-                image.css("transform-origin", posX + "% " + posY + "%");
-            });
-        });
-    </script>
 </html>

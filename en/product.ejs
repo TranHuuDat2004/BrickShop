@@ -1,9 +1,3 @@
-<?php
-// Lấy tên file này
-$website = basename($_SERVER['SCRIPT_NAME']);
-// echo $website;
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,14 +9,10 @@ $website = basename($_SERVER['SCRIPT_NAME']);
 
 
 <body>
-
     <!-- Header Section -->
     <header>
         <%- include('header_home_en.ejs') %>
     </header>
-
-    <!-- Cart Section -->
-    <?php include '../cart' ?>
 
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
@@ -44,105 +34,85 @@ $website = basename($_SERVER['SCRIPT_NAME']);
     <section class="products">
         <h2>Qman Products</h2>
         <div class="product-grid">
-
-            <?php
-            $sqlQman = "SELECT * FROM `Category` WHERE `provider` = 'Qman'";
-            $result = mysqli_query($conn, $sqlQman);
-
-            // Kiểm tra xem có kết quả trả về không
-            if ($result->num_rows > 0)
-                while ($category = $result->fetch_assoc()):
-
-                    // Tách chuỗi hình ảnh thành mảng và loại bỏ khoảng trắng thừa
-                    $product_images = array_map('trim', explode(',', $category["images"]));
-            ?>
-
-            <div class="product">
-                <img src="../images/5ce61d2ed281b.jpg" alt="Pokémon Keeppley">
-                <p>Pokémon</p>
-            </div>
-            <?php
-
-                endwhile;
-            ?>
-
+            <% if (qmanCategories.length> 0) { %>
+                <% qmanCategories.forEach(category=> { %>
+                    <a href="/Category_Product/?id=<%= category.id %>">
+                        <div class="product">
+                            <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+                            <img src="../images/<%= category.images[0] %>" alt="<%= category.name %>">
+                            <p>
+                                <%= category.name %>
+                            </p>
+                        </div>
+                    </a>
+                    <% }) %>
+                        <% } else { %>
+                            <p>No products available</p>
+                            <% } %>
         </div>
-        <a href="Qman-Products">
-            <h4>View More > </h4>
-        </a>
-
-        <h2>Keeppley Products</h2>
-        <div class="product-grid">
-
-
-            <?php
-            $sqlQman = "SELECT * FROM `Category` WHERE `provider` = 'Keeppley'";
-            $result = mysqli_query($conn, $sqlQman);
-
-            // Kiểm tra xem có kết quả trả về không
-            if ($result->num_rows > 0)
-                while ($category = $result->fetch_assoc()):
-
-                    // Tách chuỗi hình ảnh thành mảng và loại bỏ khoảng trắng thừa
-                    $product_images = array_map('trim', explode(',', $category["images"]));
-            ?>
-
-            <div class="product">
-                <a href="../Category_Product?id=<?php echo $category['id']; ?>">
-                    <img src="../images/<?php echo $product_images[0]; ?>" alt="Pokémon Keeppley">
-                    <p>
-                        <?php echo $category['name_en'] ?>
-                    </p>
-                </a>
-            </div>
-            <?php
-
-                endwhile;
-            ?>
-
-
-        </div>
-        <a href="Keeppley-Products">
-            <h4>View More > </h4>
-        </a>
-
-        <h2>LEGO Products</h2>
-        <div class="product-grid">
-
-
-            <?php
-            $sqlQman = "SELECT * FROM `Category` WHERE `provider` = 'LEGO'";
-            $result = mysqli_query($conn, $sqlQman);
-
-            // Kiểm tra xem có kết quả trả về không
-            if ($result->num_rows > 0)
-                while ($category = $result->fetch_assoc()):
-
-                    // Tách chuỗi hình ảnh thành mảng và loại bỏ khoảng trắng thừa
-                    $product_images = array_map('trim', explode(',', $category["images"]));
-            ?>
-
-            <div class="product">
-                <img src="../images/5ce61d2ed281b.jpg" alt="Pokémon Keeppley">
-                <p>Pokémon</p>
-            </div>
-            <?php
-
-                endwhile;
-            ?>
-
-
-        </div>
-        <a href="LEGO-Products">
+        <a href="/Qman_Products">
             <h4>View More > </h4>
         </a>
     </section>
 
+    <!-- Products Section -->
+    <section class="products">
+        <h2>Keeppley Products</h2>
+        <div class="product-grid">
+            <% if (keeppleyCategories.length> 0) { %>
+                <% keeppleyCategories.forEach(category=> { %>
+                    <a href="/Category_Product/?id=<%= category.id %>">
+                        <div class="product">
+                            <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+                            <img src="../images/<%= category.images[0] %>" alt="<%= category.name %>">
+                            <p>
+                                <%= category.name %>
+                            </p>
+                        </div>
+                    </a>
+                    <% }) %>
+                        <% } else { %>
+                            <p>No products available</p>
+                            <% } %>
+        </div>
+        <a href="/Keeppley_Products">
+            <h4>View More > </h4>
+        </a>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products">
+        <h2>LEGO Products</h2>
+        <div class="product-grid">
+            <% if (legoCategories.length> 0) { %>
+                <% legoCategories.forEach(category=> { %>
+                    <a href="/Category_Product/?id=<%= category.id %>">
+                        <div class="product">
+                            <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+                            <img src="../images/<%= category.images[0] %>" alt="<%= category.name %>">
+                            <p>
+                                <%= category.name %>
+                            </p>
+                        </div>
+                    </a>
+                    <% }) %>
+                        <% } else { %>
+                            <p>No products available</p>
+                            <% } %>
+        </div>
+        <a href="/LEGO_Products">
+            <h4>View More > </h4>
+        </a>
+    </section>
+
+
     <!-- Footer Section -->
     <footer id="footer-section">
-        <?php include '../footer'; ?>
+        <%- include('footer.ejs') %>
     </footer>
 
+    <!-- Cart Section -->
+    <%- include('cart.ejs') %>
 </body>
 
 </html>

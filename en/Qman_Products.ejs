@@ -39,11 +39,7 @@
         <div class="product-grid">
             <% if (categories.length> 0) { %>
                 <% categories.forEach(category=> { %>
-                              return {
-              id: category.id,
-              name: category.name_en,
-              images: category.images.split(',').map(img => img.trim()) // Tách chuỗi hình ảnh thành mảng
-          };
+                    <a href="/Category_Product/?id=<%= category.id %>">
                         <div class="product">
                             <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
                             <img src="../images/<%= category.images[0] %>" alt="<%= category.name %>">

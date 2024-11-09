@@ -7,6 +7,7 @@
   <title>Reaction Login Form</title>
   <!-- Thêm favicon vào đây -->
   <link rel="icon" href="../images/keeppley_logo.webp" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
 
   <style>
@@ -284,9 +285,15 @@
             <div class="placeholder">e.g. ABC123</div>
           </div>
           </fieldset> -->
-
+          <% if (errorMessage) { %>
+            <div class="alert alert-danger"><%= errorMessage %></div>
+          <% } %>
+          <% if (successMessage) { %>
+            <div class="alert alert-success"><%= successMessage %></div>
+          <% } %>
+          
           <fieldset id="email-field" class="with-placeholder">
-        <legend>Username</legend>
+        <legend style="font-size: 18px;">Username</legend>
         <div>
             <input type="text" name="username" id="email" autocomplete="off" autocorrect="off" autocapitalize="off"
                 spellcheck="false" required />
@@ -301,7 +308,7 @@
     <?php endif; ?> -->
 
     <fieldset id="password-field">
-        <legend>Password</legend>
+        <legend style="font-size: 18px;">Password</legend>
         <span id="show-password-container">
             <span></span> Show Password
         </span>
