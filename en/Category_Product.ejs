@@ -4,7 +4,7 @@
 <head>
     <%- include('head.ejs') %>
         <title>
-            <?php echo $category_name_en ?>
+            <%= category.name_en %>
         </title>
         <link rel="stylesheet" href="../css/category_product.css" />
 </head>
@@ -18,13 +18,10 @@
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="../en/index.php">Trang chủ</a></li>
-            <li class="breadcrumb-item"><a href="../en/product.php">Sản phẩm</a></li>
-            <li class="breadcrumb-item"><a href="../en/<?php echo $category_website ?>">
-                    <?php echo $provider['provider'] ?>
-                </a></li>
+            <li class="breadcrumb-item"><a href="/index">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="/product">Sản phẩm</a></li>
             <li class="breadcrumb-item active" aria-current="page">
-                <?php echo $category_name_en ?>
+                <%= category.name_en %>
             </li>
         </ol>
     </nav>

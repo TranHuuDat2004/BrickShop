@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 01, 2024 lúc 10:12 AM
+-- Thời gian đã tạo: Th10 09, 2024 lúc 08:29 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -68,8 +68,11 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name_en`, `name_vn`, `images`, `provider`) VALUES
-(2, 'Doraemon', 'Doraemon', '2022111111563701.jpg,20221111115556855.jpg', 'Keeppley'),
-(3, 'Sario', 'Sario', '20221104153543766.jpg,20221104153536127.jpg', 'Keeppley');
+(2, 'Doraemon', 'Doraemon', 'Doraemon0.jpg,Doraemon1.jpg', 'Keeppley'),
+(3, 'Sario', 'Sario', 'Sario0.jpg,Sario1.jpg', 'Keeppley'),
+(5, 'Sumikko', 'Sumikko', 'Sumikko0.jpg,Sumikko1.jpg', 'Qman'),
+(6, 'Build & Fun', 'Build & Fun', 'Build&Fun0.jpg,Build&Fun1.jpg', 'Qman'),
+(4, 'Conan', 'Conan', 'Conan0.jpg,Conan1.jpg', 'Keeppley');
 
 -- --------------------------------------------------------
 
@@ -100,9 +103,31 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, `p_price_en`, `p_price_vn`, `p_category`, `p_tutorial`, `p_description_en`, `p_description_vn`, `p_sold`, `p_age`, `p_stock_status`, `p_product_status`) VALUES
-(3, 'K20401', 'Time Machine', 'Cỗ Máy Thời Gian', 'k20401_7baded4332d143ea965136b6f33b2ca3_master.webp,k20401-1_5b0e7274662146fd8f084b9dd26ee332_master.webp,k20401-79___-01b_48223bd61d5f4df3acfa7b360cdf44c3_master.webp', '9.99', '0', 'Doraemon', 'K20401.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller'),
-(4, 'K20801', 'Hello Kitty', 'Hello Kitty', '20221104153936156.jpg', '9.99', '0', 'Sario', 'K20801.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller'),
-(5, 'K20401', 'Melody', 'Melody', '2022110415411562.jpg,,', '9.99', '0', 'Sario', '', '', '', 0, '12+', 'in_stock', 'bestseller');
+(3, 'K20401', 'Time Machine', 'Cỗ Máy Thời Gian', 'TimeMachine.jpg', '9.99', '0', 'Doraemon', 'K20401.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller'),
+(4, 'K20801', 'Hello Kitty', 'Hello Kitty', 'HelloKitty.jpg', '19.99', '0', 'Sario', 'K20801.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller'),
+(5, 'K20802', 'Melody', 'Melody', 'Melody.jpg,,', '9.99', '0', 'Sario', 'K20802.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(6, 'K20804', 'Purin', 'Purin', 'Purin.jpg,,', '9.99', '0', 'Sario', 'K20804.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(7, 'K20803', 'Cinnamon', 'Cinnamon', 'Cinnamon.jpg,,', '9.99', '0', 'Sario', 'K20803.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(8, 'K20805', 'Hello Kitty Mini Car', 'Hello Kitty Mini Car', 'HelloKittyMiniCar.jpg,,', '19.99', '0', 'Sario', 'K20805.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(9, 'K20806', 'Hello Kitty Mini Bus', 'Hello Kitty Mini Bus', 'HelloKittyMiniBus.jpg,,', '19.99', '0', 'Sario', 'K20806.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(10, 'K20402', 'Nobita Room', 'Nobita Room', 'NobitaRoom.jpg,,', '15.99', '0', 'Doraemon', 'K20402.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(11, 'K20406', 'Doraemon-Beetles', 'Doraemon-Beetles', 'Doraemon-Beetles.jpg,,', '11.99', '0', 'Doraemon', 'K20406.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(12, 'K20407', 'Doraemon-Bus', 'Doraemon-Bus', 'Doraemon-Bus.jpg,,', '11.99', '0', 'Doraemon', 'K20407.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(13, 'K20408', 'Doraemon-TV', 'Doraemon-TV', 'Doraemon-TV.jpg,,', '13.99', '0', 'Doraemon', 'K20408.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(14, 'K20409', 'Doraemon-Cement Pipe Space', 'Doraemon-Cement Pipe Space', 'Doraemon-CementPipeSpace.jpg,,', '9.99', '0', 'Doraemon', 'K20409.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(15, 'K20701', 'Conan Edogawa', 'Conan Edogawa', 'Conan.jpg,,', '9.99', '0', 'Conan', 'K20701.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(16, 'K20702', 'Ran Mori', 'Ran Mori', 'Ran Mori.jpg,,', '9.99', '0', 'Conan', 'K20702.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(17, 'K20703', 'Kid', 'Kid', 'Kid.jpg,,', '9.99', '0', 'Conan', 'K20703.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(18, 'K20704', 'Ai Haibara', 'Ai Haibara', 'Ai Haibara.jpg,,', '9.99', '0', 'Conan', 'K20704.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(19, '35011', 'Sweetie Story', 'Sweetie Story', 'Sweet.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(21, '35012', 'Burger', 'Burger', 'Burger.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(22, '35014', 'Qtea-PDQ', 'Qtea-PDQ', 'Qtea.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(23, '35015', 'Qman Mart-PDQ', 'Qman Mart-PDQ', 'Qmart.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(24, '77011', 'Comfortable Corner', 'Comfortable Corner', 'Comforable Corner.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(20, '77012', 'Relax Coffee Time', 'Relax Coffee Time', 'Coffee.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(25, '77013', 'Delicious Bento', 'Delicious Bento', 'Bento.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller')
+
+;
 
 -- --------------------------------------------------------
 

@@ -1,81 +1,100 @@
-<!-- <?php
-// if (!isset($_SESSION["userName"])) {
-// 	// Redirect user to the login page if not logged in
-// 	header("Location: ../html/reaction_form.html");
-// 	exit(); // Stop further execution of the script
-// }
-?> -->
-
-<html style="font-size: 80px;">
+<html lang="en">
 
 <head>
-<title>Page Not Found</title>
     <%- include('head.ejs') %>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>
+        404 Not Found
+    </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .container h1 {
+            font-size: 6rem;
+            margin: 0;
+        }
+
+        .container h2 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .container p {
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        .container a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .container a:hover {
+            background-color: #0056b3;
+        }
+
+        .container img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-<style>
-    .frem {
-        width: 100%;
-        height: 1000px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        background: url('../images/404.gif');
-        background-position: center;
-        background-repeat: no-repeat;
-    }
 
-    .frem h2 {
-        position: absolute;
-        bottom: 7.8rem;
-        font-size: 80px;
-    }
+<body>
+        <!-- Header Section -->
+        <header>
+            <%- include('header_home_en.ejs') %>
+        </header>
 
-    .frem h3 {
-        position: absolute;
-        bottom: 2rem;
-        font-size: 34px;
-    }
+    <div class="container">
+        <h1>
+            404
+        </h1>
+        <h2>
+            Page Not Found
+        </h2>
+        <p>
+            Sorry, the page you are looking for does not exist.
+        </p>
+        <img alt="Illustration of a broken robot with a 404 error message" height="400"
+            src="https://storage.googleapis.com/a1aa/image/aMSkEYNLMhamC1efwJpncrDrYZS7lLDzECY7LrM74cr7zLvTA.jpg"
+            width="600" />
 
-    .frem h4 {
-        position: absolute;
-        bottom: 1.5rem;
-        font-size: 28px;
-    }
-</style>
-<body inmaintabuse="1">
-    <!-- Desktop -->
-    <?php include '../php/header_en.php'; ?>
-    <!-- Mobile-->
-    <?php include '../php/mobile_en.php'; ?>
-
-
-    <!-- 404 Page -->
-    <div class="frem">
-        <h2>404</h2>
-        <h3>Look like you're lost</h3>
-        <h4>The page you are looking for not avaible!</h4>
-    </div>
-
-
-
-
-
-
-
-
-
-        <script language="javascript" type="text/javascript" src="/en/script/js.js"></script>
-        <script src="chrome-extension://igkkmokkmlbkkgdnkkancbonkbbmkioc/sm.bundle.js"
-            data-pname="recorder-screenshot-v3" data-asset-path="https://apv3.s3.ap-northeast-2.amazonaws.com"></script>
-        <div style="display: none" class="ubey-RecordingScreen-count-down ubey-RecordingScreen-count-down-container">
-
-            <div class="ubey-RecordingScreen-count-down-content">
-                <span id="ubey-RecordingScreen-count-count"></span>
-            </div>
+        <div>
+            <a href="/">
+                <i class="fas fa-home">
+                </i>
+                Go to Homepage
+            </a>
         </div>
-</body><chatgpt-sidebar data-gpts-theme="light"></chatgpt-sidebar><chatgpt-sidebar-popups
-    data-gpts-theme="light"></chatgpt-sidebar-popups>
-    <?php include 'cart.php'; ?>
-    <?php include 'footer.php'; ?>
+    </div>
+        <!-- Footer Section -->
+        <footer id="footer-section">
+            <%- include('footer.ejs') %>
+        </footer>
+    
+        <!-- Cart Section -->
+        <%- include('cart.ejs') %>
+</body>
+
 </html>

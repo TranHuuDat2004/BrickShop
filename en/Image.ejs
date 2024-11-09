@@ -1,40 +1,3 @@
-<?php
-// Lấy tên file này
-$website = basename($_SERVER['SCRIPT_NAME']);
-// echo $website;
-
-include '../php/login.php';
-// Chưa đăng nhập 
-if (isset($_SESSION["userID"])) {
-    $userID = $_SESSION["userID"];
-    // print_r($userName);
-    $sqlLogin = "SELECT * FROM `User` WHERE userID = '$userID' ";
-    $queryLogin = mysqli_query($conn, $sqlLogin);
-    // print_r($queryLogin);
-    // Kiểm tra kết quả truy vấn
-
-    // Duyệt qua từng hàng dữ liệu từ kết quả truy vấn
-    $row = $queryLogin->fetch_assoc();
-    // Thêm thông tin từng hàng vào mảng $userLogin
-    $userLogin = array(
-        "userID" => $row["userID"],
-        "userName" => $row["userName"],
-        "email" => $row["email"],
-        "image" => $row["image"],
-        "loginpassword" => $row["loginpassword"],
-        "birthday" => $row["birthday"],
-        "bio" => $row["bio"],
-        "country" => $row["country"],
-        "phone" => $row["phone"]
-    );
-} else {
-    // Chưa đăng nhập 
-    header('Location: ../php/form_login_en.php');
-    exit();
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,7 +6,7 @@ if (isset($_SESSION["userID"])) {
     <title>Account Settings</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <?php include '../php/head.php'; ?>
+    <?php include '../php/head'; ?>
 
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -276,10 +239,10 @@ if (isset($_SESSION["userID"])) {
 
 <body inmaintabuse="1">
     <!-- Header Section -->
-    <?php include '../php/header_home_en.php' ?>
+    <?php include '../php/header_home_en' ?>
 
     <!-- Cart Section -->
-    <?php include '../en/cart.php' ?>
+    <?php include '../en/cart' ?>
 
     <div style="margin-top:20px" class="container light-style flex-grow-1 container-p-y">
         
@@ -290,20 +253,20 @@ if (isset($_SESSION["userID"])) {
             <div class="row no-gutters row-bordered row-border-light">
                 <div class="col-md-3 pt-0">
                     <div class="list-group list-group-flush account-settings-links">
-                        <a class="list-group-item list-group-item-action " href="general.php">General</a>
-                        <a class="list-group-item list-group-item-action active" href="Image.php">Image</a>
-                        <a class="list-group-item list-group-item-action" href="ChangePassword.php">Change password</a>
-                        <a class="list-group-item list-group-item-action" href="Information.php">Information</a>
-                        <a class="list-group-item list-group-item-action" href="SocialLinks.php">Social links</a>
-                        <a class="list-group-item list-group-item-action" href="Connections.php">Connections</a>
-                        <a class="list-group-item list-group-item-action" href="Notifications.php">Notifications</a>
-                        <a class="list-group-item list-group-item-action" href="Languages.php">Languages</a>
+                        <a class="list-group-item list-group-item-action " href="/general">General</a>
+                        <a class="list-group-item list-group-item-action active" href="/Image">Image</a>
+                        <a class="list-group-item list-group-item-action" href="/ChangePassword">Change password</a>
+                        <a class="list-group-item list-group-item-action" href="/Information">Information</a>
+                        <a class="list-group-item list-group-item-action" href="/SocialLinks">Social links</a>
+                        <a class="list-group-item list-group-item-action" href="/Connections">Connections</a>
+                        <a class="list-group-item list-group-item-action" href="/Notifications">Notifications</a>
+                        <a class="list-group-item list-group-item-action" href="/Languages">Languages</a>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="account-general">
-                            <form action="../php/ChangeImage.php" method="POST" enctype="multipart/form-data"
+                            <form action="../php/ChangeImage" method="POST" enctype="multipart/form-data"
                                 id="accountForm">
                                 <?php
                                 // session_start();
@@ -380,7 +343,7 @@ if (isset($_SESSION["userID"])) {
                             <button type="button" class="btn btn-default btn-cancel btn-setting"
                                 id="cancelButton">Cancel</button>
                             <!-- Nút Đăng Xuất -->
-                            <a href="../php/logout.php" class="btn btn-danger btn-setting">Logout</a>
+                            <a href="../php/logout" class="btn btn-danger btn-setting">Logout</a>
                         </div>
                         </form>
                     </div>
@@ -420,5 +383,5 @@ if (isset($_SESSION["userID"])) {
     </script>
 </body>
     <!-- Footer Section -->
-    <?php include '../en/footer.php' ?>
+    <?php include '../en/footer' ?>
 </html>

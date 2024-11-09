@@ -1,126 +1,335 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<style>
-    /* Sidebar styling */
-.cart-sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: white;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
-  box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-
-.cart-sidebar .cart-header {
-  padding: 10px;
-  background-color: #333;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.cart-sidebar .cart-content {
-  padding: 20px;
-}
-
-.cart-sidebar .cart-actions {
-  margin-top: 20px;
-}
-
-.cart-sidebar .cart-actions .view-cart,
-.cart-sidebar .cart-actions .checkout {
-  display: inline-block;
-  background-color: #a00;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  text-align: center;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-.cart-sidebar .cart-actions .checkout {
-  background-color: #d00;
-}
-
-.close-btn {
-  font-size: 30px;
-  cursor: pointer;
-}
-
-/* When the sidebar is visible */
-.cart-sidebar.open {
-  width: 300px; /* Set the desired width of the sidebar */
-}
-
-/* Cart button styling (optional) */
-#cartButton {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #a00;
-  color: white;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-</style>
-<body>
-    <!-- Giỏ hàng Button -->
-<button id="cartButton">Giỏ hàng</button>
-
-<!-- Sidebar -->
-<div id="cartSidebar" class="cart-sidebar">
-  <div class="cart-header">
-    <h2>Giỏ hàng</h2>
-    <span id="closeSidebar" class="close-btn">&times;</span>
+<html>
+ <head>
+  <title>
+   Shopee Cart
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #ee4d2d;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .left, .header .right {
+            display: flex;
+            align-items: center;
+        }
+        .header .left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .header .left span {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header .right a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
+        }
+        .search-bar input {
+            width: 400px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+        }
+        .search-bar button {
+            padding: 10px;
+            background-color: #ee4d2d;
+            border: none;
+            color: white;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        .cart-container {
+            margin: 20px auto;
+            width: 80%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .cart-header, .cart-item, .cart-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .cart-header {
+            font-weight: bold;
+        }
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+        .cart-item .item-info {
+            display: flex;
+            align-items: center;
+        }
+        .cart-item .item-info .item-details {
+            margin-left: 10px;
+        }
+        .cart-item .item-info .item-details p {
+            margin: 0;
+        }
+        .cart-item .item-info .item-details .item-name {
+            font-weight: bold;
+        }
+        .cart-item .item-info .item-details .item-shipping {
+            color: #ee4d2d;
+        }
+        .cart-item .item-actions {
+            display: flex;
+            align-items: center;
+        }
+        .cart-item .item-actions input {
+            width: 40px;
+            text-align: center;
+            margin: 0 5px;
+        }
+        .cart-item .item-actions button {
+            background-color: #eee;
+            border: 1px solid #ccc;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .cart-footer {
+            font-weight: bold;
+        }
+        .cart-footer .total-price {
+            color: #ee4d2d;
+        }
+        .cart-footer button {
+            background-color: #ee4d2d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+  </style>
+ </head>
+ <body>
+  <div class="header">
+   <div class="left">
+    <img alt="Shopee Logo" height="40" src="https://storage.googleapis.com/a1aa/image/Vw2QkjiG29roNNyOOUKuIMxdmHmAcKNR1Lai7gnum58jbu7E.jpg" width="40"/>
+    <span>
+     Shopee
+    </span>
+   </div>
+   <div class="right">
+    <a href="#">
+     Kênh Người Bán
+    </a>
+    <a href="#">
+     Tải ứng dụng
+    </a>
+    <a href="#">
+     Kết nối
+    </a>
+    <a href="#">
+     Thông Báo
+    </a>
+    <a href="#">
+     Hỗ Trợ
+    </a>
+    <a href="#">
+     Tiếng Việt
+    </a>
+    <a href="#">
+     s5os8p4d1h
+    </a>
+   </div>
   </div>
-  <div class="cart-content">
-    <p>Hiện chưa có sản phẩm</p>
-    <hr>
-    <p><strong>Tổng tiền:</strong> 0₫</p>
-    <div class="cart-actions">
-      <button class="view-cart">Xem giỏ hàng</button>
-      <button class="checkout">Thanh toán</button>
+  <div class="search-bar">
+   <input placeholder="DỊA BẠ VOUCHER 400.000Đ" type="text"/>
+   <button>
+    <i class="fas fa-search">
+    </i>
+   </button>
+  </div>
+  <div class="cart-container">
+   <div class="cart-header">
+    <div>
+     Sản Phẩm
     </div>
+    <div>
+     Đơn Giá
+    </div>
+    <div>
+     Số Lượng
+    </div>
+    <div>
+     Số Tiền
+    </div>
+    <div>
+     Thao Tác
+    </div>
+   </div>
+   <div class="cart-item">
+    <div class="item-info">
+     <input type="checkbox"/>
+     <img alt="Product Image" height="60" src="https://storage.googleapis.com/a1aa/image/qWmkDWtRD0qOJ5pD4RNdC8muWhfrVd9Fr4AifuzKACFOu5uTA.jpg" width="60"/>
+     <div class="item-details">
+      <p class="item-name">
+       [Bán dẹp] Đồ chơi lắp ráp bộ 6 nhân vật Minifigures Ninjago Pil...
+      </p>
+      <p class="item-shipping">
+       Trả hàng miễn phí
+      </p>
+      <p>
+       Phân Loại Hàng: LloydPilot
+      </p>
+     </div>
+    </div>
+    <div class="item-price">
+     ₫23.000
+    </div>
+    <div class="item-actions">
+     <button>
+      -
+     </button>
+     <input type="text" value="1"/>
+     <button>
+      +
+     </button>
+    </div>
+    <div class="item-total">
+     ₫23.000
+    </div>
+    <div class="item-remove">
+     <a href="#">
+      Xóa
+     </a>
+     <a href="#">
+      Tìm sản phẩm tương tự
+     </a>
+    </div>
+   </div>
+   <div class="cart-item">
+    <div class="item-info">
+     <input type="checkbox"/>
+     <img alt="Product Image" height="60" src="https://storage.googleapis.com/a1aa/image/qWmkDWtRD0qOJ5pD4RNdC8muWhfrVd9Fr4AifuzKACFOu5uTA.jpg" width="60"/>
+     <div class="item-details">
+      <p class="item-name">
+       [Bán dẹp] Đồ chơi lắp ráp bộ 6 nhân vật Minifigures Ninjago Pil...
+      </p>
+      <p class="item-shipping">
+       Trả hàng miễn phí
+      </p>
+      <p>
+       Phân Loại Hàng: Pink Zane Pilot
+      </p>
+     </div>
+    </div>
+    <div class="item-price">
+     ₫23.000
+    </div>
+    <div class="item-actions">
+     <button>
+      -
+     </button>
+     <input type="text" value="1"/>
+     <button>
+      +
+     </button>
+    </div>
+    <div class="item-total">
+     ₫23.000
+    </div>
+    <div class="item-remove">
+     <a href="#">
+      Xóa
+     </a>
+     <a href="#">
+      Tìm sản phẩm tương tự
+     </a>
+    </div>
+   </div>
+   <div class="cart-item">
+    <div class="item-info">
+     <input type="checkbox"/>
+     <img alt="Product Image" height="60" src="https://storage.googleapis.com/a1aa/image/qWmkDWtRD0qOJ5pD4RNdC8muWhfrVd9Fr4AifuzKACFOu5uTA.jpg" width="60"/>
+     <div class="item-details">
+      <p class="item-name">
+       [Bán dẹp] Đồ chơi lắp ráp bộ 6 nhân vật Minifigures Ninjago Pil...
+      </p>
+      <p class="item-shipping">
+       Trả hàng miễn phí
+      </p>
+      <p>
+       Phân Loại Hàng: Zane Pilot
+      </p>
+     </div>
+    </div>
+    <div class="item-price">
+     ₫25.000
+    </div>
+    <div class="item-actions">
+     <button>
+      -
+     </button>
+     <input type="text" value="1"/>
+     <button>
+      +
+     </button>
+    </div>
+    <div class="item-total">
+     ₫25.000
+    </div>
+    <div class="item-remove">
+     <a href="#">
+      Xóa
+     </a>
+     <a href="#">
+      Tìm sản phẩm tương tự
+     </a>
+    </div>
+   </div>
+   <div class="cart-footer">
+    <div>
+     <input type="checkbox"/>
+     Chọn Tất Cả (3)
+     <a href="#">
+      Xóa
+     </a>
+     <a href="#">
+      Lưu vào mục Đã thích
+     </a>
+    </div>
+    <div>
+     <input type="checkbox"/>
+     Shopee Voucher
+     <a href="#">
+      Chọn hoặc nhập mã
+     </a>
+    </div>
+    <div>
+     <span class="total-price">
+      Tổng thanh toán (0 Sản phẩm): ₫0
+     </span>
+     <button>
+      Mua Hàng
+     </button>
+    </div>
+   </div>
   </div>
-</div>
-<script>
-    // Get elements
-const cartButton = document.getElementById('cartButton');
-const cartSidebar = document.getElementById('cartSidebar');
-const closeSidebar = document.getElementById('closeSidebar');
-
-// Open the sidebar when clicking the "Giỏ hàng" button
-cartButton.addEventListener('click', function() {
-  cartSidebar.classList.add('open');
-});
-
-// Close the sidebar when clicking the close button
-closeSidebar.addEventListener('click', function() {
-  cartSidebar.classList.remove('open');
-});
-
-// Optionally close the sidebar when clicking outside of it
-window.addEventListener('click', function(event) {
-  if (!cartSidebar.contains(event.target) && !cartButton.contains(event.target)) {
-    cartSidebar.classList.remove('open');
-  }
-});
-
-</script>
-</body>
+ </body>
 </html>
