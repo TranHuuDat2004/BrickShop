@@ -4,7 +4,7 @@
 <head>
     <%- include('head.ejs') %>
         <meta charset="utf-8">
-        <title>Account Settings - General</title>
+        <title>Account Settings - Avatar</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/style/bootstrap_4.5.0.css" rel="stylesheet">
@@ -13,7 +13,7 @@
 <style type="text/css">
     body {
         background: #f5f5f5;
-        
+
     }
 
     .ui-w-80 {
@@ -55,6 +55,30 @@
         border-color: rgba(0, 0, 0, 0);
         background: #000;
         color: #fff;
+    }
+
+    .btn.btn-primary {
+        border-color: #007bff;
+        /* Màu xanh lam - mã hex Bootstrap mặc định cho primary */
+        background-color: #007bff;
+        color: #ffffff;
+        /* Màu trắng cho chữ */
+    }
+
+    .btn.btn-default {
+        border-color: #6c757d;
+        /* Màu xám nhạt - mã hex Bootstrap mặc định cho default */
+        background-color: #6c757d;
+        color: #ffffff;
+        /* Màu trắng cho chữ */
+    }
+
+    .btn.btn-danger {
+        border-color: #dc3545;
+        /* Màu đỏ - mã hex Bootstrap mặc định cho danger */
+        background-color: #dc3545;
+        color: #ffffff;
+        /* Màu trắng cho chữ */
     }
 
     .card {
@@ -133,7 +157,7 @@
 
     .image-gallery {
         display: none;
-        
+
         display: flex;
         flex-wrap: wrap;
     }
@@ -197,7 +221,7 @@
         if (file) {
             const reader = new FileReader();
 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 preview.src = e.target.result;
                 preview.style.display = 'block';
             }
@@ -209,7 +233,7 @@
         }
     }
 
-    document.getElementById("chooseImageBtn").onclick = function() {
+    document.getElementById("chooseImageBtn").onclick = function () {
         var gallery = document.getElementById("imageGallery");
         if (gallery.style.display === "none" || gallery.style.display === "") {
             gallery.style.display = "flex";
@@ -242,8 +266,8 @@
                 <div class="row no-gutters row-bordered row-border-light">
                     <div class="col-md-3 pt-0">
                         <div class="list-group list-group-flush account-settings-links">
-                            <a class="list-group-item list-group-item-action active" href="/General">General</a>
-                            <a class="list-group-item list-group-item-action" href="/Avatar">Avatar</a>
+                            <a class="list-group-item list-group-item-action " href="/General">General</a>
+                            <a class="list-group-item list-group-item-action active" href="/Avatar">Avatar</a>
                             <a class="list-group-item list-group-item-action " href="/Password">Change
                                 password</a>
                             <a class="list-group-item list-group-item-action" href="/Information">Information</a>
@@ -376,7 +400,14 @@
                 }
             });
         </script>
+        <!-- Footer Section -->
+        <footer id="footer-section">
+            <%- include('footer.ejs') %>
+        </footer>
+
+        <!-- Cart Section -->
+        <%- include('cart.ejs') %>
 </body>
-<%- include('footer') %>
+
 
 </html>

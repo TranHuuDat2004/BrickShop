@@ -1,63 +1,3 @@
-<?php
-// Kết nối cơ sở dữ liệu
-$conn = new mysqli('localhost', 'root', '', 'keeppley-shop'); // servername, username, password, database's name
-if ($conn->connect_error) {
-    die("Connection Failed: " . $conn->connect_error);
-}
-
-// Kiểm tra xem `p_id` có tồn tại và hợp lệ không
-if (isset($_GET['p_id']) && is_numeric($_GET['p_id'])) {
-    $p_id = mysqli_real_escape_string($conn, $_GET['p_id']);
-
-    // Truy vấn để lấy thông tin sản phẩm dựa trên `p_id`
-    $sql = "SELECT * FROM product WHERE p_id = $p_id";
-    $result = mysqli_query($conn, $sql);
-
-    if ($row = mysqli_fetch_assoc($result)) {
-        $p_id = $row['p_id'];
-        $p_number = $row['p_number'];
-        $p_name_en = $row['p_name_en'];
-        $p_name_vn = $row['p_name_vn'];
-        $p_category = $row['p_category'];
-        $p_price = $row['p_price'];
-        $p_tutorial = $row['p_tutorial'];
-        $p_description = $row['p_description'];
-
-        // Tách chuỗi hình ảnh thành mảng và loại bỏ khoảng trắng thừa
-        $product_images = array_map('trim', explode(',', $row["p_image"]));
-
-        // Kiểm tra và gán lại giá trị nếu ảnh thứ 2 và thứ 3 trống
-        if (empty($product_images[1])) {
-            $product_images[1] = $product_images[0];
-        }
-
-        if (empty($product_images[2])) {
-            $product_images[2] = $product_images[0];
-        }
-    } else {
-        // Nếu không tìm thấy sản phẩm, chuyển hướng người dùng về trang quản lý sản phẩm
-        header('Location: manageProduct.php');
-        exit();
-    }
-} else {
-    // Nếu không có `p_id` hoặc giá trị không hợp lệ, chuyển hướng người dùng về trang quản lý sản phẩm
-    header('Location: manageProduct.php');
-    exit();
-}
-
-// Lấy danh sách các danh mục để hiển thị trong form chọn
-$sqlCategory = "SELECT * FROM `category`";
-$resultCategory = mysqli_query($conn, $sqlCategory);
-
-$categories = array();
-if ($resultCategory->num_rows > 0) {
-    while ($row = mysqli_fetch_assoc($resultCategory)) {
-        $categories[] = $row['name_en'];
-    }
-}
-
-?>
-
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
@@ -98,7 +38,7 @@ if ($resultCategory->num_rows > 0) {
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
         <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
 
-            <?php include 'aside.php' ?>
+            <%- include('aside.ejs') %>
 
         </aside>
         <!-- Mobile sidebar -->
@@ -271,7 +211,7 @@ if ($resultCategory->num_rows > 0) {
         </aside>
         <div class="flex flex-col flex-1 w-full">
 
-            <?php include 'Profile_Header.php'; ?>
+            <%- include('Profile_Header.ejs') %>
 
             <main class="h-full pb-16 overflow-y-auto">
                 <div class="container grid px-6 mx-auto">

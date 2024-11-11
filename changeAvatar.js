@@ -5,7 +5,7 @@ const multer = require('multer');
 // Cấu hình thư mục upload
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../user/'));
+        cb(null, path.join(__dirname, 'public/user')); // Sử dụng thư mục /public/user
     },
     filename: (req, file, cb) => {
         cb(null, path.basename(file.originalname));
@@ -27,7 +27,7 @@ db.connect((err) => {
         console.error('Kết nối thất bại: ', err.message);
         return;
     }
-    console.log('Kết nối MySQL thành công!');
+    // console.log('Kết nối MySQL thành công!');
 });
 
 const changeAvatar = (req, res) => {
@@ -43,8 +43,11 @@ const changeAvatar = (req, res) => {
                 console.error('Lỗi:', err.message);
                 return res.status(500).send('Có lỗi xảy ra.');
             }
+            // Cập nhật ảnh trong session
+            req.session.userLogin.image = defaultImage;
             req.session.success_message = "Update Image Successfully";
-            res.redirect('/Avatar');
+            const website = 'Avatar.ejs';
+            res.render('Avatar', { userLogin: req.session.userLogin, success_message: req.session.success_message, website });
         });
     } 
     // Kiểm tra xem có ảnh mới nào được tải lên không
@@ -56,20 +59,12 @@ const changeAvatar = (req, res) => {
                 console.error('Lỗi:', err.message);
                 return res.status(500).send('Có lỗi xảy ra.');
             }
-            // Gán lại tất cả thông tin của userLogin vào session
-            req.session.userLogin = {
-                userID: result[0].userID,
-                userName: result[0].userName,
-                email: result[0].email,
-                image: result[0].image,
-                loginpassword: result[0].loginpassword,
-                birthday: result[0].birthday,
-                bio: result[0].bio,
-                country: result[0].country,
-                phone: result[0].phone
-            };
+            // Cập nhật ảnh trong session
+            req.session.userLogin.image = imagePath;
+            console.log(req.session.userLogin.image)
             req.session.success_message = "Update Image Successfully";
-            res.redirect('/Avatar');
+            const website = 'Avatar.ejs';
+            res.render('Avatar', { userLogin: req.session.userLogin, success_message: req.session.success_message, website });
         });
     } else {
         res.status(400).send("Không có ảnh được chọn.");

@@ -19,11 +19,13 @@
   },
   "homepage": "https://github.com/TranHuuDat2004/Keeppley-Shop#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
+    "moment": "^2.30.1",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "nodemon": "^3.1.7",

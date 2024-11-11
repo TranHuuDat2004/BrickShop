@@ -1,136 +1,9 @@
-<?php
-include 'login.php';
-// Chưa đăng nhập 
-if (isset($_SESSION["adminID"])){
-    $adminID = $_SESSION["adminID"];
-    // print_r($userName);
-    $sqlLogin = "SELECT * FROM `Admin` WHERE adminID = '$adminID' ";
-    $queryLogin = mysqli_query($conn, $sqlLogin);
-    // print_r($queryLogin);
-    // Kiểm tra kết quả truy vấn
-
-    // Duyệt qua từng hàng dữ liệu từ kết quả truy vấn
-    $row = $queryLogin->fetch_assoc();
-    // Thêm thông tin từng hàng vào mảng $userLogin
-    $userLogin = array(
-        "adminID" => $row["adminID"],
-        "userName" => $row["userName"],
-        "email" => $row["email"],
-        "image" => $row["image"],
-        "loginpassword" => $row["loginpassword"],
-        "birthday" => $row["birthday"],
-        "bio" => $row["bio"],
-        "country" => $row["country"],
-        "phone" => $row["phone"]
-    );
-}
-
-else {    
-    // Chưa đăng nhập 
-    header('Location: login_admin_en.php');
-    exit();
-}
-
-$conn = new mysqli('localhost', 'root', '', 'keeppley-shop'); //servername, username, password, database's name
-if ($conn->connect_error) {
-  die("Connection Failed : " . $conn->connect_error);
-}
-if (isset($_POST['sbm'])) {
-  $p_number = $_POST['p_number'];
-  $p_name_en = $_POST['p_name_en'];
-  $p_name_vn = $_POST['p_name_vn'];
-  $p_age = $_POST['p_age'];
-
-  $p_images = $_FILES['p_image']['name'];
-  $p_images_tmp = $_FILES['p_image']['tmp_name'];
-  $p_image_paths = []; // Mảng để chứa các đường dẫn ảnh
-
-  // Duyệt qua từng ảnh và di chuyển vào thư mục 'images/'
-  foreach ($p_images as $index => $p_image) {
-    $p_image_tmp = $p_images_tmp[$index];
-    $image_path = $p_image;
-    move_uploaded_file($p_image_tmp, '../images/' . $image_path);
-    $p_image_paths[] = $image_path;
-  }
-
-  // Ghép các đường dẫn ảnh thành một chuỗi, ngăn cách bởi dấu phẩy
-  $p_image = implode(',', $p_image_paths);
-
-  $p_category = $_POST['p_category'];
-  $p_price_en = $_POST['p_price_en'];
-  $p_price_vn = $_POST['p_price_vn'];
-
-  // Xử lý tệp hướng dẫn
-  if (isset($_FILES['p_tutorial']['name']) && $_FILES['p_tutorial']['error'] == 0) {
-    $p_tutorial_name = $_FILES['p_tutorial']['name'];
-    $p_tutorial_tmp = $_FILES['p_tutorial']['tmp_name'];
-    $p_tutorial_path = $p_tutorial_name;
-    move_uploaded_file($p_tutorial_tmp, '../../pdf/' . $p_tutorial_path);
-  } else {
-    $p_tutorial_name = ''; // Hoặc bạn có thể đặt giá trị mặc định khác nếu cần
-  }
-
-  $p_description_en = $_POST['p_description_en'];
-  $p_description_vn = $_POST['p_description_vn'];
-  $p_product_status = $_POST['p_product_status'];
-  $p_stock_status = $_POST['p_stock_status'];
-
-  $sql = "INSERT INTO product (p_number, p_name_en, p_name_vn, p_image, p_price_en, p_price_vn, p_category, p_tutorial, p_description_en, p_description_vn, p_age, p_stock_status, p_product_status) 
-            VALUES ('$p_number', '$p_name_en', '$p_name_vn', '$p_image', '$p_price_en', '$p_price_vn', '$p_category', '$p_tutorial_name', '$p_age', '$p_description_en', '$p_description_vn', '$p_stock_status', '$p_product_status')";
-
-  try {
-    $query = mysqli_query($conn, $sql);
-    header('Location: manageProduct.php');
-  } catch (Exception $e) {
-    var_dump($e);
-  }
-}
-
-$sqlCategory = "SELECT * FROM `category`";
-$resultCategory = mysqli_query($conn, $sqlCategory);
-
-// Kiểm tra xem có kết quả trả về không
-if ($resultCategory->num_rows > 0) {
-  $categories = array();
-  while ($row = $resultCategory->fetch_assoc()) {
-    $categories[] = $row['name_en'];
-  }
-}
-?>
-
-
-
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
 <head>
-  <?php include 'head.php' ?>
-  <?php include 'getAdmin.php' ?>
+  <%- include('head.ejs') %>
 
-  <!-- Place the first <script> tag in your HTML's <head> -->
-<script src="https://cdn.tiny.cloud/1/be9jpdenr0dn2q72l59n3xrecjq8xb9nhdexsuqvn6kfhk7g/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
-<!-- Place the following <script> and <textarea> tags your HTML's <body> -->
-<script>
-  tinymce.init({
-    selector: 'textarea',
-    plugins: [
-      // Core editing features
-      'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-      // Your account includes a free trial of TinyMCE premium features
-      // Try the most popular premium features until Sep 20, 2024:
-      'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
-    ],
-    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-    tinycomments_mode: 'embedded',
-    tinycomments_author: 'Author name',
-    mergetags_list: [
-      { value: 'First.Name', title: 'First Name' },
-      { value: 'Email', title: 'Email' },
-    ],
-    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-  });
-</script>
 </head>
 <Style>
   /* Thay đổi màu hover của nút */
@@ -158,7 +31,7 @@ if ($resultCategory->num_rows > 0) {
   <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
     <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
 
-      <?php include 'aside.php' ?>
+      <%- include('aside.ejs') %>
 
     </aside>
     <!-- Mobile sidebar -->
@@ -324,7 +197,7 @@ if ($resultCategory->num_rows > 0) {
     </aside>
     <div class="flex flex-col flex-1 w-full">
 
-      <?php include 'Profile_Header.php'; ?>
+      <%- include('Profile_Header.ejs') %>
 
       <main class="h-full pb-16 overflow-y-auto">
         <div class="container grid px-6 mx-auto">
@@ -339,13 +212,14 @@ if ($resultCategory->num_rows > 0) {
           <form action="addProduct.php" method="POST" enctype="multipart/form-data">
 
             <div class="form-group">
-
+              <div style="width: 65%" class="alert alert-success">
+                This feature will be updated soon!
+            </div>
               <label for="name">Number Product</label>
               <input class="form-control input" name="p_number" id="name" type="text" placeholder="Number Product">
             </div>
 
             <div class="form-group">
-
               <label for="name">Name Product (English)</label>
               <input class="form-control input" name="p_name_en" id="name_en" type="text" placeholder="Name Product">
             </div>
@@ -445,7 +319,7 @@ if ($resultCategory->num_rows > 0) {
 
             <div class="form-group">
               <button name="sbm" class="btn btn-primary" type="submit">Add Product</button>
-              <a style="margin:20px" href="../../en/product.php" class="btn btn-secondary">View Shop</a>
+              <a style="margin:20px" href="/product" class="btn btn-secondary">View Shop</a>
             </div>
           </form>
         </div>

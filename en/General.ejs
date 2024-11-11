@@ -10,7 +10,158 @@
         <link href="/style/bootstrap_4.5.0.css" rel="stylesheet">
         <link rel="icon" href="/images/keeppley_logo.webp" type="image/x-icon">
 </head>
+<style type="text/css">
+    body {
+        background: #f5f5f5;
 
+    }
+
+    .ui-w-80 {
+        width: 80px !important;
+        height: auto;
+    }
+
+    .btn-default {
+        border-color: rgba(24, 28, 33, 0.1);
+        background: rgba(0, 0, 0, 0);
+        color: #4E5155;
+    }
+
+    label.btn {
+        margin-bottom: 0;
+    }
+
+    .btn.btn-primary {
+        border-color: #007bff;
+        /* Màu xanh lam - mã hex Bootstrap mặc định cho primary */
+        background-color: #007bff;
+        color: #ffffff;
+        /* Màu trắng cho chữ */
+    }
+
+    .btn.btn-default {
+        border-color: #6c757d;
+        /* Màu xám nhạt - mã hex Bootstrap mặc định cho default */
+        background-color: #6c757d;
+        color: #ffffff;
+        /* Màu trắng cho chữ */
+    }
+
+    .btn.btn-danger {
+        border-color: #dc3545;
+        /* Màu đỏ - mã hex Bootstrap mặc định cho danger */
+        background-color: #dc3545;
+        color: #ffffff;
+        /* Màu trắng cho chữ */
+    }
+
+    .btn-outline-primary {
+        border-color: #26B4FF;
+        background: transparent;
+        color: #26B4FF;
+    }
+
+    .btn {
+        cursor: pointer;
+    }
+
+    .text-light {
+        color: #babbbc !important;
+    }
+
+    .btn-facebook {
+        border-color: rgba(0, 0, 0, 0);
+        background: #3B5998;
+        color: #fff;
+    }
+
+    .btn-instagram {
+        border-color: rgba(0, 0, 0, 0);
+        background: #000;
+        color: #fff;
+    }
+
+    .card {
+        background-clip: padding-box;
+        box-shadow: 0 1px 4px rgba(24, 28, 33, 0.012);
+    }
+
+    .row-bordered {
+        overflow: hidden;
+    }
+
+    .account-settings-fileinput {
+        position: absolute;
+        visibility: hidden;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+    }
+
+    .account-settings-links .list-group-item.active {
+        font-weight: bold !important;
+    }
+
+    html:not(.dark-style) .account-settings-links .list-group-item.active {
+        background: transparent !important;
+    }
+
+    .account-settings-multiselect~.select2-container {
+        width: 100% !important;
+    }
+
+    .light-style .account-settings-links .list-group-item {
+        padding: 0.85rem 1.5rem;
+        border-color: rgba(24, 28, 33, 0.03) !important;
+    }
+
+    .light-style .account-settings-links .list-group-item.active {
+        color: #4e5155 !important;
+    }
+
+    .material-style .account-settings-links .list-group-item {
+        padding: 0.85rem 1.5rem;
+        border-color: rgba(24, 28, 33, 0.03) !important;
+    }
+
+    .material-style .account-settings-links .list-group-item.active {
+        color: #4e5155 !important;
+    }
+
+    .dark-style .account-settings-links .list-group-item {
+        padding: 0.85rem 1.5rem;
+        border-color: rgba(255, 255, 255, 0.03) !important;
+    }
+
+    .dark-style .account-settings-links .list-group-item.active {
+        color: #fff !important;
+    }
+
+    .light-style .account-settings-links .list-group-item.active {
+        color: #4E5155 !important;
+    }
+
+    .light-style .account-settings-links .list-group-item {
+        padding: 0.85rem 1.5rem;
+        border-color: rgba(24, 28, 33, 0.03) !important;
+    }
+
+    .btn-cancel:hover {
+        background-color: #f5f5f5;
+    }
+
+    .btn-setting {
+        margin-bottom: 30px;
+        margin-right: 30px
+    }
+
+    @media only screen and (max-width: 600px) {
+        .btn-setting {
+            margin-bottom: 20px;
+            margin-right: 20px
+        }
+    }
+</style>
 <body>
     <%- include('header_home_en') %>
 
@@ -64,10 +215,10 @@
                                                 </div>
                                             </div>
                                             <div class="text-right mt-3">
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                                <button type="button" class="btn btn-default"
+                                                <button type="submit" class="btn btn-primary btn-setting">Save changes</button>
+                                                <button type="button" class="btn btn-default btn-cancel btn-setting"
                                                     id="cancelButton">Cancel</button>
-                                                <a href="/logout" class="btn btn-danger">Logout</a>
+                                                <a href="/logout" class="btn btn-danger btn-setting">Logout</a>
                                             </div>
                                 </form>
                             </div>
