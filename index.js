@@ -3,6 +3,8 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session'); // Import express-session
+const bcrypt = require('bcrypt');
+
 const conn = require('./connectDB');
 
 // Khởi tạo ứng dụng Express
@@ -62,6 +64,11 @@ const loginHandler = require('./login'); // Import loginHandler từ login.js
 
 // Sử dụng loginHandler cho route /login
 app.post('/login', loginHandler);
+
+const changePasswordRouter = require('./changePassword'); // Đảm bảo đường dẫn chính xác
+
+// Sử dụng route mới
+app.use('/', changePasswordRouter);
 
 const userRoutes = require('./user'); // Nhập file user.js
 // Sử dụng các route từ user.js
@@ -214,7 +221,9 @@ app.get('/footer_dark', auth_user, (req, res) => {
 app.get('/form_login_en', auth_user, (req, res) => {
   const website = 'form_login_en.ejs';
   const userLogin = res.locals.userLogin
-  res.render('form_login_en', { website, userLogin });
+  const successMessage = ''
+  const errorMessage = ''
+  res.render('form_login_en', { website, userLogin, successMessage, errorMessage });
 });
 
 // --------------------------------------------------------------------------- //
@@ -237,16 +246,40 @@ app.get('/Avatar', auth_user, (req, res) => {
   res.render('Avatar', { website, userLogin });
 });
 
-// const { upload, changeAvatar } = require('changeAvatar.js');
+const { upload: avatarUpload, changeAvatar } = require('./changeAvatar');
 
-// // Định tuyến đến trang avatar và cập nhật ảnh
-// app.post('/changeAvatar', upload.single('profileImage'), changeAvatar);
 
+// Định tuyến đến trang avatar và cập nhật ảnh
+app.post('/changeAvatar', avatarUpload.single('profileImage'), (req, res) => {
+  changeAvatar(req, res);
+});
+
+
+const countryList = require('./countryList'); // Đường dẫn đến file countryList.js
+
+// Trong tệp router hoặc controller
+function formatDateForInput(dateStr) {
+  if (!dateStr) return '';
+  const [day, month, year] = dateStr.split('/');
+  return `${year}-${month}-${day}`;
+}
+
+// Sử dụng trong route
 app.get('/Information', auth_user, (req, res) => {
   const website = 'Information.ejs';
-  const userLogin = res.locals.userLogin
-  res.render('Information', { website, userLogin });
+  const userLogin = res.locals.userLogin;
+  const error_message = '';
+  const success_message = '';
+
+  // Định dạng lại ngày trước khi render
+  userLogin.formattedBirthday = formatDateForInput(userLogin.birthday);
+
+  res.render('Information', { website, userLogin, error_message, success_message, countryList });
 });
+
+
+const informationRouter = require('./updateInformation');
+app.use('/', informationRouter);
 
 
 app.get('/Languages', auth_user, (req, res) => {
@@ -285,13 +318,15 @@ app.get('/LEGO_Products', auth_user, (req, res) => {
 app.get('/Password', auth_user, (req, res) => {
   const website = 'Password.ejs';
   const userLogin = res.locals.userLogin
-  res.render('Password', { website, userLogin });
+  const error_message = ''
+  const success_message = ''
+  res.render('Password', { website, userLogin, error_message, success_message });
 });
 
-app.get('/Notification', auth_user, (req, res) => {
-  const website = 'Notification.ejs';
+app.get('/Notifications', auth_user, (req, res) => {
+  const website = 'Notifications.ejs';
   const userLogin = res.locals.userLogin
-  res.render('Notification', { website, userLogin });
+  res.render('Notifications', { website, userLogin });
 });
 
 app.get('/Signup_en', auth_user, (req, res) => {
@@ -316,22 +351,31 @@ app.post('/register', (req, res) => {
 
     // Nếu userName đã tồn tại, gửi thông báo lỗi
     if (results.length > 0) {
-      successMessage =''
+      const successMessage = '';
       return res.render('form_login_en', { website, userLogin, errorMessage: "Username is already taken.", successMessage });
     }
 
-    // Nếu userName chưa tồn tại, tiếp tục đăng ký người dùng
-    const query = "INSERT INTO `user` (`userName`, `email`, `loginpassword`) VALUES (?, ?, ?)";
-    conn.query(query, [userName, email, password], (err, result) => {
+    // Hash mật khẩu trước khi lưu vào cơ sở dữ liệu
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
       if (err) {
         console.error(err);
         return res.status(500).json({ message: "Registration failed" });
       }
-      errorMessage =''
-      res.render('form_login_en', { website, userLogin, errorMessage, successMessage: "User registered successfully." });
+
+      // Nếu userName chưa tồn tại, tiếp tục đăng ký người dùng với mật khẩu đã được hash
+      const query = "INSERT INTO `user` (`userName`, `email`, `loginpassword`) VALUES (?, ?, ?)";
+      conn.query(query, [userName, email, hashedPassword], (err, result) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: "Registration failed" });
+        }
+
+        const errorMessage = '';
+        res.render('form_login_en', { website, userLogin, errorMessage, successMessage: "User registered successfully." });
+      });
     });
-  });
-});
+  })
+})
 
 
 // Route để lấy danh sách sản phẩm và render ra trang
@@ -379,7 +423,7 @@ app.get('/product', auth_user, (req, res) => {
   ])
     .then(([qmanCategories, keeppleyCategories, legoCategories]) => {
       // Render view và truyền dữ liệu categories vào EJS
-      res.render('product', { website, userLogin, qmanCategories, keeppleyCategories, legoCategories});
+      res.render('product', { website, userLogin, qmanCategories, keeppleyCategories, legoCategories });
     })
     .catch(error => {
       console.error(error);
@@ -403,7 +447,7 @@ app.get('/Product_Detail', auth_user, (req, res) => {
     if (resultProduct.length > 0) {
       const product = resultProduct[0];
       const productImages = product.p_image.split(',').map(img => img.trim());
-      
+
       // Kiểm tra và gán lại giá trị nếu ảnh thứ 2 và thứ 3 trống
       if (!productImages[1]) productImages[1] = productImages[0];
       if (!productImages[2]) productImages[2] = productImages[0];
@@ -425,222 +469,182 @@ app.get('/Product_Detail', auth_user, (req, res) => {
 });
 
 
-    // Route để lấy danh sách sản phẩm và render ra trang
-    app.get('/Qman_Products', auth_user, (req, res) => {
-      const website = 'Qman_Products.ejs';
-      const userLogin = res.locals.userLogin
+// Route để lấy danh sách sản phẩm và render ra trang
+app.get('/Qman_Products', auth_user, (req, res) => {
+  const website = 'Qman_Products.ejs';
+  const userLogin = res.locals.userLogin
 
-      const sqlQman = "SELECT * FROM `category` WHERE `provider` = 'Qman'";
+  const sqlQman = "SELECT * FROM `category` WHERE `provider` = 'Qman'";
 
-      conn.query(sqlQman, (err, results) => {
-        if (err) {
-          console.error("Error querying database: " + err.stack);
-          return res.status(500).send("Database query error");
-        }
+  conn.query(sqlQman, (err, results) => {
+    if (err) {
+      console.error("Error querying database: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
 
-        // Gán kết quả truy vấn vào mảng categories và render view
-        const categories = results.map(category => {
-          return {
-            id: category.id,
-            name: category.name_en,
-            images: category.images.split(',').map(img => img.trim()) // Tách chuỗi hình ảnh thành mảng
-          };
-        });
-
-        // Render view và truyền dữ liệu categories vào EJS
-        res.render('Qman_Products', { website, userLogin, categories });
-      });
+    // Gán kết quả truy vấn vào mảng categories và render view
+    const categories = results.map(category => {
+      return {
+        id: category.id,
+        name: category.name_en,
+        images: category.images.split(',').map(img => img.trim()) // Tách chuỗi hình ảnh thành mảng
+      };
     });
 
-    // Route để lấy danh sách sản phẩm và render ra trang
-    app.get('/Keeppley_Products', auth_user, (req, res) => {
-      const website = 'Keeppley_Products.ejs';
-      const userLogin = res.locals.userLogin
+    // Render view và truyền dữ liệu categories vào EJS
+    res.render('Qman_Products', { website, userLogin, categories });
+  });
+});
 
-      const sqlKeeppley = "SELECT * FROM `category` WHERE `provider` = 'Keeppley'";
+// Route để lấy danh sách sản phẩm và render ra trang
+app.get('/Keeppley_Products', auth_user, (req, res) => {
+  const website = 'Keeppley_Products.ejs';
+  const userLogin = res.locals.userLogin
 
-      conn.query(sqlKeeppley, (err, results) => {
-        if (err) {
-          console.error("Error querying database: " + err.stack);
-          return res.status(500).send("Database query error");
-        }
+  const sqlKeeppley = "SELECT * FROM `category` WHERE `provider` = 'Keeppley'";
 
-        // Gán kết quả truy vấn vào mảng categories và render view
-        const categories = results.map(category => {
-          return {
-            id: category.id,
-            name: category.name_en,
-            images: category.images.split(',').map(img => img.trim()) // Tách chuỗi hình ảnh thành mảng
-          };
-        });
+  conn.query(sqlKeeppley, (err, results) => {
+    if (err) {
+      console.error("Error querying database: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
 
-        // Render view và truyền dữ liệu categories vào EJS
-        res.render('Keeppley_Products', { website, userLogin, categories });
-      });
+    // Gán kết quả truy vấn vào mảng categories và render view
+    const categories = results.map(category => {
+      return {
+        id: category.id,
+        name: category.name_en,
+        images: category.images.split(',').map(img => img.trim()) // Tách chuỗi hình ảnh thành mảng
+      };
     });
 
-    app.get('/sario', auth_user, (req, res) => {
-      const website = 'sario.ejs';
-      const userLogin = res.locals.userLogin
-      res.render('sario', { website, userLogin });
-    });
+    // Render view và truyền dữ liệu categories vào EJS
+    res.render('Keeppley_Products', { website, userLogin, categories });
+  });
+});
 
-    app.get('/Sidebar', auth_user, (req, res) => {
-      const website = 'Sidebar.ejs';
-      const userLogin = res.locals.userLogin
-      res.render('Sidebar', { website, userLogin });
-    });
+app.get('/sario', auth_user, (req, res) => {
+  const website = 'sario.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('sario', { website, userLogin });
+});
 
-    app.get('/SocialLinks', auth_user, (req, res) => {
-      const website = 'SocialLinks.ejs';
-      const userLogin = res.locals.userLogin
-      res.render('SocialLinks', { website, userLogin });
-    });
+app.get('/Sidebar', auth_user, (req, res) => {
+  const website = 'Sidebar.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('Sidebar', { website, userLogin });
+});
 
-    app.get('/login_again_en', auth_user, (req, res) => {
-      const website = 'login_again_en.ejs';
-      const userLogin = res.locals.userLogin
-      res.render('login_again_en', { website, userLogin });
-    });
+app.get('/SocialLinks', auth_user, (req, res) => {
+  const website = 'SocialLinks.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('SocialLinks', { website, userLogin });
+});
 
-    app.get('/logout', (req, res) => {
-      // Hủy session
-      req.session.destroy((err) => {
-        if (err) {
-          console.error('Không thể hủy session:', err);
-          return res.status(500).send('Có lỗi xảy ra khi logout.');
-        }
+app.get('/login_again_en', auth_user, (req, res) => {
+  const website = 'login_again_en.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('login_again_en', { website, userLogin });
+});
 
-        // Xóa cookie của session (tùy chọn)
-        res.clearCookie('connect.sid'); // 'connect.sid' là tên mặc định của cookie session trong express-session
+app.get('/logout', (req, res) => {
+  // Hủy session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Không thể hủy session:', err);
+      return res.status(500).send('Có lỗi xảy ra khi logout.');
+    }
 
-        // Redirect đến trang đăng nhập hoặc trang chủ sau khi logout
-        res.redirect('/');
-      });
-    });
+    // Xóa cookie của session (tùy chọn)
+    res.clearCookie('connect.sid'); // 'connect.sid' là tên mặc định của cookie session trong express-session
 
-
-
-    // ----------------------- Admin -------------------------------- //
-    app.get('/Admin/index', auth_user, (req, res) => {
-      const website = 'index.ejs';
-      const userLogin = res.locals.userLogin
-      res.render('Admin/index', { website, userLogin });
-    });
+    // Redirect đến trang đăng nhập hoặc trang chủ sau khi logout
+    res.redirect('/');
+  });
+});
 
 
 
+// ----------------------- Admin -------------------------------- //
+app.get('/Admin/index', auth_user, (req, res) => {
+  const website = 'index.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('Admin/index', { website, userLogin });
+});
+
+app.get('/Admin/addProduct', auth_user, (req, res) => {
+  const website = 'addProduct.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('Admin/addProduct', { website, userLogin });
+});
+
+app.get('/Admin/addCategory', auth_user, (req, res) => {
+  const website = 'addCategory.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('Admin/addCategory', { website, userLogin });
+});
+
+app.get('/Admin/manageUser', auth_user, (req, res) => {
+  const sql = "SELECT * FROM user";
+  const website = 'manageUser.ejs';
+  const userLogin = res.locals.userLogin
+  conn.query(sql, (error, results) => {
+     if (error) throw error;
+
+     const users = results.map(user => ({
+        id: user.userID,
+        name: user.userName,
+        email: user.email,
+        image: user.image
+     }));
+
+     res.render('Admin/manageUser', { website, userLogin, users }); 
+  });
+});
+
+app.get('/Admin/manageProduct', auth_user, (req, res) => {
+  const sql = "SELECT * FROM product";
+  const website = 'manageProduct.ejs';
+  const userLogin = res.locals.userLogin
+  conn.query(sql, (error, results) => {
+     if (error) throw error;
+
+     const products = results.map(product => ({
+        ...product,
+        p_image: product.p_image.split(',').map(img => img.trim())
+     }));
+
+     res.render('Admin/manageProduct', { website, userLogin, products }); 
+  });
+});
 
 
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
+app.get('/Admin/comment', auth_user, (req, res) => {
+  const website = 'comment.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('Admin/comment', { website, userLogin });
+});
 
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
+app.get('/Admin/ManageOrder', auth_user, (req, res) => {
+  const website = 'ManageOrder.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('Admin/ManageOrder', { website, userLogin });
+});
 
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
+app.get('/Admin/ManageDiscount', auth_user, (req, res) => {
+  const website = 'ManageDiscount.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('Admin/ManageDiscount', { website, userLogin });
+});
 
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
+app.get('/Admin/ManageReview', auth_user, (req, res) => {
+  const website = 'ManageReview.ejs';
+  const userLogin = res.locals.userLogin
+  res.render('Admin/ManageReview', { website, userLogin });
+});
 
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-
-    // app.get('/Category_Product', auth_user, (req, res) => {
-    //   const website = 'Category_Product.ejs';
-    //   const userLogin = res.locals.userLogin
-    //   res.render('Category_Product', { website, userLogin });
-    // });
-    // Cấu hình cổng để server lắng nghe
-    const PORT = process.env.PORT || 3001;
-    app.listen(PORT, () => {
-      console.log("Server is running on http://localhost:3001");
-    });
+// Cấu hình cổng để server lắng nghe
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log("Server is running on http://localhost:3001");
+});

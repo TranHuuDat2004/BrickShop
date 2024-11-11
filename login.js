@@ -1,5 +1,6 @@
-// Import kết nối cơ sở dữ liệu
+// Import kết nối cơ sở dữ liệu và bcrypt
 const conn = require('./connectDB');
+const bcrypt = require('bcrypt');
 
 // Hàm xử lý đăng nhập
 const loginHandler = (req, res) => {
@@ -14,19 +15,28 @@ const loginHandler = (req, res) => {
     return res.redirect('/Admin/index');
   } else {
     conn.query(
-      'SELECT * FROM `user` WHERE username = ? AND loginpassword = ?',
-      [username, password],
+      'SELECT * FROM `user` WHERE username = ?',
+      [username],
       (err, results) => {
-        if (err) {
-          console.error("Query Error: " + err);
-          return res.redirect('/login_again_en');
+        if (err || results.length === 0) {
+          const website = 'form_login_en.ejs';
+          const userLogin = res.locals.userLogin;
+          const successMessage = '';
+          const errorMessage = 'Invalid username and password';
+          return res.render('form_login_en', { website, userLogin, successMessage, errorMessage });
         }
 
-        if (results.length === 0) {
-          req.session.error0 = 'Invalid username or password';
-          return res.redirect('/login_again_en');
-        } else {
-          // Lưu thông tin user vào session
+        // Kiểm tra mật khẩu hash
+        bcrypt.compare(password, results[0].loginpassword, (err, isMatch) => {
+          if (err || !isMatch) {
+            const website = 'form_login_en.ejs';
+            const userLogin = res.locals.userLogin;
+            const successMessage = '';
+            const errorMessage = 'Invalid username and password';
+            return res.render('form_login_en', { website, userLogin, successMessage, errorMessage });
+          }
+
+          // Lưu thông tin user vào session nếu mật khẩu khớp
           req.session.userLogin = {
             userID: results[0].userID,
             userName: results[0].userName,
@@ -37,12 +47,11 @@ const loginHandler = (req, res) => {
             bio: results[0].bio,
             country: results[0].country,
             phone: results[0].phone
-        };
-        
+          };
+
           delete req.session.error0;
-          console.log(req.session.userID)
           return res.redirect('/');
-        }
+        });
       }
     );
   }

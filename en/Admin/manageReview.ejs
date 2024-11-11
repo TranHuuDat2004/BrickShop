@@ -1,50 +1,8 @@
-<!--php-->
-<?php
-
-include 'login.php';
-// Chưa đăng nhập 
-if (isset($_SESSION["adminID"])){
-    $adminID = $_SESSION["adminID"];
-    // print_r($userName);
-    $sqlLogin = "SELECT * FROM `Admin` WHERE adminID = '$adminID' ";
-    $queryLogin = mysqli_query($conn, $sqlLogin);
-    // print_r($queryLogin);
-    // Kiểm tra kết quả truy vấn
-
-    // Duyệt qua từng hàng dữ liệu từ kết quả truy vấn
-    $row = $queryLogin->fetch_assoc();
-    // Thêm thông tin từng hàng vào mảng $userLogin
-    $userLogin = array(
-        "adminID" => $row["adminID"],
-        "userName" => $row["userName"],
-        "email" => $row["email"],
-        "image" => $row["image"],
-        "loginpassword" => $row["loginpassword"],
-        "birthday" => $row["birthday"],
-        "bio" => $row["bio"],
-        "country" => $row["country"],
-        "phone" => $row["phone"]
-    );
-}
-
-else {    
-    // Chưa đăng nhập 
-    header('Location: login_admin_en.php');
-    exit();
-}
-
-require_once '../connection/connectData.php';
-
-// $sql = "SELECT * from review";
-// $query = mysqli_query($conn, $sql);
-?>
-
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
 <head>
-<?php include 'head.php' ?>
-<?php include 'getAdmin.php' ?>
+<%- include('head.ejs') %>
 </head>
 
 <body>
@@ -52,7 +10,7 @@ require_once '../connection/connectData.php';
     <!-- Desktop sidebar -->
     <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
 
-      <?php include 'aside.php' ?>
+      <%- include('aside.ejs') %>
     </aside>
     <!-- Mobile sidebar -->
     <!-- Backdrop -->
@@ -217,7 +175,7 @@ require_once '../connection/connectData.php';
     </aside>
     <div class="flex flex-col flex-1">
 
-      <?php include 'Profile_Header.php'; ?>
+      <%- include('Profile_Header.ejs') %>
 
       <main class="h-full pb-16 overflow-y-auto">
         <div class="container grid px-6 mx-auto">

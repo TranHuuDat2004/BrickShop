@@ -28,7 +28,7 @@ db.connect((err) => {
         console.error('Kết nối thất bại: ', err.message);
         return;
     }
-    console.log('Kết nối MySQL thành công!');
+    // console.log('Kết nối MySQL thành công!');
 });
 
 // Hàm xử lý yêu cầu cập nhật thông tin người dùng

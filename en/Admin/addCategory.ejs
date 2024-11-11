@@ -1,60 +1,8 @@
-<!--php-->
-<?php
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "keeppley-shop";
-
-// Tạo kết nối
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if (isset($_POST['sbm'])) {
-    // Get the form inputs
-    $name_en = $_POST['name_en'];
-    $name_vn = $_POST['name_vn'];
-    $provider = $_POST['provider'];
-
-    $p_images = $_FILES['p_image']['name'];
-    $p_images_tmp = $_FILES['p_image']['tmp_name'];
-    $p_image_paths = []; // Mảng để chứa các đường dẫn ảnh
-
-  // Duyệt qua từng ảnh và di chuyển vào thư mục 'images/'
-  foreach ($p_images as $index => $p_image) {
-    $p_image_tmp = $p_images_tmp[$index];
-    $image_path = $p_image;
-    move_uploaded_file($p_image_tmp, '../images/' . $image_path);
-    $p_image_paths[] = $image_path;
-  }
-
-  // Ghép các đường dẫn ảnh thành một chuỗi, ngăn cách bởi dấu phẩy
-  $p_image = implode(',', $p_image_paths);
-
-    // Prepare the SQL query to insert the category data
-    $sql = "INSERT INTO category (name_en, name_vn, images, provider) 
-            VALUES ('$name_en', '$name_vn', '$p_image', '$provider')";
-
-    // Execute the query
-    if (mysqli_query($conn, $sql)) {
-        echo "Category added successfully!";
-        // Redirect to a success page or back to the form
-        header('Location: manageCategories.php');
-    } else {
-        echo "Error: " . mysqli_error($conn);
-    }
-    mysqli_close($conn);
-}
-
-
-?>
-
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
 <head>
-  <?php include 'head.php' ?>
-  <?php include 'login.php' ?>
-  <?php include 'getAdmin.php' ?>
+  <%- include('head.ejs') %>
 </head>
 <Style>
   /* Thay đổi màu hover của nút */
@@ -84,7 +32,7 @@ if (isset($_POST['sbm'])) {
     <!-- Desktop sidebar -->
     <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
 
-      <?php include 'aside.php' ?>
+      <%- include('aside.ejs') %>
     </aside>
     <!-- Mobile sidebar -->
     <!-- Backdrop -->
@@ -253,6 +201,9 @@ if (isset($_POST['sbm'])) {
 
         <div class="form-container container mt-5">
           <form method="POST" enctype="multipart/form-data">
+            <div style="width: 80%" class="alert alert-success">
+              This feature will be updated soon!
+          </div>
             <h2 class="stext-121 my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
               Add Category
             </h2>
