@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 09, 2024 lúc 08:29 AM
+-- Thời gian đã tạo: Th10 12, 2024 lúc 09:31 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -68,11 +68,15 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name_en`, `name_vn`, `images`, `provider`) VALUES
+(1, 'Build & Fun', 'Build & Fun', 'Build&Fun0.jpg,Build&Fun1.jpg', 'Qman'),
 (2, 'Doraemon', 'Doraemon', 'Doraemon0.jpg,Doraemon1.jpg', 'Keeppley'),
 (3, 'Sario', 'Sario', 'Sario0.jpg,Sario1.jpg', 'Keeppley'),
+(4, 'Conan', 'Conan', 'Conan0.jpg,Conan1.jpg', 'Keeppley'),
 (5, 'Sumikko', 'Sumikko', 'Sumikko0.jpg,Sumikko1.jpg', 'Qman'),
-(6, 'Build & Fun', 'Build & Fun', 'Build&Fun0.jpg,Build&Fun1.jpg', 'Qman'),
-(4, 'Conan', 'Conan', 'Conan0.jpg,Conan1.jpg', 'Keeppley');
+(6, 'Lego Nexo Knight', 'Lego Nexo Knight', 'legonexoknight0.png,legonexoknight1.jpg', 'LEGO'),
+(7, 'Lego Ninjago', 'Lego Ninjago', 'legoninjago0.png,legoninjago1.jpg', 'LEGO'),
+(8, 'Lego Chima', 'Lego Chima', 'legochima0.png,legochima1.jpg', 'LEGO'),
+(9, 'Lego City', 'Lego City', 'legocity0.png,legocity1.jpg', 'LEGO');
 
 -- --------------------------------------------------------
 
@@ -120,14 +124,20 @@ INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, 
 (17, 'K20703', 'Kid', 'Kid', 'Kid.jpg,,', '9.99', '0', 'Conan', 'K20703.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (18, 'K20704', 'Ai Haibara', 'Ai Haibara', 'Ai Haibara.jpg,,', '9.99', '0', 'Conan', 'K20704.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (19, '35011', 'Sweetie Story', 'Sweetie Story', 'Sweet.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(20, '77012', 'Relax Coffee Time', 'Relax Coffee Time', 'Coffee.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (21, '35012', 'Burger', 'Burger', 'Burger.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (22, '35014', 'Qtea-PDQ', 'Qtea-PDQ', 'Qtea.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (23, '35015', 'Qman Mart-PDQ', 'Qman Mart-PDQ', 'Qmart.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (24, '77011', 'Comfortable Corner', 'Comfortable Corner', 'Comforable Corner.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(20, '77012', 'Relax Coffee Time', 'Relax Coffee Time', 'Coffee.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(25, '77013', 'Delicious Bento', 'Delicious Bento', 'Bento.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller')
-
-;
+(25, '77013', 'Delicious Bento', 'Delicious Bento', 'Bento.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(26, '70365', 'Battle Sult Axl', 'Lego Axl', 'Axl.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70365.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(27, '70362', 'Battle Sult Clay', 'Battle Sult Clay', 'Clay.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70362.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(28, '70363', 'Battle Sult Macy', 'Battle Sult Macy', 'Macy.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70363.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(29, '70364', 'Battle Sult Arron', 'Battle Sult Arron', 'Aaron.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70364.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(30, '70366', 'Battle Sult Lance', 'Battle Sult Lance', 'Lance.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70366.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(31, '71781', 'Lloyd Mech Battle', 'Lloyd Mech Battle', '71781.jpg,,', '9.99', '0', 'Lego Ninjago', '71781.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(32, '60312', 'Police Car', 'Police Car', '60312.jpg,,', '9.99', '0', 'Lego City', '60312.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(33, '70230', 'Ice Bear Tribe', 'Ice Bear Tribe', '70230.jpg,,', '9.99', '0', 'Lego Chima', '70230.pdf', '', '', 0, '12+', 'in_stock', 'bestseller');
 
 -- --------------------------------------------------------
 
@@ -152,21 +162,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `userName`, `email`, `loginpassword`, `image`, `birthday`, `bio`, `country`, `phone`) VALUES
-(1, 'admin', 'admin123@gmail.com', '1230', '', NULL, '', '', '0'),
-(2, 'khanhne', 'Khanhne@gmail.com', '1234', 'ThuyKhanh1.jpg', '2024-08-01', 'À Nhon, Mình là nhóm trưởng đây', 'Việt Nam', '0902313725'),
-(14, 'TranHuuDat', 'huudat.lego@gmail.com', 'huudat', 'ThuyLinh.jpg', '2024-08-05', 'HELLO', 'Việt Nam', '0902313725'),
-(15, 'TranHuuDat123', 'huudat.mini', 'huudat', '', NULL, '', '', '0'),
-(16, 'DuongThiThuyLinh', 'DuongThiThuyLinh', '1234', '', NULL, '', '', '0'),
-(17, 'NguyenThuyKhanh', 'NguyenThuyKhanh', '1234', '', NULL, '', '', '0'),
-(19, 'TestA', 'TestA', '1234', '', NULL, '', '', '0'),
-(21, 'DaoMinhPhuc', 'DaoMinhPhuc@gmail.com', '1234', '', NULL, '', '', '0'),
-(23, 'huudat', 'huudat', 'huudat', '', NULL, '', '', '0'),
-(24, 'mini', 'mini', 'mini', '', NULL, '', '', '0'),
-(25, 'MIni World', 'TranHuuDat@gmail.com', '123456', '', NULL, '', '', '0'),
-(26, 'SaoTinhNghich', 'my.love.lego.city@gmail.com', 'huudat', '', NULL, '', '', ''),
-(27, 'Melody', 'Melody@gmail.com', 'huudat', 'Mymelody.webp', '2024-08-01', 'Ta là Melody đây', 'Việt Nam', '0909141761'),
-(28, 'Kuromi', 'Kuromi@gmail.com', 'huudat', '', NULL, '', '', ''),
-(29, 'Hello Kitty', 'HelloKitty@gmail.com', 'huudat', 'Mymelody.webp', '2024-08-03', 'Hello Kitty', 'Việt Nam', '0909141761');
+(31, 'Tranhuudat', 'huudat.peashooer@gmail.com', '$2b$10$S8/F.zGc9JX48dLGJEnDFefFbepVSmoD4zSjCYZDmdycRm6WxJ9Si', 'Cole.jpg', '0000-00-00', 'Hi', 'Việt Nam', '0909141'),
+(32, 'huyle', 'huyle@gmail.com', '$2b$10$7cRJjtF2d7XyBPNyqVWcVOWZxULd1oYnfdOct391qn8LDGcatqRT2', 'Jay.jpg', '2024-11-11', 'Hi', 'Việt Nam', '0909');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -210,19 +207,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT cho bảng `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `userID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

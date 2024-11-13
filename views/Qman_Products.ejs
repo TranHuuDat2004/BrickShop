@@ -1,0 +1,68 @@
+<?php $website = 'product.php'; ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('head.ejs') %>
+    <title>Brick Shop - Qman Products</title>
+    <link rel="stylesheet" href="../css/product.css" />
+</head>
+
+
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <%- include('header_home_en.ejs') %>
+    </header>
+
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../en/index.php">Home</a></li>
+            <li class="breadcrumb-item"><a href="../en/product.php">Products</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Qman</li>
+        </ol>
+    </nav>
+
+    <!-- Brands Section -->
+    <section class="brands">
+        <div class="brand-logo">
+            <img src="../images/Qman_Wallpaper.png" alt="Product">
+        </div>
+    </section>
+
+    <section class="products">
+        <h2>Qman Products</h2>
+        <div class="product-grid">
+            <% if (categories.length> 0) { %>
+                <% categories.forEach(category=> { %>
+                    <a href="/Category_Product/?id=<%= category.id %>">
+                        <div class="product">
+                            <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+                            <img src="../images/<%= category.images[0] %>" alt="<%= category.name %>">
+                            <p>
+                                <%= category.name %>
+                            </p>
+                        </div>
+                    </a>
+                    <% }) %>
+                        <% } else { %>
+                            <p>No products available</p>
+                            <% } %>
+        </div>
+    </section>
+
+        <!-- Footer Section -->
+        <footer id="footer-section">
+            <%- include('footer.ejs') %>
+        </footer>
+    
+        <!-- Cart Section -->
+        <%- include('cart.ejs') %>
+
+</body>
+
+</html>
