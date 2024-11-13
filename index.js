@@ -13,13 +13,8 @@ const app = express();
 // Cấu hình view engine là EJS
 app.set('view engine', 'ejs');
 
-// Middleware để chọn thư mục views dựa trên ngôn ngữ
-app.use((req, res, next) => {
-  const lang = req.query.lang || 'en'; // Giả sử truyền ngôn ngữ qua query parameter 'lang'
-  const viewsDir = lang === 'vn' ? 'vn' : 'en';
-  app.set('views', path.join(__dirname, viewsDir));
-  next();
-});
+// Cấu hình thư mục views và engine
+app.set('views', path.join(__dirname, 'views'));
 
 
 // Lấy thư mục ảnh
