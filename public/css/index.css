@@ -400,7 +400,96 @@ body {
   }
 }
 
+.products {
+  padding: 20px;
+}
 
+.products h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 20px 100px;
+  /* 5 cột, mỗi cột có cùng kích thước */
+  gap: 20px;
+  /* Khoảng cách giữa các sản phẩm */
+  margin-bottom: 40px;
+  /* Khoảng cách dưới */
+}
+
+
+/* Responsive Styles Header */
+@media (max-width: 1400px) {
+  .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      /* 4 cột, mỗi cột có cùng kích thước */
+      gap: 20px;
+      /* Khoảng cách giữa các sản phẩm */
+      margin-bottom: 40px;
+      /* Khoảng cách dưới */
+      padding: 10px 0px;
+  }
+
+}
+
+/* Responsive Styles Header */
+@media (max-width: 900px) {
+  .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      /* 2 cột, mỗi cột có cùng kích thước */
+      gap: 20px;
+      /* Khoảng cách giữa các sản phẩm */
+      margin-bottom: 40px;
+      /* Khoảng cách dưới */
+      padding: 10px 0px;
+  }
+
+}
+
+/* Responsive Styles Header */
+@media (max-width: 768px) {
+  .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      /* 2 cột, mỗi cột có cùng kích thước */
+      gap: 20px;
+      /* Khoảng cách giữa các sản phẩm */
+      margin-bottom: 40px;
+      /* Khoảng cách dưới */
+      padding: 10px 0px;
+  }
+
+}
+
+.product {
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 10px;
+  text-align: center;
+}
+
+.product img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.product p {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+h4{
+  text-align: center;
+}
+
+h2{
+  text-align: center;
+}
 /* Footer */
 footer a {
   color: #000;

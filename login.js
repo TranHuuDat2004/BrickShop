@@ -43,7 +43,7 @@ const loginHandler = (req, res) => {
             email: results[0].email,
             image: results[0].image,
             loginpassword: results[0].loginpassword,
-            birthday: results[0].birthday,
+            address: results[0].address,
             bio: results[0].bio,
             country: results[0].country,
             phone: results[0].phone

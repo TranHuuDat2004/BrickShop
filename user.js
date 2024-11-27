@@ -23,7 +23,7 @@ router.get('/profile', (req, res) => {
                     email: row.email,
                     image: row.image,
                     loginpassword: row.loginpassword,
-                    birthday: row.birthday,
+                    address: row.address,
                     bio: row.bio,
                     country: row.country,
                     phone: row.phone

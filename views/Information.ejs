@@ -202,10 +202,9 @@
                                                     rows="5"><%= userLogin.bio %></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label">Birthday</label>
-                                                <input type="date" class="form-control" name="birthday" id="birthday"
-                                                    value="<%= userLogin.formattedBirthday %>">
-
+                                                <label class="form-label">Address</label>
+                                                <input type="text" class="form-control" name="address"
+                                                    value="<%= userLogin.address %>">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">Country</label>
@@ -272,10 +271,6 @@
         <script>
             const countryList = JSON.stringify(countryList)
 
-            function formatDate(dateStr) {
-                const [day, month, year] = dateStr.split('/');
-                return `${year}-${month}-${day}`;
-            }
         </script>
 </body>
 
