@@ -493,9 +493,9 @@
             </div> -->
 
             <!-- Show Icon cart and Profile Avatar -->
+            <button class="btn-cart"><i id="cartButton" class="fa-duotone fa-solid fa-cart-shopping fa-2xl"
+                    style="color: #d0021b; padding-right:10px"></i></button>
             <% if (userLogin && userLogin.userName) { %>
-                <button class="btn-cart"><i id="cartButton" class="fa-duotone fa-solid fa-cart-shopping fa-2xl"
-                        style="color: #d0021b; padding-right:10px"></i></button>
                 <div class="language-switcher">
                     <% if (!userLogin.image) { %>
                         <a href="/General"><img class="img-user" src="/user/male.png" width="50" height="50"></a>
