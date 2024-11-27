@@ -181,9 +181,8 @@
             }
 
             .description {
-                padding: 12px;
                 background-color: #fff;
-                font-size: 22px;
+                font-size: 16px;
             }
 
             .update-later {
@@ -236,6 +235,28 @@
             .thumbnail-section .arrow i {
                 font-size: 24px;
                 color: #d0021b;
+            }
+
+            .thumbnail-grid {
+                display: flex;
+                flex-wrap: wrap;
+                /* Cho phép các ảnh tự xuống dòng */
+                gap: 10px;
+                /* Khoảng cách giữa các ảnh */
+                justify-content: center;
+                max-width: 600px;
+                /* Đặt chiều rộng tối đa nếu cần */
+            }
+
+            .thumbnail-grid img {
+                cursor: pointer;
+                border: 2px solid transparent;
+                transition: border 0.3s ease;
+                object-fit: cover;
+            }
+
+            .thumbnail-grid img:hover {
+                border: 2px solid #d0021b;
             }
 
             .details-section {
@@ -331,6 +352,16 @@
                 cursor: pointer;
             }
 
+            .details-section .buy-now {
+                margin-top: 20px;
+                background-color: black;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
             .details-section .tutorial {
                 margin-top: 20px;
                 background-color: #007bff;
@@ -414,7 +445,80 @@
                 color: #6c757d;
             }
 
-            
+            .comments-container {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                margin: 20px;
+            }
+
+            .comments-section h2 {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            .comment {
+                display: flex;
+                margin-bottom: 20px;
+            }
+
+            .comment img {
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                margin-right: 10px;
+            }
+
+            .comment .comment-details {
+                flex: 1;
+            }
+
+            .comment .comment-details .name {
+                font-weight: bold;
+            }
+
+            .comment .comment-details .stars {
+                color: #f5c518;
+            }
+
+            .comment .comment-details .description {
+                margin-top: 5px;
+            }
+
+            .select-options {
+                margin-top: 20px;
+            }
+
+            .select-options label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .select-options .checkbox-group {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .select-options .checkbox-group label {
+                margin-right: 10px;
+                margin-bottom: 10px;
+                padding: 5px 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .select-options .checkbox-group input[type="radio"] {
+                display: none;
+            }
+
+            .select-options .checkbox-group input[type="radio"]:checked+label {
+                background-color: #d0021b;
+                color: #fff;
+                border-color: #d0021b;
+            }
+
 
             .notification {
                 position: fixed;
@@ -498,16 +602,12 @@
                     src="../images/<%= productImages[0] %>" width="600">
             </div>
             <div class="thumbnail-section">
-                <div class="arrow" onclick="prevImage()">
-                    <i class="fas fa-chevron-left"></i>
+                <div class="thumbnail-grid">
+                    <% productImages.forEach((image, index)=> { %>
+                        <img alt="Thumbnail of product image" height="100" src="../images/<%= image %>" width="100"
+                            onclick="changeImage('../images/<%= image %>')" />
+                        <% }); %>
                 </div>
-                <% productImages.forEach((image, index)=> { %>
-                    <img alt="Thumbnail of product image" height="100" src="../images/<%= image %>" width="100"
-                        onclick="changeImage('../images/<%= image %>')" />
-                    <% }); %>
-                        <div class="arrow" onclick="nextImage()">
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
             </div>
         </div>
 
@@ -535,11 +635,26 @@
                 <li>Free Nationwide Shipping on Orders Over 20$</li>
                 <li>Fast Delivery in 4-7 Hours</li>
             </ul>
+
+            <div class="select-options">
+                <label>Select type:</label>
+                <div class="checkbox-group">
+                    <% group.forEach((product) => { %>
+                        <input id="product-<%= product.product_id %>" name="product" type="radio" value="<%= product.product_id %>" />
+                        <label for="product-<%= product.product_id %>">
+                            <%= product.p_name_en %>
+                        </label>
+                    <% }); %>
+                </div>
+            </div>
+
+
             <div class="quantity">
                 <button class="btn-num" onclick="decreaseQuantity()">-</button>
                 <input type="text" id="quantity" value="1" />
                 <button class="btn-num" onclick="increaseQuantity()">+</button>
             </div>
+
             <div>
                 <button onclick="buyItem()" class="add-to-cart">Add to Cart</button>
                 <!-- Thông báo cho Add to Cart -->
@@ -548,18 +663,12 @@
                     <p><b>This feature will be updated soon!</b></p>
                 </div>
 
-                <% if (product.p_tutorial) { %>
-                    <a href="../pdf/<%= product.p_category %>/<%= product.p_tutorial %>" target="_blank">
-                        <button class="tutorial">View Instruction</button>
-                    </a>
-                    <% } else { %>
-                        <button onclick="showTutorialNotification()" class="tutorial">View Instruction</button>
-                        <!-- Thông báo cho View Instruction -->
-                        <div id="notification-tutorial" class="notification hidden">
-                            <i class="fas fa-check-circle checkmark"></i>
-                            <p><b>Instruction available for Keeppley & LEGO Products</b></p>
-                        </div>
-                        <% } %>
+                <button onclick="buyItem()" class="buy-now">Buy now</button>
+                <!-- Thông báo cho Add to Cart -->
+                <div id="notification-cart" class="notification hidden">
+                    <i class="fas fa-check-circle checkmark"></i>
+                    <p><b>This feature will be updated soon!</b></p>
+                </div>
             </div>
 
 
@@ -593,6 +702,61 @@
             </div>
         </div>
     </div>
+
+    <div class="comments-container">
+        <div class="comments-section">
+            <h2>
+                User Comments
+            </h2>
+            <div class="comment">
+                <img alt="User profile picture" height="50" src="../im" width="50" />
+                <div class="comment-details">
+                    <p class="name">
+                        User 1
+                    </p>
+                    <p class="stars">
+                        ★★★★☆
+                    </p>
+                    <p class="description">
+                        Great product! My kids love it.
+                    </p>
+                </div>
+            </div>
+            <div class="comment">
+                <img alt="User profile picture" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/RGFsUXfDGKwaRit8kOlCMG7yz04xjEcBLNhbkgJFz9s3TX6JA.jpg"
+                    width="50" />
+                <div class="comment-details">
+                    <p class="name">
+                        User 2
+                    </p>
+                    <p class="stars">
+                        ★★★★★
+                    </p>
+                    <p class="description">
+                        Excellent quality and fast shipping.
+                    </p>
+                </div>
+            </div>
+            <div class="comment">
+                <img alt="User profile picture" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/RGFsUXfDGKwaRit8kOlCMG7yz04xjEcBLNhbkgJFz9s3TX6JA.jpg"
+                    width="50" />
+                <div class="comment-details">
+                    <p class="name">
+                        User 3
+                    </p>
+                    <p class="stars">
+                        ★★★☆☆
+                    </p>
+                    <p class="description">
+                        Good product but a bit expensive.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer Section -->
     <footer id="footer-section">
         <%- include('footer.ejs') %>

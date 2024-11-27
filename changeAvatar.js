@@ -14,21 +14,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Kết nối MySQL
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'keeppley-shop'
-});
-
-db.connect((err) => {
-    if (err) {
-        console.error('Kết nối thất bại: ', err.message);
-        return;
-    }
-    // console.log('Kết nối MySQL thành công!');
-});
+const conn = require('./connectDB'); // Đảm bảo bạn đã kết nối với cơ sở dữ liệu
 
 const changeAvatar = (req, res) => {
     const userID = req.body.userID;
@@ -38,7 +24,7 @@ const changeAvatar = (req, res) => {
     if (req.body.defaultImage) {
         const defaultImage = path.basename(req.body.defaultImage);
         sql = `UPDATE user SET image = ? WHERE userID = ?`;
-        db.query(sql, [defaultImage, userID], (err) => {
+        conn.query(sql, [defaultImage, userID], (err) => {
             if (err) {
                 console.error('Lỗi:', err.message);
                 return res.status(500).send('Có lỗi xảy ra.');
@@ -54,7 +40,7 @@ const changeAvatar = (req, res) => {
     else if (req.file) {
         const imagePath = req.file.filename;
         sql = `UPDATE user SET image = ? WHERE userID = ?`;
-        db.query(sql, [imagePath, userID], (err) => {
+        conn.query(sql, [imagePath, userID], (err) => {
             if (err) {
                 console.error('Lỗi:', err.message);
                 return res.status(500).send('Có lỗi xảy ra.');

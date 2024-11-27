@@ -81,14 +81,104 @@ app.get('/', auth_user, (req, res) => {
   const website = 'index.ejs'; // Lấy tên file từ URL
   const userLogin = res.locals.userLogin
   console.log(userLogin)
-  res.render('index', { website, userLogin });
+  // Truy vấn danh sách sản phẩm của từng nhà cung cấp
+  const sqlQman = "SELECT * FROM `category` WHERE `provider` = 'Qman'";
+  const sqlKeeppley = "SELECT * FROM `category` WHERE `provider` = 'Keeppley'";
+  const sqlLEGO = "SELECT * FROM `category` WHERE `provider` = 'LEGO'";
+
+  // Dùng Promise để chạy các truy vấn đồng thời và đợi tất cả hoàn thành
+  Promise.all([
+    new Promise((resolve, reject) => {
+      conn.query(sqlQman, (err, results) => {
+        if (err) reject("Error querying Qman: " + err.stack);
+        else resolve(results.map(category => ({
+          id: category.id,
+          name: category.name_en,
+          images: category.images ? category.images.split(',').map(img => img.trim()) : [] // Tách chuỗi hình ảnh thành mảng
+        })).slice(0, 4)); // Lấy 4 mục đầu tiên
+      });
+    }),
+    new Promise((resolve, reject) => {
+      conn.query(sqlKeeppley, (err, results) => {
+        if (err) reject("Error querying Keeppley: " + err.stack);
+        else resolve(results.map(category => ({
+          id: category.id,
+          name: category.name_en,
+          images: category.images ? category.images.split(',').map(img => img.trim()) : []
+        })).slice(0, 4)); // Lấy 4 mục đầu tiên
+      });
+    }),
+    new Promise((resolve, reject) => {
+      conn.query(sqlLEGO, (err, results) => {
+        if (err) reject("Error querying LEGO: " + err.stack);
+        else resolve(results.map(category => ({
+          id: category.id,
+          name: category.name_en,
+          images: category.images ? category.images.split(',').map(img => img.trim()) : []
+        })).slice(0, 4)); // Lấy 4 mục đầu tiên
+      });
+    })
+  ])
+    .then(([qmanCategories, keeppleyCategories, legoCategories]) => {
+      // Render view và truyền dữ liệu categories vào EJS
+      res.render('index', { website, userLogin, qmanCategories, keeppleyCategories, legoCategories });
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).send("Database query error");
+    });
 });
 
 app.get('/index', auth_user, (req, res) => {
   const website = 'index.ejs'; // Lấy tên file từ URL
   const userLogin = res.locals.userLogin
   console.log(userLogin)
-  res.render('index', { website, userLogin });
+    // Truy vấn danh sách sản phẩm của từng nhà cung cấp
+    const sqlQman = "SELECT * FROM `category` WHERE `provider` = 'Qman'";
+    const sqlKeeppley = "SELECT * FROM `category` WHERE `provider` = 'Keeppley'";
+    const sqlLEGO = "SELECT * FROM `category` WHERE `provider` = 'LEGO'";
+  
+    // Dùng Promise để chạy các truy vấn đồng thời và đợi tất cả hoàn thành
+    Promise.all([
+      new Promise((resolve, reject) => {
+        conn.query(sqlQman, (err, results) => {
+          if (err) reject("Error querying Qman: " + err.stack);
+          else resolve(results.map(category => ({
+            id: category.id,
+            name: category.name_en,
+            images: category.images ? category.images.split(',').map(img => img.trim()) : [] // Tách chuỗi hình ảnh thành mảng
+          })).slice(0, 4)); // Lấy 4 mục đầu tiên
+        });
+      }),
+      new Promise((resolve, reject) => {
+        conn.query(sqlKeeppley, (err, results) => {
+          if (err) reject("Error querying Keeppley: " + err.stack);
+          else resolve(results.map(category => ({
+            id: category.id,
+            name: category.name_en,
+            images: category.images ? category.images.split(',').map(img => img.trim()) : []
+          })).slice(0, 4)); // Lấy 4 mục đầu tiên
+        });
+      }),
+      new Promise((resolve, reject) => {
+        conn.query(sqlLEGO, (err, results) => {
+          if (err) reject("Error querying LEGO: " + err.stack);
+          else resolve(results.map(category => ({
+            id: category.id,
+            name: category.name_en,
+            images: category.images ? category.images.split(',').map(img => img.trim()) : []
+          })).slice(0, 4)); // Lấy 4 mục đầu tiên
+        });
+      })
+    ])
+      .then(([qmanCategories, keeppleyCategories, legoCategories]) => {
+        // Render view và truyền dữ liệu categories vào EJS
+        res.render('index', { website, userLogin, qmanCategories, keeppleyCategories, legoCategories });
+      })
+      .catch(error => {
+        console.error(error);
+        res.status(500).send("Database query error");
+      });
 });
 
 app.get('/head', auth_user, (req, res) => {
@@ -266,8 +356,6 @@ app.get('/Information', auth_user, (req, res) => {
   const error_message = '';
   const success_message = '';
 
-  // Định dạng lại ngày trước khi render
-  userLogin.formattedBirthday = formatDateForInput(userLogin.birthday);
 
   res.render('Information', { website, userLogin, error_message, success_message, countryList });
 });
@@ -375,69 +463,70 @@ app.post('/register', (req, res) => {
 
 // Route để lấy danh sách sản phẩm và render ra trang
 app.get('/product', auth_user, (req, res) => {
-  const website = 'LEGO_Products.ejs';
+  const website = 'product.ejs';
   const userLogin = res.locals.userLogin;
 
-  // Truy vấn danh sách sản phẩm của từng nhà cung cấp
-  const sqlQman = "SELECT * FROM `category` WHERE `provider` = 'Qman'";
-  const sqlKeeppley = "SELECT * FROM `category` WHERE `provider` = 'Keeppley'";
-  const sqlLEGO = "SELECT * FROM `category` WHERE `provider` = 'LEGO'";
+  // Lấy số trang từ query và thiết lập số lượng sản phẩm mỗi trang
+  const page = parseInt(req.query.page) || 1; // Mặc định là trang 1 nếu không có query
+  const limit = 20; // Số sản phẩm mỗi trang
+  const offset = (page - 1) * limit; // Tính vị trí bắt đầu của sản phẩm
 
-  // Dùng Promise để chạy các truy vấn đồng thời và đợi tất cả hoàn thành
-  Promise.all([
-    new Promise((resolve, reject) => {
-      conn.query(sqlQman, (err, results) => {
-        if (err) reject("Error querying Qman: " + err.stack);
-        else resolve(results.map(category => ({
-          id: category.id,
-          name: category.name_en,
-          images: category.images ? category.images.split(',').map(img => img.trim()) : [] // Tách chuỗi hình ảnh thành mảng
-        })));
-      });
-    }),
-    new Promise((resolve, reject) => {
-      conn.query(sqlKeeppley, (err, results) => {
-        if (err) reject("Error querying Keeppley: " + err.stack);
-        else resolve(results.map(category => ({
-          id: category.id,
-          name: category.name_en,
-          images: category.images ? category.images.split(',').map(img => img.trim()) : []
-        })));
-      });
-    }),
-    new Promise((resolve, reject) => {
-      conn.query(sqlLEGO, (err, results) => {
-        if (err) reject("Error querying LEGO: " + err.stack);
-        else resolve(results.map(category => ({
-          id: category.id,
-          name: category.name_en,
-          images: category.images ? category.images.split(',').map(img => img.trim()) : []
-        })));
-      });
-    })
-  ])
-    .then(([qmanCategories, keeppleyCategories, legoCategories]) => {
-      // Render view và truyền dữ liệu categories vào EJS
-      res.render('product', { website, userLogin, qmanCategories, keeppleyCategories, legoCategories });
-    })
-    .catch(error => {
-      console.error(error);
-      res.status(500).send("Database query error");
-    });
-});
+  // Tổng số sản phẩm (để tính tổng số trang)
+  const sqlCount = 'SELECT COUNT(*) AS total FROM product';
 
-app.get('/Product_Detail', auth_user, (req, res) => {
-  const website = 'Product_Detail.ejs';
-  const userLogin = res.locals.userLogin
-
-  const p_id = req.query.id;
-  const sqlProduct = `SELECT * FROM product WHERE p_id = '${p_id}'`;
-
-  conn.query(sqlProduct, (err, resultProduct) => {
+  conn.query(sqlCount, (err, resultCount) => {
     if (err) {
-      console.error("Database query error: " + err.stack);
+      console.error("Error counting products: " + err.stack);
       return res.status(500).send("Database query error");
     }
+
+    const totalProducts = resultCount[0].total;
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    // Truy vấn sản phẩm theo giới hạn và phân trang
+    const sqlProducts = `SELECT * FROM product LIMIT ${limit} OFFSET ${offset}`;
+    conn.query(sqlProducts, (err, resultProducts) => {
+      if (err) {
+        console.error("Error querying products: " + err.stack);
+        return res.status(500).send("Database query error");
+      }
+
+      res.render('product', {
+        website,
+        userLogin,
+        products: resultProducts,
+        currentPage: page,
+        totalPages
+      });
+    });
+  });
+});
+
+
+app.get('/Product_Detail', auth_user, async (req, res) => {
+  const website = 'Product_Detail.ejs';
+  const userLogin = res.locals.userLogin;
+  const p_id = req.query.id;  // Lấy p_id từ query string
+  
+  // Truy vấn lấy thông tin sản phẩm
+  const sqlProduct = `SELECT * FROM product WHERE p_id = ?`;
+
+  // Câu truy vấn lấy group_id cho các sản phẩm dựa trên product_id
+  const sqlGroupProduct = `
+    SELECT gp.group_id, gp.product_id, p.p_name_en
+    FROM group_product gp
+    JOIN product p ON gp.product_id = p.p_id
+    WHERE gp.group_id IN (?);
+  `;
+
+  try {
+    // Truy vấn lấy thông tin sản phẩm
+    const resultProduct = await new Promise((resolve, reject) => {
+      conn.query(sqlProduct, [p_id], (err, resultProduct) => {
+        if (err) reject(err);
+        resolve(resultProduct);
+      });
+    });
 
     if (resultProduct.length > 0) {
       const product = resultProduct[0];
@@ -447,21 +536,40 @@ app.get('/Product_Detail', auth_user, (req, res) => {
       if (!productImages[1]) productImages[1] = productImages[0];
       if (!productImages[2]) productImages[2] = productImages[0];
 
-      const sqlCategory = `SELECT * FROM category WHERE name_en = '${product.p_category}'`;
-      conn.query(sqlCategory, (err, resultCategory) => {
-        if (err) {
-          console.error("Database query error: " + err.stack);
-          return res.status(500).send("Database query error");
-        }
-
-        const provider = resultCategory[0].provider;
-        res.render('Product_Detail', { website, userLogin, product, productImages, provider });
+      // Truy vấn lấy group_id cho sản phẩm dựa trên product_id
+      const results = await new Promise((resolve, reject) => {
+        conn.query(sqlGroupProduct, [[p_id]], (err, results) => {  // Truyền vào p_id từ sản phẩm
+          if (err) reject(err);
+          resolve(results);
+        });
       });
+
+      // Nếu không có kết quả group_id, gán group_id mặc định (ví dụ: group_id = 1)
+      const group = results.length > 0 ? results : [{ group_id: 0, p_name_en: "Default" }];
+
+      // Truy vấn thêm thông tin category
+      const sqlCategory = `SELECT * FROM category WHERE name_en = ?`;
+      const resultCategory = await new Promise((resolve, reject) => {
+        conn.query(sqlCategory, [product.p_category], (err, resultCategory) => {
+          if (err) reject(err);
+          resolve(resultCategory);
+        });
+      });
+
+      const provider = resultCategory[0]?.provider;
+
+      // Render trang chi tiết sản phẩm
+      res.render('Product_Detail', { website, userLogin, product, productImages, provider, group });
     } else {
       res.status(404).send("Product not found");
     }
-  });
+  } catch (err) {
+    console.error("Database query error: " + err.stack);
+    res.status(500).send("Database query error");
+  }
 });
+
+
 
 
 // Route để lấy danh sách sản phẩm và render ra trang
@@ -584,16 +692,16 @@ app.get('/Admin/manageUser', auth_user, (req, res) => {
   const website = 'manageUser.ejs';
   const userLogin = res.locals.userLogin
   conn.query(sql, (error, results) => {
-     if (error) throw error;
+    if (error) throw error;
 
-     const users = results.map(user => ({
-        id: user.userID,
-        name: user.userName,
-        email: user.email,
-        image: user.image
-     }));
+    const users = results.map(user => ({
+      id: user.userID,
+      name: user.userName,
+      email: user.email,
+      image: user.image
+    }));
 
-     res.render('Admin/manageUser', { website, userLogin, users }); 
+    res.render('Admin/manageUser', { website, userLogin, users });
   });
 });
 
@@ -602,14 +710,14 @@ app.get('/Admin/manageProduct', auth_user, (req, res) => {
   const website = 'manageProduct.ejs';
   const userLogin = res.locals.userLogin
   conn.query(sql, (error, results) => {
-     if (error) throw error;
+    if (error) throw error;
 
-     const products = results.map(product => ({
-        ...product,
-        p_image: product.p_image.split(',').map(img => img.trim())
-     }));
+    const products = results.map(product => ({
+      ...product,
+      p_image: product.p_image.split(',').map(img => img.trim())
+    }));
 
-     res.render('Admin/manageProduct', { website, userLogin, products }); 
+    res.render('Admin/manageProduct', { website, userLogin, products });
   });
 });
 
