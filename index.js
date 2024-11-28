@@ -71,7 +71,7 @@ app.use(userRoutes);
 
 function auth_user(req, res, next) {
   // Kiểm tra nếu userLogin có tồn tại trong session, nếu không thì gán userID = -1
-  res.locals.userLogin = req.session.userLogin ? req.session.userLogin : { userID: -1 }; 
+  res.locals.userLogin = req.session.userLogin ? req.session.userLogin : { userID: -1 };
   res.locals.success_message = req.session.success_message || null; // Gắn thông báo thành công vào res.locals nếu có
 
   next();
@@ -604,86 +604,133 @@ app.get('/product', auth_user, cartMiddleware, (req, res) => {
 app.get('/Product_Detail', auth_user, cartMiddleware, async (req, res) => {
   const website = 'Product_Detail.ejs';
   const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
-  const p_id = req.query.id;  // Lấy p_id từ query string
+  const cartItems = res.locals.cartItems; // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount; // Tổng số tiền giỏ hàng;
+  const p_id = req.query.id; // Lấy p_id từ query string
 
-  // Truy vấn lấy thông tin sản phẩm
+  // Câu truy vấn lấy thông tin sản phẩm
   const sqlProduct = `SELECT * FROM product WHERE p_id = ?`;
 
-  // Câu truy vấn lấy group_id cho các sản phẩm dựa trên product_id
+  // Câu truy vấn lấy group_id và các sản phẩm liên quan
   const sqlGroupProduct = `
-    SELECT gp.group_id, gp.product_id, p.p_name_en
+    SELECT gp.group_id, gp.product_id, p.p_name_en, p.p_image
     FROM group_product gp
     JOIN product p ON gp.product_id = p.p_id
-    WHERE gp.group_id IN (?);
+    WHERE gp.group_id = (
+        SELECT group_id
+        FROM group_product
+        WHERE product_id = ?
+    );
   `;
 
   try {
     // Truy vấn lấy thông tin sản phẩm
     const resultProduct = await new Promise((resolve, reject) => {
-      conn.query(sqlProduct, [p_id], (err, resultProduct) => {
+      conn.query(sqlProduct, [p_id], (err, results) => {
         if (err) reject(err);
-        resolve(resultProduct);
+        resolve(results);
       });
     });
 
-    if (resultProduct.length > 0) {
-      const product = resultProduct[0];
-      const productImages = product.p_image.split(',').map(img => img.trim());
-
-      // Kiểm tra và gán lại giá trị nếu ảnh thứ 2 và thứ 3 trống
-      if (!productImages[1]) productImages[1] = productImages[0];
-      if (!productImages[2]) productImages[2] = productImages[0];
-
-      // Truy vấn lấy group_id cho sản phẩm dựa trên product_id
-      const results = await new Promise((resolve, reject) => {
-        conn.query(sqlGroupProduct, [[p_id]], (err, results) => {  // Truyền vào p_id từ sản phẩm
-          if (err) reject(err);
-          resolve(results);
-        });
-      });
-
-      // Nếu không có kết quả group_id, gán group_id mặc định (ví dụ: group_id = 1)
-      const group = results.length > 0 ? results : [{ group_id: 0, p_name_en: "Default" }];
-
-      // Truy vấn thêm thông tin category
-      const sqlCategory = `SELECT * FROM category WHERE name_en = ?`;
-      const resultCategory = await new Promise((resolve, reject) => {
-        conn.query(sqlCategory, [product.p_category], (err, resultCategory) => {
-          if (err) reject(err);
-          resolve(resultCategory);
-        });
-      });
-
-      const provider = resultCategory[0]?.provider;
-
-      // Render trang chi tiết sản phẩm
-      res.render('Product_Detail', { website, userLogin, cartItems, product, productImages, provider, group });
-    } else {
-      res.status(404).send("Product not found");
+    if (resultProduct.length === 0) {
+      return res.status(404).send("Product not found");
     }
+
+    // Định nghĩa sản phẩm hiện tại
+    const product = resultProduct[0];
+    const productImages = product.p_image.split(',').map(img => img.trim());
+
+    // Kiểm tra và gán lại giá trị nếu ảnh thứ 2 và thứ 3 trống
+    if (!productImages[1]) productImages[1] = productImages[0];
+    if (!productImages[2]) productImages[2] = productImages[0];
+
+    // Truy vấn lấy group_id và tất cả sản phẩm liên quan
+    const groupProducts = await new Promise((resolve, reject) => {
+      conn.query(sqlGroupProduct, [p_id], (err, results) => {
+        if (err) reject(err);
+        resolve(results);
+      });
+    });
+
+    // Truy vấn thêm thông tin category
+    const sqlCategory = `SELECT * FROM category WHERE name_en = ?`;
+    const resultCategory = await new Promise((resolve, reject) => {
+      conn.query(sqlCategory, [product.p_category], (err, resultCategory) => {
+        if (err) reject(err);
+        resolve(resultCategory);
+      });
+    });
+
+    const provider = resultCategory[0]?.provider;
+
+    // Xử lý kết quả groupProducts
+    const group = groupProducts.length > 0 ? groupProducts : [{ group_id: 0, p_name_en: "Default" }];
+
+    // Render trang chi tiết sản phẩm
+    res.render('Product_Detail', {
+      website,
+      userLogin,
+      cartItems,
+      totalAmount,
+      product,
+      provider,
+      productImages,
+      group,
+    });
   } catch (err) {
     console.error("Database query error: " + err.stack);
     res.status(500).send("Database query error");
   }
 });
 
+
 // Thêm giỏ hàng
 app.post('/add-to-cart', auth_user, cartMiddleware, (req, res) => {
   const { p_id, p_name, p_type, quantity, p_price, p_image } = req.body; // Nhận giá trị từ frontend
-  const user_id = res.locals.userLogin.userID || -1 ; // ID người dùng từ session
-  const sqlProduct = `SELECT p_image FROM product WHERE p_id = ?`;
+  const user_id = res.locals.userLogin.userID || -1; // ID người dùng từ session
 
-  conn.query(sqlProduct, [p_id], (err, result) => {
+  const sqlCheckCart = `
+    SELECT quantity 
+    FROM cart 
+    WHERE user_id = ? AND p_id = ?
+  `;
+
+  conn.query(sqlCheckCart, [user_id, p_id], (err, result) => {
     if (err) {
-      console.error("Error fetching product data: " + err.stack);
+      console.error("Error checking cart: " + err.stack);
       return res.status(500).send("Database error");
     }
 
     if (result.length > 0) {
-      const product = result[0];
+      // Nếu sản phẩm đã tồn tại, cộng dồn quantity
+      const newQuantity = result[0].quantity + parseInt(quantity);
 
+      const sqlUpdateCart = `
+        UPDATE cart 
+        SET quantity = ? 
+        WHERE user_id = ? AND p_id = ?
+      `;
+      conn.query(sqlUpdateCart, [newQuantity, user_id, p_id], (err) => {
+        if (err) {
+          console.error("Error updating cart: " + err.stack);
+          return res.status(500).send(`
+            <script>
+              alert("An error occurred while updating the cart. Please try again later.");
+              window.location.href = "/Product_Detail?id=${p_id}";
+            </script>
+          `);
+        }
+
+        // Trả về thông báo thành công
+        return res.send(`
+          <script>
+            alert("Product quantity updated in cart successfully");
+            window.location.href = "/Product_Detail?id=${p_id}";
+          </script>
+        `);
+      });
+    } else {
+      // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
       const sqlInsertCart = `
         INSERT INTO cart (user_id, p_id, p_name, p_price, p_image, p_type, quantity)
         VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -691,26 +738,64 @@ app.post('/add-to-cart', auth_user, cartMiddleware, (req, res) => {
       conn.query(sqlInsertCart, [user_id, p_id, p_name, p_price, p_image, p_type, quantity], (err) => {
         if (err) {
           console.error("Error adding to cart: " + err.stack);
-          res.status(500).send(`
+          return res.status(500).send(`
             <script>
               alert("An error occurred while adding the product to the cart. Please try again later.");
               window.location.href = "/Product_Detail?id=${p_id}";
             </script>
           `);
-          
         }
-        // Trả về HTML để hiển thị thông báo và quay lại trang product_detail
+
+        // Trả về thông báo thành công
         res.send(`
-    <script>
-      alert("Product added to cart successfully");
-      window.location.href = "/Product_Detail?id=${p_id}";
-    </script>
-  `);
+          <script>
+            alert("Product added to cart successfully");
+            window.location.href = "/Product_Detail?id=${p_id}";
+          </script>
+        `);
       });
-    } else {
-      res.status(404).send("Product not found");
     }
   });
+});
+
+
+// Xóa giỏ hàng
+app.post('/delete-cart', auth_user, async (req, res) => {
+  const { p_id } = req.body; // Lấy userID và p_id từ body request
+  const user_id = res.locals.userLogin.userID || -1; // ID người dùng từ session
+
+  // Kiểm tra dữ liệu hợp lệ
+  if (!p_id || user_id === undefined) {
+    return res.status(400).json({ success: false, message: 'Invalid data provided' });
+  }
+
+  // Câu SQL để xóa sản phẩm từ bảng `cart`
+  const sqlDeleteCart = `DELETE FROM cart WHERE user_id = ? AND p_id = ?`;
+
+  try {
+    await new Promise((resolve, reject) => {
+      conn.query(sqlDeleteCart, [user_id, p_id], (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
+// xóa thành công
+    res.send(`
+      <script>
+        alert("Product on cart deleted successfully");
+        window.location.href = "/";
+      </script>
+    `);
+
+  } catch (err) {
+    console.error('Error deleting cart item:', err);
+    res.status(500).send(`
+      <script>
+        alert("An error occurred while deleting the product to the cart. Please try again later.");
+       window.location.href = "/";
+      </script>
+    `);
+  }
 });
 
 

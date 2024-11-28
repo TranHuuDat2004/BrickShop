@@ -154,8 +154,8 @@
 <body>
 
     <!-- Sidebar -->
-    <div id="cartSidebar" class="cart-sidebar">
-        <div class="cart-header">
+   <div id="cartSidebar" class="cart-sidebar">
+         <div class="cart-header">
             <h2>Your Cart</h2>
             <span id="closeSidebar" class="close-btn">&times;</span>
         </div>
@@ -172,11 +172,13 @@
                                 <%= item.p_name %>
                             </p>
                             <span>
-                                Type: <%= item.p_type %> <br>
                                 <%= item.quantity %> x $<%= item.p_price.toFixed(2) %>
                             </span>
                         </div>
-                        <span class="cart-item-remove">&times;</span>
+                        <form action="/delete-cart" method="post">
+                            <input type="hidden" name="p_id" value="<%= item.p_id %>">
+                            <button class="cart-item-remove">&times;</button>
+                        </form>
                     </div>
                     <% }); %>
                         <% } else { %>
