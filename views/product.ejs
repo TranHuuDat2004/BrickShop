@@ -43,7 +43,9 @@
                                 <p class="num">
                                     <%= product.p_category %>
                                 </p>
-                                <p class="price">$ <%= product.p_price_en %>
+                                <% const discounted_price = (product.p_price_en * (1 - (product.p_discount / 100 )) ).toFixed(2)  %>
+                                <p class="price"><delete class="num" style="text-decoration: line-through; font-size: 14px;">$ <%= product.p_price_en %></delete>
+                                    $<%= discounted_price %>
                                 </p>
                             </div>
                         </a>

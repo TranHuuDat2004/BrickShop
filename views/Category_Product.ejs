@@ -47,7 +47,7 @@
                     <% const productImages=product.image.split(',').map(img=> img.trim()); %>
                         <div class="product animation">
                             <a href="/Product_Detail?id=<%= product.id %>">
-                                <img class="img1 w-100" src="../images/<%= productImages[0] %>"
+                                <img class="img1 w-100" src="../images/<%= productImages[0] %>" height="200"
                                     alt="<%= product.nameEN %>">
                                 <p class="name">
                                     <%= product.nameEn %>
@@ -55,7 +55,9 @@
                                 <p class="num">
                                     <%= product.number %>
                                 </p>
-                                <p class="price">$ <%= product.priceEn %>
+                                <% const discounted_price = (product.priceEn * (1 - (product.discount / 100 )) ).toFixed(2)  %>
+                                <p class="price"><delete class="num" style="text-decoration: line-through; font-size: 14px;">$ <%= product.priceEn %></delete>
+                                    $<%= discounted_price %>
                                 </p>
                             </a>
                         </div>

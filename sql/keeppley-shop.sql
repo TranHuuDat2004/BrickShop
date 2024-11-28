@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 28, 2024 lúc 05:49 AM
+-- Thời gian đã tạo: Th10 28, 2024 lúc 04:53 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -189,7 +189,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, `p_price_en`, `p_price_vn`, `p_discount`, `p_category`, `p_tutorial`, `p_description_en`, `p_description_vn`, `p_sold`, `p_age`, `p_stock_status`, `p_product_status`) VALUES
-(1, 'K20800', 'Character Sario', '', 'HelloKitty.jpg,Melody.jpg,Purin.jpg,Cinnamon.jpg', 9.99, 0, 20, 'Sario', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(1, '70229', 'Lion Triple Pack', '', '70229.jpg', 9.99, 0, 20, 'Lego Chima', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (2, '70300', 'Battle Sult', '', 'axl.jpg,clay.jpg,macy.jpg,aaron.jpg,lance.jpg', 9.99, 0, 20, 'Lego Nexo Knight', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (3, 'K20700', 'Character Detective Conan', '', 'Conan.jpg,Ran Mori.jpg,Kid.jpg,Ai Haibara.jpg', 9.99, 0, 20, 'Conan', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (4, 'K20801', 'Hello Kitty', 'Hello Kitty', 'HelloKitty.jpg', 9.99, 0, 100, 'Sario', 'K20801.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller'),
