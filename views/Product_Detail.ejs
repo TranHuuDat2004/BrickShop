@@ -64,9 +64,14 @@
                         <%= product.p_price_en %>$
                     </span>
                     <span id="discounted-price" class="discounted-price">
-                        <%= (product.p_price_en * 0.8).toFixed(2) %>$
+                        <% const discounted_price = (product.p_price_en * (1 - (product.p_discount / 100 )) ).toFixed(2)  %>$
+                        <%= discounted_price %>
                     </span>
-                    <span class="discount">-20%</span>
+                    <% if (product.p_discount == 100) { %>
+                    <span class="discount">Free !!</span>
+                    <% } else { %>
+                    <span class="discount"><%= product.p_discount %>%</span>
+                    <% } %>
                 </div>
                 <div class="exclusive">Exclusive price when purchasing on the website</div>
                 <ul class="features">
@@ -75,22 +80,21 @@
                     <li>Fast Delivery in 4-7 Hours</li>
                 </ul>
 
-                <!-- Selected Products -->
                 <div class="select-options">
                     <label>Select type:</label>
+                    <% const id = product.p_id %>
                     <div class="checkbox-group">
                         <% group.forEach((product, index)=> { %>
-                            <input id="product-<%= product.p_name_en %>" name="p_type" type="radio"
-                                value="<%= product.p_name_en %>" required />
-
-                            <label for="product-<%= product.p_name_en %>">
+                            <a href="/Product_Detail/?id=<%= product.product_id || id %>"
+                                onclick="selectProduct('<%= product.product_id %>', '<%= product.p_name_en %>'); return false;"
+                                id="link-<%= product.product_id %>"
+                                class="product-link <%= (product.product_id == id || product.p_name_en == 'Default') ? 'active' : '' %>">
                                 <%= product.p_name_en %>
-                            </label>
-                            <% }); %>
+                            </a>
+                        <% }); %>
                     </div>
                 </div>
-
-
+   
                 <!-- Quantity -->
                 <div class="quantity">
                     <button class="btn-num" onclick="decreaseQuantity(event)">-</button>
@@ -102,8 +106,9 @@
                 <!-- Hidden Inputs -->
                 <input type="hidden" name="p_id" value="<%= product.p_id %>" />
                 <input type="hidden" name="p_name" value="<%= product.p_name_en %>" />
-                <input type="hidden" name="p_price" value="<%= (product.p_price_en * 0.8).toFixed(2) %>" />
+                <input type="hidden" name="p_price" value="<%= discounted_price %>" />
                 <input type="hidden" name="p_image" value="<%= productImages[0] %>" />
+                <input type="hidden" name="p_type" value="<%= product.p_name_en %>" />
 
                 <div>
                     <button type="submit" class="add-to-cart">Add to Cart</button>
@@ -159,7 +164,7 @@
                 User Comments
             </h2>
             <div class="comment">
-                <img alt="User profile picture" height="50" src="../im" width="50" />
+                <img alt="User profile picture" height="50" src="../user/thuykhanh.png" width="50" />
                 <div class="comment-details">
                     <p class="name">
                         User 1
@@ -311,6 +316,22 @@
                 showNotification('notification-tutorial');
             }
 
+            function selectProduct(productId, productName) {
+
+                // Loại bỏ class 'active' khỏi tất cả các nút
+                const links = document.querySelectorAll('.product-link');
+                links.forEach(link => link.classList.remove('active'));
+
+                // Thêm class 'active' cho nút hiện tại
+                const selectedLink = document.getElementById(`link-${productId}`);
+                if (selectedLink) {
+                    selectedLink.classList.add('active');
+                }
+
+                // Cập nhật giá trị vào các hidden input
+                document.getElementById('selected_product_id').value = productId;
+                document.getElementById('selected_product_name').value = productName;
+            }
 
         </script>
 </body>
