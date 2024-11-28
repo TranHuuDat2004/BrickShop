@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 27, 2024 lúc 02:19 PM
+-- Thời gian đã tạo: Th10 28, 2024 lúc 05:49 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -48,6 +48,34 @@ INSERT INTO `admin` (`adminID`, `userName`, `email`, `loginpassword`, `image`, `
 (2, 'admin10', 'admin@gmail.com', 'huudat', '', NULL, '', '', ''),
 (3, 'admin100', 'admin@gmail.com', 'huudat', '', NULL, '', '', ''),
 (4, 'Trần Hữu Đạt', 'huudat.lego@gmail.com', 'huudat', '', NULL, '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `p_id` int(11) NOT NULL,
+  `p_name` varchar(255) NOT NULL,
+  `p_price` double NOT NULL,
+  `p_image` varchar(255) NOT NULL,
+  `p_type` varchar(255) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `cart`
+--
+
+INSERT INTO `cart` (`id`, `user_id`, `p_id`, `p_name`, `p_price`, `p_image`, `p_type`, `quantity`) VALUES
+(14, 31, 1, 'Character Sario', 7.99, 'HelloKitty.jpg', 'Melody', 1),
+(22, 31, 8, 'Hello Kitty Mini Car', 13.99, 'HelloKittyMiniCar.jpg', 'Hello Kitty Mini Car', 1),
+(27, -1, 4, 'Hello Kitty', 0, 'HelloKitty.jpg', 'Hello Kitty', 2),
+(28, -1, 5, 'Melody', 7.99, 'Melody.jpg', 'Melody', 2),
+(29, 31, 4, 'Hello Kitty', 0, 'HelloKitty.jpg', 'Hello Kitty', 1);
 
 -- --------------------------------------------------------
 
@@ -143,8 +171,9 @@ CREATE TABLE `product` (
   `p_name_en` varchar(255) NOT NULL,
   `p_name_vn` varchar(255) NOT NULL,
   `p_image` varchar(255) NOT NULL,
-  `p_price_en` varchar(255) NOT NULL,
-  `p_price_vn` varchar(255) NOT NULL,
+  `p_price_en` double NOT NULL,
+  `p_price_vn` double NOT NULL,
+  `p_discount` int(3) NOT NULL,
   `p_category` varchar(225) NOT NULL,
   `p_tutorial` varchar(100) NOT NULL,
   `p_description_en` text NOT NULL,
@@ -159,41 +188,41 @@ CREATE TABLE `product` (
 -- Đang đổ dữ liệu cho bảng `product`
 --
 
-INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, `p_price_en`, `p_price_vn`, `p_category`, `p_tutorial`, `p_description_en`, `p_description_vn`, `p_sold`, `p_age`, `p_stock_status`, `p_product_status`) VALUES
-(1, 'K20800', 'Character Sario', '', 'HelloKitty.jpg,Melody.jpg,Purin.jpg,Cinnamon.jpg', '9.99', '', 'Sario', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(2, '70300', 'Battle Sult', '', 'axl.jpg,clay.jpg,macy.jpg,aaron.jpg,lance.jpg', '9.99', '', 'Lego Nexo Knight', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(3, 'K20700', 'Character Detective Conan', '', 'Conan.jpg,Ran Mori.jpg,Kid.jpg,Ai Haibara.jpg', '9.99', '', 'Conan', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(4, 'K20801', 'Hello Kitty', 'Hello Kitty', 'HelloKitty.jpg', '9.99', '0', 'Sario', 'K20801.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller'),
-(5, 'K20802', 'Melody', 'Melody', 'Melody.jpg,,', '9.99', '0', 'Sario', 'K20802.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(6, 'K20804', 'Purin', 'Purin', 'Purin.jpg,,', '9.99', '0', 'Sario', 'K20804.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(7, 'K20803', 'Cinnamon', 'Cinnamon', 'Cinnamon.jpg,,', '9.99', '0', 'Sario', 'K20803.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(8, 'K20805', 'Hello Kitty Mini Car', 'Hello Kitty Mini Car', 'HelloKittyMiniCar.jpg,,', '19.99', '0', 'Sario', 'K20805.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(9, 'K20806', 'Hello Kitty Mini Bus', 'Hello Kitty Mini Bus', 'HelloKittyMiniBus.jpg,,', '19.99', '0', 'Sario', 'K20806.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(10, 'K20402', 'Nobita Room', 'Nobita Room', 'NobitaRoom.jpg,,', '15.99', '0', 'Doraemon', 'K20402.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(11, 'K20406', 'Doraemon-Beetles', 'Doraemon-Beetles', 'Doraemon-Beetles.jpg,,', '11.99', '0', 'Doraemon', 'K20406.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(12, 'K20407', 'Doraemon-Bus', 'Doraemon-Bus', 'Doraemon-Bus.jpg,,', '11.99', '0', 'Doraemon', 'K20407.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(13, 'K20408', 'Doraemon-TV', 'Doraemon-TV', 'Doraemon-TV.jpg,,', '13.99', '0', 'Doraemon', 'K20408.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(14, 'K20409', 'Doraemon-Cement Pipe Space', 'Doraemon-Cement Pipe Space', 'Doraemon-CementPipeSpace.jpg,,', '9.99', '0', 'Doraemon', 'K20409.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(15, 'K20701', 'Conan Edogawa', 'Conan Edogawa', 'Conan.jpg,,', '9.99', '0', 'Conan', 'K20701.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(16, 'K20702', 'Ran Mori', 'Ran Mori', 'Ran Mori.jpg,,', '9.99', '0', 'Conan', 'K20702.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(17, 'K20703', 'Kid', 'Kid', 'Kid.jpg,,', '9.99', '0', 'Conan', 'K20703.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(18, 'K20704', 'Ai Haibara', 'Ai Haibara', 'Ai Haibara.jpg,,', '9.99', '0', 'Conan', 'K20704.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(19, '35011', 'Sweetie Story', 'Sweetie Story', 'Sweet.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(20, '77012', 'Relax Coffee Time', 'Relax Coffee Time', 'Coffee.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(21, '35012', 'Burger', 'Burger', 'Burger.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(22, '35014', 'Qtea-PDQ', 'Qtea-PDQ', 'Qtea.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(23, '35015', 'Qman Mart-PDQ', 'Qman Mart-PDQ', 'Qmart.jpg,,', '9.99', '0', 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(24, '77011', 'Comfortable Corner', 'Comfortable Corner', 'Comforable Corner.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(25, '77013', 'Delicious Bento', 'Delicious Bento', 'Bento.jpg,,', '9.99', '0', 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(26, '70365', 'Battle Sult Axl', 'Lego Axl', 'Axl.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70365.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(27, '70362', 'Battle Sult Clay', 'Battle Sult Clay', 'Clay.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70362.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(28, '70363', 'Battle Sult Macy', 'Battle Sult Macy', 'Macy.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70363.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(29, '70364', 'Battle Sult Arron', 'Battle Sult Arron', 'Aaron.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70364.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(30, '70366', 'Battle Sult Lance', 'Battle Sult Lance', 'Lance.jpg,,', '9.99', '0', 'Lego Nexo Knight', '70366.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(31, '71781', 'Lloyd Mech Battle', 'Lloyd Mech Battle', '71781.jpg,,', '9.99', '0', 'Lego Ninjago', '71781.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(32, '60312', 'Police Car', 'Police Car', '60312.jpg,,', '9.99', '0', 'Lego City', '60312.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(33, '70230', 'Ice Bear Tribe', 'Ice Bear Tribe', '70230.jpg,,', '9.99', '0', 'Lego Chima', '70230.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(34, 'K20401', 'Time Machine', 'Cỗ Máy Thời Gian', 'TimeMachine.jpg', '9.99', '0', 'Doraemon', 'K20401.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller');
+INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, `p_price_en`, `p_price_vn`, `p_discount`, `p_category`, `p_tutorial`, `p_description_en`, `p_description_vn`, `p_sold`, `p_age`, `p_stock_status`, `p_product_status`) VALUES
+(1, 'K20800', 'Character Sario', '', 'HelloKitty.jpg,Melody.jpg,Purin.jpg,Cinnamon.jpg', 9.99, 0, 20, 'Sario', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(2, '70300', 'Battle Sult', '', 'axl.jpg,clay.jpg,macy.jpg,aaron.jpg,lance.jpg', 9.99, 0, 20, 'Lego Nexo Knight', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(3, 'K20700', 'Character Detective Conan', '', 'Conan.jpg,Ran Mori.jpg,Kid.jpg,Ai Haibara.jpg', 9.99, 0, 20, 'Conan', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(4, 'K20801', 'Hello Kitty', 'Hello Kitty', 'HelloKitty.jpg', 9.99, 0, 100, 'Sario', 'K20801.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller'),
+(5, 'K20802', 'Melody', 'Melody', 'Melody.jpg,,', 9.99, 0, 20, 'Sario', 'K20802.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(6, 'K20804', 'Purin', 'Purin', 'Purin.jpg,,', 9.99, 0, 20, 'Sario', 'K20804.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(7, 'K20803', 'Cinnamon', 'Cinnamon', 'Cinnamon.jpg,,', 9.99, 0, 20, 'Sario', 'K20803.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(8, 'K20805', 'Hello Kitty Mini Car', 'Hello Kitty Mini Car', 'HelloKittyMiniCar.jpg,,', 19.99, 0, 30, 'Sario', 'K20805.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(9, 'K20806', 'Hello Kitty Mini Bus', 'Hello Kitty Mini Bus', 'HelloKittyMiniBus.jpg,,', 19.99, 0, 20, 'Sario', 'K20806.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(10, 'K20402', 'Nobita Room', 'Nobita Room', 'NobitaRoom.jpg,,', 15.99, 0, 20, 'Doraemon', 'K20402.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(11, 'K20406', 'Doraemon-Beetles', 'Doraemon-Beetles', 'Doraemon-Beetles.jpg,,', 11.99, 0, 20, 'Doraemon', 'K20406.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(12, 'K20407', 'Doraemon-Bus', 'Doraemon-Bus', 'Doraemon-Bus.jpg,,', 11.99, 0, 20, 'Doraemon', 'K20407.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(13, 'K20408', 'Doraemon-TV', 'Doraemon-TV', 'Doraemon-TV.jpg,,', 13.99, 0, 20, 'Doraemon', 'K20408.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(14, 'K20409', 'Doraemon-Cement Pipe Space', 'Doraemon-Cement Pipe Space', 'Doraemon-CementPipeSpace.jpg,,', 9.99, 0, 20, 'Doraemon', 'K20409.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(15, 'K20701', 'Conan Edogawa', 'Conan Edogawa', 'Conan.jpg,,', 9.99, 0, 20, 'Conan', 'K20701.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(16, 'K20702', 'Ran Mori', 'Ran Mori', 'Ran Mori.jpg,,', 9.99, 0, 20, 'Conan', 'K20702.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(17, 'K20703', 'Kid', 'Kid', 'Kid.jpg,,', 9.99, 0, 20, 'Conan', 'K20703.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(18, 'K20704', 'Ai Haibara', 'Ai Haibara', 'Ai Haibara.jpg,,', 9.99, 0, 20, 'Conan', 'K20704.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(19, '35011', 'Sweetie Story', 'Sweetie Story', 'Sweet.jpg,,', 9.99, 0, 20, 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(20, '77012', 'Relax Coffee Time', 'Relax Coffee Time', 'Coffee.jpg,,', 9.99, 0, 20, 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(21, '35012', 'Burger', 'Burger', 'Burger.jpg,,', 9.99, 0, 20, 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(22, '35014', 'Qtea-PDQ', 'Qtea-PDQ', 'Qtea.jpg,,', 9.99, 0, 20, 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(23, '35015', 'Qman Mart-PDQ', 'Qman Mart-PDQ', 'Qmart.jpg,,', 9.99, 0, 20, 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(24, '77011', 'Comfortable Corner', 'Comfortable Corner', 'Comforable Corner.jpg,,', 9.99, 0, 20, 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(25, '77013', 'Delicious Bento', 'Delicious Bento', 'Bento.jpg,,', 9.99, 0, 20, 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(26, '70365', 'Battle Sult Axl', 'Lego Axl', 'Axl.jpg,,', 9.99, 0, 20, 'Lego Nexo Knight', '70365.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(27, '70362', 'Battle Sult Clay', 'Battle Sult Clay', 'Clay.jpg,,', 9.99, 0, 20, 'Lego Nexo Knight', '70362.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(28, '70363', 'Battle Sult Macy', 'Battle Sult Macy', 'Macy.jpg,,', 9.99, 0, 20, 'Lego Nexo Knight', '70363.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(29, '70364', 'Battle Sult Arron', 'Battle Sult Arron', 'Aaron.jpg,,', 9.99, 0, 20, 'Lego Nexo Knight', '70364.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(30, '70366', 'Battle Sult Lance', 'Battle Sult Lance', 'Lance.jpg,,', 9.99, 0, 20, 'Lego Nexo Knight', '70366.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(31, '71781', 'Lloyd Mech Battle', 'Lloyd Mech Battle', '71781.jpg,,', 9.99, 0, 20, 'Lego Ninjago', '71781.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(32, '60312', 'Police Car', 'Police Car', '60312.jpg,,', 9.99, 0, 20, 'Lego City', '60312.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(33, '70230', 'Ice Bear Tribe', 'Ice Bear Tribe', '70230.jpg,,', 9.99, 0, 20, 'Lego Chima', '70230.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(34, 'K20401', 'Time Machine', 'Cỗ Máy Thời Gian', 'TimeMachine.jpg', 9.99, 0, 20, 'Doraemon', 'K20401.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller');
 
 -- --------------------------------------------------------
 
@@ -230,6 +259,12 @@ INSERT INTO `user` (`userID`, `userName`, `email`, `loginpassword`, `image`, `ad
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`adminID`);
+
+--
+-- Chỉ mục cho bảng `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `category`
@@ -271,6 +306,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `admin`
   MODIFY `adminID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
