@@ -1,3 +1,5 @@
+
+
 // Import các thư viện cần thiết
 const express = require('express');
 const path = require('path');
@@ -5,6 +7,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // Import express-session
 const bcrypt = require('bcrypt');
 
+const loginFacebook = require('./login_facebook'); // Import file Facebook Login
 const conn = require('./connectDB');
 
 // Khởi tạo ứng dụng Express
@@ -301,6 +304,7 @@ app.get('/Category_Product', auth_user, cartMiddleware, (req, res) => {
           nameEn: row.p_name_en,
           nameVn: row.p_name_vn,
           priceEn: row.p_price_en,
+          discount: row.p_discount,
           priceVn: row.p_price_vn,
           tutorial: row.p_tutorial,
           category: row.p_category,
@@ -423,6 +427,9 @@ app.post('/changeAvatar', avatarUpload.single('profileImage'), (req, res) => {
 
 
 const countryList = require('./countryList'); // Đường dẫn đến file countryList.js
+// Tích hợp Facebook Login
+loginFacebook(app);
+
 
 // Trong tệp router hoặc controller
 function formatDateForInput(dateStr) {

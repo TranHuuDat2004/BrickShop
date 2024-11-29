@@ -42,7 +42,7 @@
                     <a href="/Category_Product/?id=<%= category.id %>">
                         <div class="product">
                             <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
-                            <img src="../images/<%= category.images[0] %>" alt="<%= category.name %>">
+                            <img style="object-fit: cover;" src="../images/<%= category.images[0] %>" height="200" alt="<%= category.name %>">
                             <p>
                                 <%= category.name %>
                             </p>
