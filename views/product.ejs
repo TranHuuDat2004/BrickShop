@@ -35,7 +35,7 @@
                         <a href="/Product_Detail/?id=<%= product.p_id %>">
                             <div class="product">
                                 <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
-                                <img src="../images/<%= product.p_image.split(',')[0].trim() %>" height="200"
+                                <img style="object-fit: cover;" src="../images/<%= product.p_image.split(',')[0].trim() %>" height="200"
                                     alt="<%= product.p_name %>">
                                 <p class="name">
                                     <%= product.p_name_en%>
