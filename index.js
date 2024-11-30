@@ -6,6 +6,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session'); // Import express-session
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 
 const loginFacebook = require('./login_facebook'); // Import file Facebook Login
 const conn = require('./connectDB');
@@ -138,7 +139,7 @@ app.use(cartMiddleware);  // Tất cả các route sẽ được thêm giỏ hà
 
 
 // Định nghĩa route với middleware auth_user
-app.get('/', auth_user, cartMiddleware, cartMiddleware, (req, res) => {
+app.get('/', auth_user, cartMiddleware, (req, res) => {
   const website = 'index.ejs'; // Lấy tên file từ URL
   const userLogin = res.locals.userLogin;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
@@ -503,6 +504,14 @@ app.get('/Password', auth_user, cartMiddleware, (req, res) => {
   res.render('Password', { website, userLogin, cartItems, error_message, success_message });
 });
 
+app.get('/view-cart', auth_user, cartMiddleware, (req, res) => {
+  const website = 'view-cart.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
+  res.render('view-cart', { website, userLogin, cartItems });
+});
+
 app.get('/Notifications', auth_user, cartMiddleware, (req, res) => {
   const website = 'Notifications.ejs';
   const userLogin = res.locals.userLogin;
@@ -690,6 +699,79 @@ app.get('/Product_Detail', auth_user, cartMiddleware, async (req, res) => {
   }
 });
 
+// Thêm giỏ hàng
+app.post('/buy-now', auth_user, cartMiddleware, (req, res) => {
+  const { p_id, p_name, p_type, quantity, p_price, p_image } = req.body; // Nhận giá trị từ frontend
+  const user_id = res.locals.userLogin.userID || -1; // ID người dùng từ session
+
+  const sqlCheckCart = `
+    SELECT quantity 
+    FROM cart 
+    WHERE user_id = ? AND p_id = ?
+  `;
+
+  conn.query(sqlCheckCart, [user_id, p_id], (err, result) => {
+    if (err) {
+      console.error("Error checking cart: " + err.stack);
+      return res.status(500).send("Database error");
+    }
+
+    if (result.length > 0) {
+      // Nếu sản phẩm đã tồn tại, cộng dồn quantity
+      const newQuantity = result[0].quantity + parseInt(quantity);
+
+      const sqlUpdateCart = `
+        UPDATE cart 
+        SET quantity = ? 
+        WHERE user_id = ? AND p_id = ?
+      `;
+      conn.query(sqlUpdateCart, [newQuantity, user_id, p_id], (err) => {
+        if (err) {
+          console.error("Error updating cart: " + err.stack);
+          return res.status(500).send(`
+            <script>
+              alert("An error occurred while updating the cart. Please try again later.");
+              window.location.href = "/view-cart}";
+            </script>
+          `);
+        }
+
+        // Trả về thông báo thành công
+        return res.send(`
+          <script>
+            alert("Product quantity updated in cart successfully");
+            window.location.href = "/view-cart";
+          </script>
+        `);
+      });
+    } else {
+      // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+      const sqlInsertCart = `
+        INSERT INTO cart (user_id, p_id, p_name, p_price, p_image, p_type, quantity)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `;
+      conn.query(sqlInsertCart, [user_id, p_id, p_name, p_price, p_image, p_type, quantity], (err) => {
+        if (err) {
+          console.error("Error adding to cart: " + err.stack);
+          return res.status(500).send(`
+            <script>
+              alert("An error occurred while adding the product to the cart. Please try again later.");
+              window.location.href = "/view-cart";
+            </script>
+          `);
+        }
+
+        // Trả về thông báo thành công
+        res.send(`
+          <script>
+            alert("Product added to cart successfully");
+            window.location.href = "/Product_Detail?id=${p_id}";
+          </script>
+        `);
+      });
+    }
+  });
+});
 
 // Thêm giỏ hàng
 app.post('/add-to-cart', auth_user, cartMiddleware, (req, res) => {
@@ -766,6 +848,7 @@ app.post('/add-to-cart', auth_user, cartMiddleware, (req, res) => {
 });
 
 
+
 // Xóa giỏ hàng
 app.post('/delete-cart', auth_user, async (req, res) => {
   const { p_id } = req.body; // Lấy userID và p_id từ body request
@@ -786,11 +869,11 @@ app.post('/delete-cart', auth_user, async (req, res) => {
         resolve(result);
       });
     });
-// xóa thành công
+    // xóa thành công
     res.send(`
       <script>
         alert("Product on cart deleted successfully");
-        window.location.href = "/";
+        window.location.href = "/view-cart";
       </script>
     `);
 
@@ -799,9 +882,70 @@ app.post('/delete-cart', auth_user, async (req, res) => {
     res.status(500).send(`
       <script>
         alert("An error occurred while deleting the product to the cart. Please try again later.");
-       window.location.href = "/";
+       window.location.href = "/view-cart";
       </script>
     `);
+  }
+});
+
+// Cập nhật giỏ hàng
+app.post('/update-cart', auth_user, async (req, res) => {
+  const { p_id, quantity } = req.body; // p_id[] và quantity[] sẽ là mảng
+  const user_id = res.locals.userLogin?.userID || -1; // ID người dùng từ session
+
+  //   console.log("p_id:", p_id);
+  // console.log("quantity:", quantity);
+
+
+  try {
+    // Duyệt qua từng sản phẩm và xử lý
+    for (let i = 0; i < p_id.length; i++) {
+      const id = p_id[i];
+      const qty = parseInt(quantity[i]);
+
+      if (qty <= 0) {
+        // Xóa sản phẩm nếu số lượng <= 0
+        await new Promise((resolve, reject) => {
+          conn.query('DELETE FROM cart WHERE user_id = ? AND p_id = ?', [user_id, id], (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
+          });
+        });
+      } else {
+        // Cập nhật số lượng
+        await new Promise((resolve, reject) => {
+          conn.query('UPDATE cart SET quantity = ? WHERE user_id = ? AND p_id = ?', [qty, user_id, id], (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
+          });
+        });
+      }
+    }
+
+    // Lấy lại giỏ hàng
+    const rows = await new Promise((resolve, reject) => {
+      conn.query('SELECT p_price, quantity FROM cart WHERE user_id = ?', [user_id], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    if (!rows || rows.length === 0) {
+      req.session.cartItems = [];
+      req.session.totalAmount = 0;
+      return res.redirect('/view-cart');
+    }
+
+    const cartItems = rows;
+    const totalAmount = cartItems.reduce((total, item) => total + item.p_price * item.quantity, 0);
+
+    req.session.cartItems = cartItems;
+    req.session.totalAmount = totalAmount;
+
+    res.redirect('/view-cart');
+  } catch (error) {
+    console.error('Error updating cart:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
@@ -843,6 +987,263 @@ app.get('/get-cart', auth_user, cartMiddleware, (req, res) => {
     }
   });
 });
+
+// Cập nhật thông tin và tạo tài khoản
+app.post('/update-user-info', (req, res) => {
+  const { user_id, fullname, address, phone, username, password } = req.body;
+  let finalUsername = username;
+  let finalPassword = password;
+
+  if (!finalUsername || !finalPassword) {
+    finalUsername = req.session.userLogin.userName;
+    finalPassword = req.session.userLogin.password;
+  }
+
+  if (user_id == -1) {
+    // Nếu user_id = -1, tạo tài khoản mới
+    bcrypt.hash(finalPassword, 10, (err, hashedPassword) => {
+      if (err) {
+        console.error('Error hashing password:', err);
+        return res.redirect('/form_login_en');
+      }
+
+      // Tạo tài khoản mới
+      conn.query(
+        'INSERT INTO user (fullname, address, phone, userName, loginpassword) VALUES (?, ?, ?, ?, ?)',
+        [fullname, address, phone, finalUsername, hashedPassword],
+        (insertErr, insertResult) => {
+          if (insertErr) {
+            console.error('Error inserting new user:', insertErr);
+            return res.redirect('/form_login_en');
+          }
+
+          // Lấy thông tin user mới tạo
+          conn.query(
+            'SELECT * FROM user WHERE username = ?',
+            [finalUsername],
+            (selectErr, users) => {
+              if (selectErr || users.length === 0) {
+                console.error('Error fetching new user:', selectErr);
+                return res.redirect('/form_login_en');
+              }
+
+              const newUser = users[0];
+              // Lưu thông tin vào session
+              req.session.userLogin = {
+                userID: newUser.userID,
+                userName: newUser.userName,
+                fullname: newUser.fullname,
+                email: newUser.email,
+                image: newUser.image,
+                loginpassword: newUser.loginpassword,
+                address: newUser.address,
+                bio: newUser.bio,
+                country: newUser.country,
+                phone: newUser.phone,
+              };
+
+              // Chuyển sản phẩm từ user_id = -1 sang user_id mới
+              conn.query(
+                'UPDATE cart SET user_id = ? WHERE user_id = -1',
+                [newUser.userID],
+                (updateCartErr) => {
+                  if (updateCartErr) {
+                    console.error('Error updating cart:', updateCartErr);
+                    return res.redirect('/form_login_en');
+                  }
+                  // Quay lại trang giỏ hàng
+                  res.redirect('/view-cart');
+                }
+              );
+            }
+          );
+        }
+      );
+    });
+  } else {
+    // Cập nhật thông tin người dùng đã tồn tại
+    conn.query(
+      'UPDATE user SET username = ?, address = ?, phone = ? WHERE userID = ?',
+      [finalUsername, address, phone, user_id],
+      (updateUserErr) => {
+        if (updateUserErr) {
+          console.error('Error updating user:', updateUserErr);
+          return res.redirect('/form_login_en');
+        }
+
+        // Cập nhật lại thông tin trong session
+        res.locals.userLogin.userName = finalUsername;
+        res.locals.userLogin.address = address;
+        res.locals.userLogin.phone = phone;
+
+        // Quay lại trang cần thiết
+        res.redirect('/form_login_en');
+      }
+    );
+  }
+});
+
+// Mua hàng thoi
+app.post('/checkout', (req, res) => {
+  const website = 'checkout.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
+  const user_id = req.session.userLogin?.userID || -1;
+  const delivery = req.body.delivery || 'normal'; // Mặc định là 'normal'
+  const fullname = req.body.fullname || 'normal'; // Mặc định là 'normal'
+  const address = req.body.address || 'unknown'; // Mặc định là 'unknown'
+
+  if (user_id === -1) {
+    return res.status(401).send('User not logged in');
+  }
+
+  // 1. Lấy giỏ hàng của người dùng
+  conn.query('SELECT * FROM cart WHERE user_id = ?', [user_id], (err, cartItems) => {
+    if (err) {
+      console.error('Error fetching cart:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    if (cartItems.length === 0) {
+      return res.status(400).send('Cart is empty');
+    }
+
+    // 2. Tạo mã o_id (8 số ngày tháng năm + 4 số tự tăng)
+    const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD
+
+    conn.query('SELECT COUNT(*) AS orderCount FROM `order` WHERE DATE(order_date) = CURDATE()', (err, countResult) => {
+      if (err) {
+        console.error('Error getting order count:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+
+      const orderCount = countResult[0].orderCount + 1;
+      const o_id = `${datePart}${String(orderCount).padStart(4, '0')}`;
+
+      // 3. Tính tổng giá trị đơn hàng
+      const total = cartItems.reduce((sum, item) => sum + item.p_price * item.quantity, 0);
+
+      // 4. Lưu vào bảng order (bao gồm cả delivery, fullname và address)
+      conn.query('INSERT INTO `order` (o_id, user_id, total, delivery, fullname, address) VALUES (?, ?, ?, ?, ?, ?)',
+        [o_id, user_id, total, delivery, fullname, address],
+        (err) => {
+          if (err) {
+            console.error('Error inserting into order:', err);
+            return res.status(500).send('Internal Server Error');
+          }
+
+          // 5. Lưu chi tiết đơn hàng vào bảng order_detail
+          const orderDetails = cartItems.map((item) => {
+            const p_image = item.p_image; // giả sử p_image có trong cartItems
+            const p_name = item.p_name;  // lấy tên sản phẩm từ cartItems
+
+            return [o_id, user_id, item.p_id, p_name, item.p_price, item.quantity, p_image];
+          });
+
+          conn.query('INSERT INTO order_detail (o_id, user_id, p_id, p_name, price, quantity, p_image) VALUES ?',
+            [orderDetails],
+            (err) => {
+              if (err) {
+                console.error('Error inserting into order_detail:', err);
+                return res.status(500).send('Internal Server Error');
+              }
+
+              // 6. Xóa giỏ hàng sau khi thanh toán
+              conn.query('DELETE FROM cart WHERE user_id = ?', [user_id], (err) => {
+                if (err) {
+                  console.error('Error deleting from cart:', err);
+                  return res.status(500).send('Internal Server Error');
+                }
+
+                // 7. Gửi phản hồi thành công
+                res.render('thankyou', { website, userLogin, cartItems });
+              });
+            });
+        });
+    });
+  });
+});
+
+
+// Lịch sử đơn hàng
+app.get('/order_history', auth_user, cartMiddleware, (req, res) => {
+  const website = 'order_history.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems; // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount; // Tổng số tiền giỏ hàng
+
+  // Truy vấn bảng order và tính tổng số lượng hàng theo từng o_id
+  const orderQuery = `
+    SELECT o.*, 
+           COALESCE(SUM(od.quantity), 0) AS total_quantity 
+    FROM \`order\` AS o
+    LEFT JOIN order_detail AS od ON o.o_id = od.o_id
+    WHERE o.user_id = ?
+    GROUP BY o.o_id
+  `;
+
+  conn.query(orderQuery, [userLogin.userID], (err, orderResults) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Database error');
+    }
+
+    // Truyền dữ liệu order vào view
+    res.render('order_history', {
+      website,
+      userLogin,
+      cartItems,
+      totalAmount,
+      orders: orderResults // Truyền danh sách đơn hàng với tổng số lượng vào view
+    });
+  });
+});
+
+
+// Đơn hàng chi tiết
+app.get('/order_details/:id', auth_user, cartMiddleware, (req, res) => {
+  const website = 'order_details.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems; // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount; // Tổng số tiền giỏ hàng
+  const o_id = req.params.id;  // Lấy id từ URL
+
+  console.log('Order ID:', o_id);
+
+  // Truy vấn chi tiết đơn hàng và thông tin đơn hàng từ bảng order
+  const detailQuery = `
+    SELECT 
+      od.p_id, od.p_image, od.price, od.quantity, od.p_name,
+      o.fullname, o.address, o.delivery, o.total, o.order_date
+    FROM order_detail AS od
+    JOIN \`order\` AS o ON od.o_id = o.o_id
+    WHERE od.o_id = ?
+  `;
+
+  conn.query(detailQuery, [o_id], (err, detailResults) => {
+    if (err) {
+      console.error('Error querying order details:', err);
+      return res.status(500).send('Database error');
+    }
+
+    // Truyền dữ liệu vào view
+    res.render('order_details', {
+      website,
+      userLogin,
+      cartItems,
+      totalAmount,
+      orderDetails: detailResults, // Truyền chi tiết đơn hàng vào view
+      o_id,  // Truyền ID đơn hàng
+      fullname: detailResults[0]?.fullname, // Truyền tên người nhận
+      address: detailResults[0]?.address,   // Truyền địa chỉ giao hàng
+      delivery: detailResults[0]?.delivery, // Truyền phương thức giao hàng
+      orderTotal: detailResults[0]?.total,  // Truyền tổng tiền
+      orderDate: detailResults[0]?.order_date // Truyền ngày đặt hàng
+    });
+  });
+});
+
 
 
 
@@ -1048,6 +1449,14 @@ app.get('/Admin/ManageReview', auth_user, cartMiddleware, (req, res) => {
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
   res.render('Admin/ManageReview', { website, userLogin, cartItems });
+});
+
+app.get('/thankyou', auth_user, cartMiddleware, (req, res) => {
+  const website = 'thankyou.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
+  res.render('thankyou', { website, userLogin, cartItems });
 });
 
 app.get('/contact', auth_user, cartMiddleware, (req, res) => {

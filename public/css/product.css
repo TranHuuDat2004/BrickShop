@@ -200,6 +200,8 @@ body {
     padding-right: 20px;
 }
 
+
+
 .image-section img {
     width: 100%;
     border-radius: 10px;
@@ -593,6 +595,32 @@ body {
     animation: rotateCheckmark 0.8s ease forwards;
 }
 
+.button-group {
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa hai nút */
+    margin-top: 20px;
+}
+
+.inline-form {
+    margin: 0;
+}
+
+.add-to-cart,
+.buy-now {
+    background-color: #d0021b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart:hover,
+.buy-now:hover {
+    background-color: #b00019;
+}
 
 
 @keyframes rotateCheckmark {
@@ -604,3 +632,67 @@ body {
         transform: rotate(360deg);
     }
 }
+
+/* Đối với màn hình nhỏ */
+@media (max-width: 768px) {
+    .container {
+      flex-direction: column; /* Chuyển sang xếp chồng */
+    }
+  
+    .image-section, .details-section {
+      flex: 1 1 100%; /* Chiếm 100% chiều rộng */
+    }
+  
+    .thumbnail-grid img {
+      width: 80px;
+      height: 80px; /* Điều chỉnh kích thước thumbnail */
+    }
+  
+    .price {
+      flex-direction: column;
+    }
+  }
+  
+  /* Tăng tối ưu cho điện thoại nhỏ */
+  @media (max-width: 480px) {
+    .container {
+      padding: 10px;
+    }
+  
+    .thumbnail-grid img {
+      width: 60px;
+      height: 60px;
+    }
+  
+    .quantity {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .btn-num {
+      width: 100%; /* Nút giảm/tăng chiếm toàn bộ chiều rộng */
+    }
+  
+    input#quantity {
+      width: 80%;
+      text-align: center;
+      margin: 10px 0;
+    }
+  
+    .add-to-cart, .buy-now {
+      width: 100%; /* Nút mua hàng rộng toàn bộ */
+      margin-top: 10px;
+    }
+
+    .breadcrumb{
+        display: none;
+    }
+
+    #main-image{
+        width: 400px;
+        object-fit: cover;
+    }
+  }
+
+  
