@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 28, 2024 lúc 04:53 PM
+-- Thời gian đã tạo: Th10 30, 2024 lúc 04:13 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -71,11 +71,17 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `p_id`, `p_name`, `p_price`, `p_image`, `p_type`, `quantity`) VALUES
-(14, 31, 1, 'Character Sario', 7.99, 'HelloKitty.jpg', 'Melody', 1),
-(22, 31, 8, 'Hello Kitty Mini Car', 13.99, 'HelloKittyMiniCar.jpg', 'Hello Kitty Mini Car', 1),
-(27, -1, 4, 'Hello Kitty', 0, 'HelloKitty.jpg', 'Hello Kitty', 2),
-(28, -1, 5, 'Melody', 7.99, 'Melody.jpg', 'Melody', 2),
-(29, 31, 4, 'Hello Kitty', 0, 'HelloKitty.jpg', 'Hello Kitty', 1);
+(14, 31, 1, 'Character Sario', 7.99, 'HelloKitty.jpg', 'Melody', 10),
+(22, 31, 8, 'Hello Kitty Mini Car', 13.99, 'HelloKittyMiniCar.jpg', 'Hello Kitty Mini Car', 10),
+(27, 39, 4, 'Hello Kitty', 0, 'HelloKitty.jpg', 'Hello Kitty', 4),
+(29, 31, 4, 'Hello Kitty', 0, 'HelloKitty.jpg', 'Hello Kitty', 10),
+(30, 31, 7, 'Cinnamon', 7.99, 'Cinnamon.jpg', 'Cinnamon', 10),
+(31, 39, 1, 'Lion Triple Pack', 7.99, '70229.jpg', 'Lion Triple Pack', 3),
+(32, 39, 12, 'Doraemon-Bus', 9.59, 'Doraemon-Bus.jpg', 'Doraemon-Bus', 7),
+(33, 31, 16, 'Ran Mori', 7.99, 'Ran Mori.jpg', 'Ran Mori', 13),
+(34, 31, 17, 'Kid', 7.99, 'Kid.jpg', 'Kid', 13),
+(35, 46, 8, 'Hello Kitty Mini Car', 13.99, 'HelloKittyMiniCar.jpg', 'Hello Kitty Mini Car', 100),
+(36, 46, 12, 'Doraemon-Bus', 9.59, 'Doraemon-Bus.jpg', 'Doraemon-Bus', 101);
 
 -- --------------------------------------------------------
 
@@ -123,10 +129,13 @@ CREATE TABLE `group` (
 --
 
 INSERT INTO `group` (`group_id`, `group_name`, `group_desc`) VALUES
-(0, 'default', NULL),
 (1, 'Character Sario', NULL),
 (2, 'Battle Sult', NULL),
-(3, 'Character Detective Conan', NULL);
+(3, 'Character Detective Conan', NULL),
+(4, 'Doraemon', NULL),
+(5, 'Build & Fun', NULL),
+(6, 'Sumikko', NULL),
+(7, 'Lego Chima', NULL);
 
 -- --------------------------------------------------------
 
@@ -144,11 +153,12 @@ CREATE TABLE `group_product` (
 --
 
 INSERT INTO `group_product` (`group_id`, `product_id`) VALUES
-(0, 34),
 (1, 4),
 (1, 5),
 (1, 6),
 (1, 7),
+(1, 8),
+(1, 9),
 (2, 26),
 (2, 27),
 (2, 28),
@@ -157,7 +167,57 @@ INSERT INTO `group_product` (`group_id`, `product_id`) VALUES
 (3, 15),
 (3, 16),
 (3, 17),
-(3, 18);
+(3, 18),
+(4, 10),
+(4, 11),
+(4, 12),
+(4, 13),
+(4, 14),
+(4, 34),
+(5, 19),
+(5, 21),
+(5, 22),
+(5, 23),
+(6, 20),
+(6, 24),
+(6, 25),
+(7, 1),
+(7, 33);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `order`
+--
+
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL,
+  `o_id` varchar(16) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `order_date` datetime DEFAULT current_timestamp(),
+  `fullname` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `delivery` varchar(255) NOT NULL,
+  `status` tinyint(4) DEFAULT 0,
+  `total` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `order_detail`
+--
+
+CREATE TABLE `order_detail` (
+  `id` int(11) NOT NULL,
+  `o_id` varchar(16) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `p_id` int(11) NOT NULL,
+  `p_name` varchar(255) NOT NULL,
+  `p_image` varchar(255) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -233,6 +293,7 @@ INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, 
 CREATE TABLE `user` (
   `userID` int(50) NOT NULL,
   `userName` varchar(50) NOT NULL,
+  `fullname` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `loginpassword` varchar(255) NOT NULL,
   `image` text NOT NULL,
@@ -246,9 +307,28 @@ CREATE TABLE `user` (
 -- Đang đổ dữ liệu cho bảng `user`
 --
 
-INSERT INTO `user` (`userID`, `userName`, `email`, `loginpassword`, `image`, `address`, `bio`, `country`, `phone`) VALUES
-(31, 'Tranhuudat', 'huudat.peashooer@gmail.com', '$2b$10$S8/F.zGc9JX48dLGJEnDFefFbepVSmoD4zSjCYZDmdycRm6WxJ9Si', 'Cole.jpg', '19 Nguyễn Hữu Thọ Quận 7', 'Hi', 'Việt Nam', '0909000'),
-(32, 'huyle', 'huyle@gmail.com', '$2b$10$7cRJjtF2d7XyBPNyqVWcVOWZxULd1oYnfdOct391qn8LDGcatqRT2', 'Jay.jpg', '2024-11-11', 'Hi', 'Việt Nam', '0909');
+INSERT INTO `user` (`userID`, `userName`, `fullname`, `email`, `loginpassword`, `image`, `address`, `bio`, `country`, `phone`) VALUES
+(31, 'TranHuuDat', '', 'huudat.peashooer@gmail.com', '$2b$10$S8/F.zGc9JX48dLGJEnDFefFbepVSmoD4zSjCYZDmdycRm6WxJ9Si', 'Cole.jpg', '19 Nguyễn Hữu Thọ Quận 7', 'Hi', 'Việt Nam', '0909000'),
+(32, 'huyle', '', 'huyle@gmail.com', '$2b$10$7cRJjtF2d7XyBPNyqVWcVOWZxULd1oYnfdOct391qn8LDGcatqRT2', 'Jay.jpg', '2024-11-11', 'Hi', 'Việt Nam', '0909'),
+(33, 'nodepay', 'Trần Hữu Đạt', '', 'huudat', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(34, 'phuc.tv', 'Trần Hữu Đạt', '', '$2b$10$AcxrzMSB3qscypL/OKON7ukr7wgkxP06N1rAGgpYquC2hV1wzq5Za', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(35, 'phuc.tv', 'Trần Hữu Đạt', '', '$2b$10$1Mz9jJvA6ICa4h4DfWmFju0qTpu.1p6esGaK2Ieet3sK/pKcJP8LC', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(36, 'phuc.tv', 'Trần Hữu Đạt', '', '$2b$10$MI3tZ1z2NTTRItlskw0yeupz3p1QjKLHxCUoNOUoqwb8mNRG4LMpC', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(37, 'phuc.tv', 'Trần Hữu Đạt', '', '$2b$10$heSz8No2hh8F.5Gtr3b1uORhVGH9F8rj7psdTLHm/PsF9CR.pGS/.', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(38, 'phuc.tv', 'Trần Hữu Đạt', '', '$2b$10$nboPcZZzK1/5PK09lgPnoulRr5eY2KWvVovAs2I0LkHiMKvpKlX4q', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(39, 'miniword', 'Trần Hữu Đạt', '', '$2b$10$gL9O/oRJsNqWnqPahH.umuODYw.78sFrIa/xFweFBhOYYMv.NsIOC', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(40, 'miniword', 'Trần Hữu Đạt', '', '$2b$10$0XNSiksODHIoqHR/s6mV4eMh6VKEMS0q2mr4PjuZvjF5p/6sEdVVG', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(41, 'nodepay', 'Trần Hữu Đạt', '', '$2b$10$UffVZEhRN4vDnl.fn2hvZ.0tbyV7evKKhkdKKO27REYc/Hf1rgd56', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(42, 'Tranhuudat987', 'Trần Hữu Đạt', '', '$2b$10$bpa1gTu.wMVGRnqM7Du8I.IdhZY0je02XJ/keC8Oyjvoe0x1KFQj2', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(43, 'Tranhuudat', 'Trần Hữu Đạt', '', '$2b$10$X9zacewlLol4Ql5hlfmtduvHL03H/MQwMQOc7EP7O9K9DU7JyJHEa', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(44, 'Tranhuudat777', 'Trần Hữu Đạt', '', '$2b$10$uMCILaYsuOUq9ninPv48/OlnK0q1cPfC/H2D85DBqe4nPgfBZKO6K', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(45, 'Tranhuudat555', 'Trần Hữu Đạt', '', '$2b$10$cGsJyx/H4SRrKfg6Sht.I.lZv609sKRXpg8xnIKSzyZSHu/b4/L9C', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(46, 'Tranhuudat333', 'Trần Hữu Đạt', '', '$2b$10$VZYFoUMysTxWY1thtxeOPe1h.Gx7DiaF6sbeasWNvhueaRXp1qrIm', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(47, 'Tranhuudat1011', 'Trần Hữu Đạt', '', '$2b$10$rSycT7UZha4Rc1UbfCu0ROfh2VNIz66JXlLBVUNtOd3.MhZasw8lG', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(48, 'thuylinh2004', 'Dương Thị Thùy Linh', '', '$2b$10$gMTtetUaxFId9EZIjzhb3OM1kpmnNYvGFo54RMngx1e5sBg.o1JPy', 'ThuyKhanh.jpg', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(49, 'huyle2004', 'Lê Tấn Huy', '', '$2b$10$fd5E16qEErFHsMQ4Hk3b/OYAvzDTeFYwuY5df31U9.WlpZCbpdmYG', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(50, 'MinhPhucDao', 'Đào Minh Phúc', '', '$2b$10$dWkOpL7.1P3D/ryh.Y3JH.j7vrqwl3JDEJuOvP4IXEbRU8nBeG8mO', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
+(51, 'MinhPhucDao111', 'Đào Minh Phúc', '', '$2b$10$8DVHz3gTCQ.oqL2I9nQx5e8qHi5TgxZMtTWNoHwyAXOHFMO/YbJNe', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -286,6 +366,19 @@ ALTER TABLE `group_product`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Chỉ mục cho bảng `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `o_id` (`o_id`);
+
+--
+-- Chỉ mục cho bảng `order_detail`
+--
+ALTER TABLE `order_detail`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `product`
 --
 ALTER TABLE `product`
@@ -311,7 +404,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -323,7 +416,19 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT cho bảng `group`
 --
 ALTER TABLE `group`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT cho bảng `order`
+--
+ALTER TABLE `order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT cho bảng `order_detail`
+--
+ALTER TABLE `order_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
@@ -335,7 +440,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT cho bảng `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `userID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
