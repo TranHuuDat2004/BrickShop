@@ -693,6 +693,10 @@ body {
         width: 400px;
         object-fit: cover;
     }
+
+    body{
+        width: 480px;
+    }
   }
 
   
