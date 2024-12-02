@@ -1467,6 +1467,29 @@ app.get('/contact', auth_user, cartMiddleware, (req, res) => {
   res.render('contact', { website, userLogin, cartItems });
 });
 
+// Xử lý route POST /contact
+app.post('/contact', (req, res) => {
+  const website = 'contact.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
+  const { name, email, phone, subject, message } = req.body;
+
+  // Chèn dữ liệu vào bảng `contacts`
+  const sql = 'INSERT INTO contact (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)';
+  const values = [name, email, phone, subject, message];
+
+  conn.query(sql, values, (err, results) => {
+      if (err) {
+          console.error('Error inserting data into contacts table:', err);
+          res.status(500).send('An error occurred while saving your contact.');
+          return;
+      }
+      console.log('Data inserted:', results);
+      res.render('thankyou_your_contact', { website, userLogin, cartItems });
+  });
+});
+
 // Cấu hình cổng để server lắng nghe
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

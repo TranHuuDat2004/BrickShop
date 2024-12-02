@@ -1,0 +1,164 @@
+<html lang="en">
+
+<head>
+    <%- include('head.ejs') %>
+        <title>Contact</title>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <link rel="stylesheet" href="../css/index.css"> <!-- Đường dẫn tới tệp CSS -->
+</head>
+<style>
+/* Main container */
+/* Main container */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Đảm bảo responsive */
+    justify-content: space-between;
+    gap: 2rem; /* Khoảng cách giữa form và hình ảnh */
+    max-width: 1200px; /* Giới hạn chiều rộng tổng */
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Form section */
+.form-section {
+    flex: 1; /* Chiếm 1 phần không gian */
+    min-width: 300px; /* Đảm bảo form không quá nhỏ */
+    max-width: 600px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem; /* Khoảng cách giữa các trường */
+    
+}
+
+label {
+    font-size: 1rem; /* Giữ font dễ đọc */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input, textarea {
+    width: 100%; /* Đầy chiều ngang */
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #edf2f7; /* bg-gray-200 */
+}
+
+textarea {
+    resize: none; /* Vô hiệu hóa thay đổi kích thước */
+}
+
+.form-button button {
+    background-color: #007bff; /* Xanh đậm */
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-button button:hover {
+    background-color: #0056b3; /* Xanh đậm hơn khi hover */
+}
+
+/* Image section */
+.image-section {
+    flex: 1; /* Chiếm 1 phần không gian */
+    text-align: center;
+    min-width: 300px; /* Đảm bảo không quá nhỏ */
+}
+
+.image-section h1 {
+    font-size: 2rem; /* Tiêu đề lớn hơn */
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.image-section p {
+    font-size: 1.125rem; /* Văn bản rõ ràng hơn */
+    margin-bottom: 1.5rem;
+}
+
+.image-section a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.image-section a:hover {
+    text-decoration: underline;
+}
+
+.image-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Làm mềm góc cạnh của ảnh */
+}
+
+</style>
+
+<body class="bg-white text-gray-800">
+    <!-- Header Section -->
+    <header>
+        <%- include('header_home_en.ejs') %>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Form nằm bên trái -->
+            <div class="form-section">
+                <form action="/contact" method="post">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input name="name" id="name" placeholder="Your Name" type="text" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input name="email" id="email" placeholder="Your Email" type="email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input name="phone" id="phone" placeholder="Your Phone Number" type="tel" />
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input name="subject" id="subject" placeholder="Subject" type="text" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea name="message" id="message" placeholder="Your Message" rows="5"></textarea>
+                    </div>
+                    <div class="form-button">
+                        <button type="submit">Send</button>
+                    </div>
+                </form>
+            </div>
+    
+            <!-- Hình ảnh và chữ nằm bên phải -->
+            <div class="image-section">
+                <h1>Business cooperation</h1>
+                <p>
+                    Email:
+                    <a href="#">huudat2004.brickshop@gmail.com</a>
+                </p>
+                <img src="../images/contact.jpg" alt="Cartoon character holding a red heart" />
+            </div>
+        </div>
+    </main>
+ 
+    <!-- Footer Section -->
+    <footer id="footer-section">
+        <%- include('footer.ejs') %>
+    </footer>
+
+    <!-- Cart Section -->
+    <%- include('cart.ejs') %>
+</body>
+
+</html>
