@@ -101,7 +101,7 @@
 
     .hamburger-menu {
         padding: 15px 15px;
-        background-color: #ff5c5c;
+        background-color: #d0021b;
         color: white;
         border: none;
         border-radius: 5px;
@@ -193,17 +193,17 @@
         padding: 10px 20px;
         border-radius: 10px;
         background-color: #fff;
-        color: #ff5c5c;
+        color: #d0021b;
         font-weight: bold;
         text-decoration: none;
         font-size: 16px;
         text-align: center;
-        border: 1px solid #ff5c5c;
+        border: 1px solid #d0021b;
         transition: background-color 0.3s ease;
     }
 
     .nav-items .active {
-        background-color: #ff5c5c;
+        background-color: #d0021b;
         color: white;
     }
 
@@ -216,8 +216,8 @@
 
     .lang-btn {
         background-color: #fff;
-        color: #ff5c5c;
-        border: 1px solid #ff5c5c;
+        color: #d0021b;
+        border: 1px solid #d0021b;
         padding: 10px 20px;
         border-radius: 50px;
         margin: 0 10px;
@@ -227,7 +227,7 @@
 
     .lang-btn.active,
     .lang-btn:hover {
-        background-color: #ff5c5c;
+        background-color: #d0021b;
         color: white;
     }
 
@@ -258,7 +258,7 @@
 
     .hamburger-menu {
         padding: 10px 10px;
-        background-color: #ff5c5c;
+        background-color: #d0021b;
         color: white;
         border: none;
         border-radius: 5px;
@@ -268,7 +268,7 @@
     .btn-sign-up {
         margin-top: 20px;
         padding: 10px 20px;
-        background-color: #ff5c5c;
+        background-color: #d0021b;
         color: white;
         border: none;
         border-radius: 16px;
@@ -280,10 +280,10 @@
         padding: 10px 20px;
         background-color: #ffffff;
         /* Màu nền trắng */
-        color: #ff5c5c;
+        color: #d0021b;
         /* Màu chữ */
-        border: 1px solid #ff5c5c;
-        /* Viền với màu #ff5c5c */
+        border: 1px solid #d0021b;
+        /* Viền với màu #d0021b */
         border-radius: 16px;
         /* Độ bo tròn viền */
         cursor: pointer;
@@ -469,12 +469,16 @@
         <div class="search-bar">
             <input type="text" placeholder="Search">
             <button class="btn-cart"><i class="fa-duotone fa-solid fa-magnifying-glass fa-xl"
-                    style="color: #ff5c5c;"></i></button>
-                    <button id="darkModeToggle" class="btn-cart" onclick="toggleDarkMode()"><a class="fa-duotone fa-solid fa-sun fa-xl" style="--fa-primary-color: #ffbb00; --fa-secondary-color: #ffbb00;"></a></button>
+                    style="color: #d0021b;"></i></button>
+
+            <!-- Dark mode -->
+            <!-- <button id="darkModeToggle" class="btn-cart" onclick="toggleDarkMode()"><a class="fa-duotone fa-solid fa-sun fa-xl" style="--fa-primary-color: #ffbb00; --fa-secondary-color: #ffbb00;"></a></button> -->
         </div>
 
         <ul>
-            <div class="language-switcher">
+            <!-- Chức năng đổi ngôn ngữ -->
+
+            <!-- <div class="language-switcher">
                 <div class="current-lang">
                     <img src="/images/flags/en.png" alt="UK Flag">
                 </div>
@@ -486,12 +490,12 @@
                         <img src="/images/flags/vn.png" alt="Vietnam Flag"> Tiếng Việt
                     </a>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Show Icon cart and Profile Avatar -->
+            <button class="btn-cart"><i id="cartButton" class="fa-duotone fa-solid fa-cart-shopping fa-2xl"
+                    style="color: #d0021b; padding-right:10px"></i></button>
             <% if (userLogin && userLogin.userName) { %>
-                <button class="btn-cart"><i id="cartButton" class="fa-duotone fa-solid fa-cart-shopping fa-2xl"
-                        style="color: #ff5c5c; padding-right:10px"></i></button>
                 <div class="language-switcher">
                     <% if (!userLogin.image) { %>
                         <a href="/General"><img class="img-user" src="/user/male.png" width="50" height="50"></a>
@@ -518,7 +522,7 @@
         <div class="logo">
             <img src="/images/logo.png" width="200" alt="Brick Shop Logo">
             <button class="btn-cart"><i class="fa-duotone fa-solid fa-magnifying-glass fa-2xl"
-                    style="color: #ff5c5c;"></i></button>
+                    style="color: #d0021b;"></i></button>
         </div>
     </div>
 
@@ -553,92 +557,95 @@
                                     <% } %>
         </ul>
 
-        <!-- Language Switch -->
-        <div class="lang-switch">
-            <a href="/<%= website %>"><button class="lang-btn active">EN</button></a>
-            <a href="/vn/<%= website %>"><button class="lang-btn">VN</button></a>
-        </div>
     </div>
 
 
     <script>
-        window.onload = function () {
-            if (localStorage.getItem('darkMode') === 'enabled') {
-                document.body.classList.add('dark-mode');
-                loadFooter('/footer_dark');
-            } else {
-                loadFooter('/footer');
-            }
-        };
 
-        function toggleDarkMode() {
-            var element = document.body;
-            element.classList.toggle("dark-mode");
+        function toggleMenu() {
+            const menuLayer = document.querySelector('.navLayer');
+            menuLayer.classList.toggle('active');
+        }
 
-            if (element.classList.contains("dark-mode")) {
-                localStorage.setItem('darkMode', 'enabled');
-                loadFooter('/footer_dark');
-            } else {
-                localStorage.setItem('darkMode', 'disabled');
-                loadFooter('/footer');
-            }
+        // Chức năng dark mode
 
+        // window.onload = function () {
+        //     if (localStorage.getItem('darkMode') === 'enabled') {
+        //         document.body.classList.add('dark-mode');
+        //         loadFooter('/footer_dark');
+        //     } else {
+        //         loadFooter('/footer');
+        //     }
+        // };
 
-            var isDarkMode = element.classList.contains("dark-mode");
+        // function toggleDarkMode() {
+        //     var element = document.body;
+        //     element.classList.toggle("dark-mode");
 
-// Lấy phần tử biểu tượng bằng ID
-var iconElement = document.getElementById("darkModeToggle").querySelector("a");
-
-// Kiểm tra nếu dark mode đang bật
-if (isDarkMode) {
-    // Thay đổi biểu tượng thành mặt trăng khi bật dark mode
-    iconElement.classList.remove("fa-sun");
-    iconElement.classList.add("fa-moon-stars");
-    // Thay đổi màu sắc nếu cần thiết
-    iconElement.style.setProperty("--fa-primary-color", "#ffffff");
-    iconElement.style.setProperty("--fa-secondary-color", "#ffffff");
-} else {
-    // Thay đổi biểu tượng thành mặt trời khi tắt dark mode
-    iconElement.classList.remove("fa-moon-stars");
-    iconElement.classList.add("fa-sun");
-    // Thay đổi màu sắc nếu cần thiết
-    iconElement.style.setProperty("--fa-primary-color", "#ffbb00");
-    iconElement.style.setProperty("--fa-secondary-color", "#ffbb00");
-}
+        //     if (element.classList.contains("dark-mode")) {
+        //         localStorage.setItem('darkMode', 'enabled');
+        //         loadFooter('/footer_dark');
+        //     } else {
+        //         localStorage.setItem('darkMode', 'disabled');
+        //         loadFooter('/footer');
+        //     }
 
 
-var qmanSection = document.querySelector('.qman-section');
-var qmanImage = document.querySelector('.qman-image img');
+        //     var isDarkMode = element.classList.contains("dark-mode");
 
-// Toggle dark mode for navbar
-var navbarDesktop = document.querySelector('.navbar.desktop');
-var navbarMobile = document.querySelector('.navbar.mobile');
+        //     // Lấy phần tử biểu tượng bằng ID
+        //     var iconElement = document.getElementById("darkModeToggle").querySelector("a");
 
-navbarDesktop.classList.toggle('dark-mode');
-navbarMobile.classList.toggle('dark-mode');
-
-if (element.classList.contains("dark-mode")) {
-    // Chuyển sang hình nền dark mode
-    qmanSection.style.backgroundImage = "url('../images/index_dark.png')";
-} else {
-    // Chuyển lại hình nền sáng
-    qmanSection.style.backgroundImage = "url('../images/index.png')";
-}
-
-var qmanImage = document.querySelector('.qman-section img'); // Truy xuất hình ảnh
-
-if (element.classList.contains("dark-mode")) {
-    // Chuyển sang hình nền dark mode và đổi hình ảnh
-    qmanImage.src = "../images/2022101014476762.png";
-
-} else {
-    // Chuyển lại hình nền sáng và hình ảnh sáng
-    qmanImage.src = "../images/2022101014476761.png";
-
-}
+        //     // Kiểm tra nếu dark mode đang bật
+        //     if (isDarkMode) {
+        //         // Thay đổi biểu tượng thành mặt trăng khi bật dark mode
+        //         iconElement.classList.remove("fa-sun");
+        //         iconElement.classList.add("fa-moon-stars");
+        //         // Thay đổi màu sắc nếu cần thiết
+        //         iconElement.style.setProperty("--fa-primary-color", "#ffffff");
+        //         iconElement.style.setProperty("--fa-secondary-color", "#ffffff");
+        //     } else {
+        //         // Thay đổi biểu tượng thành mặt trời khi tắt dark mode
+        //         iconElement.classList.remove("fa-moon-stars");
+        //         iconElement.classList.add("fa-sun");
+        //         // Thay đổi màu sắc nếu cần thiết
+        //         iconElement.style.setProperty("--fa-primary-color", "#ffbb00");
+        //         iconElement.style.setProperty("--fa-secondary-color", "#ffbb00");
+        //     }
 
 
-}
+        //     var qmanSection = document.querySelector('.qman-section');
+        //     var qmanImage = document.querySelector('.qman-image img');
+
+        //     // Toggle dark mode for navbar
+        //     var navbarDesktop = document.querySelector('.navbar.desktop');
+        //     var navbarMobile = document.querySelector('.navbar.mobile');
+
+        //     navbarDesktop.classList.toggle('dark-mode');
+        //     navbarMobile.classList.toggle('dark-mode');
+
+        //     if (element.classList.contains("dark-mode")) {
+        //         // Chuyển sang hình nền dark mode
+        //         qmanSection.style.backgroundImage = "url('../images/index_dark.png')";
+        //     } else {
+        //         // Chuyển lại hình nền sáng
+        //         qmanSection.style.backgroundImage = "url('../images/index.png')";
+        //     }
+
+        //     var qmanImage = document.querySelector('.qman-section img'); // Truy xuất hình ảnh
+
+        //     if (element.classList.contains("dark-mode")) {
+        //         // Chuyển sang hình nền dark mode và đổi hình ảnh
+        //         qmanImage.src = "../images/2022101014476762.png";
+
+        //     } else {
+        //         // Chuyển lại hình nền sáng và hình ảnh sáng
+        //         qmanImage.src = "../images/2022101014476761.png";
+
+        //     }
+
+
+        // }
     </script>
 
 </header>

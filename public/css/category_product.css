@@ -10,7 +10,7 @@
         line-height: 1.6;
     }
 
-    a{
+    a {
         text-decoration: none;
     }
 
@@ -37,7 +37,7 @@
         color: #e74c3c;
         text-align: center;
     }
-    
+
 
     /* Desktop Navbar */
     .navbar.desktop {
@@ -442,6 +442,59 @@
         color: #6c757d;
     }
 
+    .pagination {
+        display: flex;
+        justify-content: center;
+        /* Đặt ở giữa */
+        align-items: center;
+        margin: 20px 0;
+        /* Khoảng cách giữa phân trang và các phần khác */
+        gap: 10px;
+        /* Khoảng cách giữa các nút */
+    }
+
+    .pagination a {
+        text-decoration: none;
+        /* Loại bỏ gạch chân */
+        color: #007bff;
+        /* Màu chữ */
+        font-size: 16px;
+        /* Kích thước chữ */
+        font-weight: bold;
+        padding: 8px 12px;
+        /* Khoảng cách bên trong */
+        border: 1px solid #007bff;
+        /* Viền */
+        border-radius: 50%;
+        /* Hình tròn */
+        transition: all 0.3s ease;
+        /* Hiệu ứng hover */
+    }
+
+    .pagination a:hover {
+        background-color: #007bff;
+        /* Màu nền khi hover */
+        color: white;
+        /* Màu chữ khi hover */
+    }
+
+    .pagination a.active {
+        background-color: #007bff;
+        /* Màu nền cho trang đang active */
+        color: white;
+        /* Màu chữ */
+        border: 2px solid #0056b3;
+        /* Viền đậm hơn */
+    }
+
+    .pagination a.disabled {
+        color: #ccc;
+        /* Màu xám nhạt cho nút disabled */
+        pointer-events: none;
+        /* Không cho click */
+    }
+
+
     /* Responsive Styles Header */
     @media (max-width: 768px) {
         .breadcrumb {
@@ -455,51 +508,51 @@
         background-color: #121212;
         color: #f0f0f0;
     }
-    
+
     .dark-mode .navbar.desktop {
         background-color: #333;
     }
-    
+
     .dark-mode .navbar.desktop ul li a {
         color: #f0f0f0;
     }
-    
+
     .dark-mode .navbar.mobile {
         background-color: #333;
     }
-    
+
     .dark-mode .hamburger-menu {
         background-color: #ff5c5c;
     }
-    
+
     .dark-mode .navLayer {
         background-color: #333;
     }
-    
+
     .dark-mode .nav-items li a {
         background-color: #333;
         color: #ff5c5c;
     }
-    
+
     .dark-mode .nav-items .active {
         background-color: #ff5c5c;
         color: white;
     }
-    
+
     .dark-mode .lang-btn {
         background-color: #333;
         color: #ff5c5c;
         border: 1px solid #ff5c5c;
     }
-    
+
     .dark-mode .brands img {
         filter: brightness(0.9) contrast(1.1);
     }
-    
+
     .dark-mode .product-grid {
         background-color: #121212;
     }
-    
+
     .dark-mode .products {
         background-color: #1e1e1e;
         border: 1px solid #333;
@@ -511,30 +564,30 @@
         border: 1px solid #333;
         color: #f0f0f0;
     }
-    
+
     .dark-mode .product p {
         color: #e0e0e0;
     }
-    
+
     .dark-mode .breadcrumb {
         background-color: #333;
         color: #f0f0f0;
     }
-    
+
     .dark-mode footer p,
     .dark-mode footer a {
         color: #f0f0f0;
     }
-    
+
     .dark-mode .footer-column {
         background-color: #1e1e1e;
     }
-    
+
     .dark-mode .btn {
         background-color: #ff5c5c;
         color: white;
     }
-    
+
     .dark-mode .btn-login {
         background-color: #1e1e1e;
         color: #ff5c5c;
@@ -552,51 +605,51 @@
         margin-bottom: 40px;
         /* Khoảng cách dưới */
     }
-    
-        /* Responsive Styles Header */
-        @media (max-width: 1400px) {
-            .dark-mode .product-grid {
-                background-color: #1e1e1e;
-                display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                /* 4 cột, mỗi cột có cùng kích thước */
-                gap: 20px;
-                /* Khoảng cách giữa các sản phẩm */
-                margin-bottom: 40px;
-                /* Khoảng cách dưới */
-                padding: 10px 0px;
-            }
-    
+
+    /* Responsive Styles Header */
+    @media (max-width: 1400px) {
+        .dark-mode .product-grid {
+            background-color: #1e1e1e;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* 4 cột, mỗi cột có cùng kích thước */
+            gap: 20px;
+            /* Khoảng cách giữa các sản phẩm */
+            margin-bottom: 40px;
+            /* Khoảng cách dưới */
+            padding: 10px 0px;
         }
-    
-        /* Responsive Styles Header */
-        @media (max-width: 900px) {
-            .dark-mode .product-grid {
-                background-color: #1e1e1e;
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                /* 2 cột, mỗi cột có cùng kích thước */
-                gap: 20px;
-                /* Khoảng cách giữa các sản phẩm */
-                margin-bottom: 40px;
-                /* Khoảng cách dưới */
-                padding: 10px 0px;
-            }
-    
+
+    }
+
+    /* Responsive Styles Header */
+    @media (max-width: 900px) {
+        .dark-mode .product-grid {
+            background-color: #1e1e1e;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* 2 cột, mỗi cột có cùng kích thước */
+            gap: 20px;
+            /* Khoảng cách giữa các sản phẩm */
+            margin-bottom: 40px;
+            /* Khoảng cách dưới */
+            padding: 10px 0px;
         }
-    
-        /* Responsive Styles Header */
-        @media (max-width: 768px) {
-            .dark-mode .product-grid {
-                background-color: #1e1e1e;
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                /* 2 cột, mỗi cột có cùng kích thước */
-                gap: 20px;
-                /* Khoảng cách giữa các sản phẩm */
-                margin-bottom: 40px;
-                /* Khoảng cách dưới */
-                padding: 10px 0px;
-            }
-    
+
+    }
+
+    /* Responsive Styles Header */
+    @media (max-width: 768px) {
+        .dark-mode .product-grid {
+            background-color: #1e1e1e;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* 2 cột, mỗi cột có cùng kích thước */
+            gap: 20px;
+            /* Khoảng cách giữa các sản phẩm */
+            margin-bottom: 40px;
+            /* Khoảng cách dưới */
+            padding: 10px 0px;
         }
+
+    }

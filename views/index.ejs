@@ -31,11 +31,36 @@
                 toy brand—it is a celebrated national brand that has grown alongside multiple generations. We are
                 committed to the brand philosophy that "<b>Qman blocks make dreams come true</b>" and together with our
                 customers, we use small building pieces to bring dreams to life.</p>
-            <a href="/Qman_Products" class="btn">View Products</a>
         </div>
         <div class="qman-image">
 
         </div>
+    </section>
+
+    
+    <!-- Products Section -->
+    <section class="products">
+        <h2>Qman Products</h2>
+        <div class="product-grid">
+            <% if (qmanCategories.length> 0) { %>
+                <% qmanCategories.forEach(category=> { %>
+                    <a href="/Category_Product/?id=<%= category.id %>">
+                        <div class="product">
+                            <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+                            <img src="../images/<%= category.images[0] %>" alt="<b><%= category.name %></b>">
+                            <p style="color: black;">
+                                <b><%= category.name %></b>
+                            </p>
+                        </div>
+                    </a>
+                    <% }) %>
+                        <% } else { %>
+                            <p>No products available</p>
+                            <% } %>
+        </div>
+        <a href="/Qman_Products">
+            <h4>View More > </h4>
+        </a>
     </section>
 
     <!-- Keeppley Section -->
@@ -54,12 +79,37 @@
                 manga
                 series.
             </p>
-            <a href="/Keeppley_Products" class="btn">View Products</a>
         </div>
         <div class="keeppley-image">
 
         </div>
     </section>
+
+    <!-- Products Section -->
+    <section class="products">
+        <h2>Keeppley Products</h2>
+        <div class="product-grid">
+            <% if (keeppleyCategories.length> 0) { %>
+                <% keeppleyCategories.forEach(category=> { %>
+                    <a href="/Category_Product/?id=<%= category.id %>">
+                        <div class="product">
+                            <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+                            <img src="../images/<%= category.images[0] %>" alt="<b><%= category.name %></b>" >
+                            <p style="color: black;">
+                                <b><%= category.name %></b>
+                            </p>
+                        </div>
+                    </a>
+                    <% }) %>
+                        <% } else { %>
+                            <p>No products available</p>
+                            <% } %>
+        </div>
+        <a href="/Keeppley_Products">
+            <h4>View More > </h4>
+        </a>
+    </section>
+
 
     <!-- LEGO Section -->
     <section class="lego-section">
@@ -89,23 +139,32 @@
                 top-tier product quality and joyful experiences.
             </p>
         </div>
-        <div class="img-container">
-            <div class="img-lego"><a href="Category_Product/?id=6"><img src="../images/LegoNexoKnights.jfif" alt="" height="150"
-                        width="275"></a></div>
-            <div class="img-lego"><a href="Category_Product/?id=8"><img src="../images/LegoChima.jfif" alt="" height="150" width="275"></a>
-            </div>
-            <div class="img-lego"><a href="Category_Product/?id=9"><img src="../images/LEGO-City-logo.jpg" alt="" height="150"
-                        width="275"></a></div>
-            <div class="img-lego"><a href="Category_Product/?id=7"><img src="../images/LegoNinjago.jfif" alt="" height="150" width="275"></a>
-            </div>
-        </div>
+        
+    </section>
 
-        <!-- <div class="img-container">
-            <a href="#"><img class="img-lego" src="../images/LegoNexoKnights.jfif" alt="" height="150" width="275"></a>
-            <a href="#"><img class="img-lego" src="../images/LegoChima.jfif" alt="" height="150" width="275"></a>
-            <a href="#"><img class="img-lego" src="../images/LEGO-City-logo.jpg" alt="" height="150" width="275"></a>
-            <a href="#"><img class="img-lego" src="../images/LegoNinjago.jfif" alt="" height="150" width="275"></a>
-        </div> -->
+    <!-- Products Section -->
+    <section class="products">
+        <h2>LEGO Products</h2>
+        <div class="product-grid">
+            <% if (legoCategories.length> 0) { %>
+                <% legoCategories.forEach(category=> { %>
+                    <a href="/Category_Product/?id=<%= category.id %>">
+                        <div class="product">
+                            <!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+                            <img src="../images/<%= category.images[0] %>" alt="<b><%= category.name %></b>" height="350">
+                            <p style="color: black;">
+                                <b><%= category.name %></b>
+                            </p>
+                        </div>
+                    </a>
+                    <% }) %>
+                        <% } else { %>
+                            <p>No products available</p>
+                            <% } %>
+        </div>
+        <a href="/LEGO_Products">
+            <h4>View More > </h4>
+        </a>
     </section>
 
     <!-- Footer Section -->
