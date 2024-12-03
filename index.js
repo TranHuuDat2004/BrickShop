@@ -6,7 +6,12 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session'); // Import express-session
 const bcrypt = require('bcrypt');
+
+//const nodemailer = require('nodemailer');
+//const crypto = require('crypto');
+
 const moment = require('moment');
+
 
 const loginFacebook = require('./login_facebook'); // Import file Facebook Login
 const conn = require('./connectDB');
@@ -394,6 +399,7 @@ app.get('/form_login_en', auth_user, cartMiddleware, (req, res) => {
   res.render('form_login_en', { website, userLogin, cartItems, successMessage, errorMessage });
 });
 
+
 // --------------------------------------------------------------------------- //
 
 const { upload, changeGeneral } = require('./changeGeneral');
@@ -464,6 +470,10 @@ app.get('/Languages', auth_user, cartMiddleware, (req, res) => {
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
   res.render('Languages', { website, userLogin, cartItems });
 });
+
+// Forgot password recovery
+//app.
+
 
 // Route để lấy danh sách sản phẩm và render ra trang
 app.get('/LEGO_Products', auth_user, cartMiddleware, (req, res) => {
@@ -1358,10 +1368,34 @@ app.get('/logout', (req, res) => {
 // ----------------------- Admin -------------------------------- //
 app.get('/Admin/index', auth_user, cartMiddleware, (req, res) => {
   const website = 'index.ejs';
-  const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('Admin/index', { website, userLogin, cartItems });
+  const userLogin = res.locals.userLogin
+  //Get the actual numbers of order
+  /*const sqlOrder = 'SELECT COUNT(*) AS orderCount FROM order';
+
+  conn.query(sqlOrder, (err, results) => {
+    if (err) {
+      console.error("Error querying users: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+  
+    // Pass the user count to the EJS template
+  const orderCount = results[0].orderCount;*/
+
+  //Get the actual numbers of user
+  const sqlUser = 'SELECT COUNT(*) AS userCount FROM user';
+
+  conn.query(sqlUser, (err, results) => {
+    if (err) {
+      console.error("Error querying users: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+  
+    // Pass the user count to the EJS template
+  const userCount = results[0].userCount;
+
+  res.render('Admin/index', { website, userLogin, userCount });
+  });
+
 });
 
 app.get('/Admin/addProduct', auth_user, cartMiddleware, (req, res) => {
