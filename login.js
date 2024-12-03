@@ -40,6 +40,7 @@ const loginHandler = (req, res) => {
           req.session.userLogin = {
             userID: results[0].userID,
             userName: results[0].userName,
+            fullname: results[0].fullname,
             email: results[0].email,
             image: results[0].image,
             loginpassword: results[0].loginpassword,

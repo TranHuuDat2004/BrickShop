@@ -230,7 +230,7 @@ body {
 @media only screen and (max-width: 768px) {
   .qman-section {
     background-image: url("../images/index-phone.png");
-    height: 1400px;
+    
     /* Chiều cao tự động điều chỉnh theo nội dung */
   }
 
@@ -624,5 +624,9 @@ footer button {
     border-radius: 4px;
     padding-bottom: 30px;
     width: 250px;
+  }
+
+  .hide-phone{
+    display: none;
   }
 }

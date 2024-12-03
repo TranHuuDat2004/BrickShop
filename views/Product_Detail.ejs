@@ -33,131 +33,116 @@
         </ol>
     </nav>
 
-    <form action="/add-to-cart" method="POST">
-        <div class="container">
-            <div class="image-section">
-                <div class="zoom-container">
-                    <img id="main-image" alt="Close-up of product image" height="400"
-                        src="../images/<%= productImages[0] %>" width="600">
+    <div class="container">
+        <div class="image-section">
+            <div class="zoom-container">
+                <img id="main-image" alt="Close-up of product image" height="400" src="../images/<%= productImages[0] %>" width="600">
+            </div>
+            <div class="thumbnail-section">
+                <div class="thumbnail-grid">
+                    <% productImages.forEach((image, index)=> { %>
+                        <img alt="Thumbnail of product image" height="100" src="../images/<%= image %>" width="100"
+                            onclick="changeImage('../images/<%= image %>')" />
+                    <% }); %>
                 </div>
-                <div class="thumbnail-section">
-                    <div class="thumbnail-grid">
-                        <% productImages.forEach((image, index)=> { %>
-                            <img alt="Thumbnail of product image" height="100" src="../images/<%= image %>" width="100"
-                                onclick="changeImage('../images/<%= image %>')" />
-                            <% }); %>
-                    </div>
+            </div>
+        </div>
+    
+        <div class="details-section">
+            <h1><%= product.p_name_en %></h1>
+            <p class="brand"><%= product.p_category %></p>
+            <p>SKU <%= product.p_number %></p>
+    
+            <div class="price">
+                <span class="original-price"><%= product.p_price_en %>$</span>
+                <span id="discounted-price" class="discounted-price">
+                    <% const discounted_price = (product.p_price_en * (1 - (product.p_discount / 100))).toFixed(2) %>$ <%= discounted_price %>
+                </span>
+                <% if (product.p_discount == 100) { %>
+                    <span class="discount">Free !!</span>
+                <% } else { %>
+                    <span class="discount"><%= product.p_discount %>%</span>
+                <% } %>
+            </div>
+    
+            <div class="exclusive">Exclusive price when purchasing on the website</div>
+            <ul class="features">
+                <li>Authentic Product</li>
+                <li>Free Nationwide Shipping on Orders Over 20$</li>
+                <li>Fast Delivery in 4-7 Hours</li>
+            </ul>
+            
+            <div class="select-options">
+                <label>Select type:</label>
+                <% const id = product.p_id %>
+                <div class="checkbox-group">
+                    <% group.forEach((product, index)=> { %>
+                        <a href="/Product_Detail/?id=<%= product.product_id || id %>"
+                            onclick="selectProduct('<%= product.product_id %>', '<%= product.p_name_en %>'); return false;"
+                            id="link-<%= product.product_id %>"
+                            class="product-link <%= (product.product_id == id || product.p_name_en == 'Default') ? 'active' : '' %>">
+                            <%= product.p_name_en %>
+                        </a>
+                    <% }); %>
                 </div>
             </div>
 
-            <div class="details-section">
-                <h1>
-                    <%= product.p_name_en %>
-                </h1>
-                <p class="brand">
-                    <%= product.p_category %>
-                </p>
-                <p>SKU <%= product.p_number %>
-                </p>
-                <div class="price">
-                    <span class="original-price">
-                        <%= product.p_price_en %>$
-                    </span>
-                    <span id="discounted-price" class="discounted-price">
-                        <% const discounted_price = (product.p_price_en * (1 - (product.p_discount / 100 )) ).toFixed(2)  %>$
-                        <%= discounted_price %>
-                    </span>
-                    <% if (product.p_discount == 100) { %>
-                    <span class="discount">Free !!</span>
-                    <% } else { %>
-                    <span class="discount"><%= product.p_discount %>%</span>
-                    <% } %>
-                </div>
-                <div class="exclusive">Exclusive price when purchasing on the website</div>
-                <ul class="features">
-                    <li>Authentic Product</li>
-                    <li>Free Nationwide Shipping on Orders Over 20$</li>
-                    <li>Fast Delivery in 4-7 Hours</li>
-                </ul>
-
-                <div class="select-options">
-                    <label>Select type:</label>
-                    <% const id = product.p_id %>
-                    <div class="checkbox-group">
-                        <% group.forEach((product, index)=> { %>
-                            <a href="/Product_Detail/?id=<%= product.product_id || id %>"
-                                onclick="selectProduct('<%= product.product_id %>', '<%= product.p_name_en %>'); return false;"
-                                id="link-<%= product.product_id %>"
-                                class="product-link <%= (product.product_id == id || product.p_name_en == 'Default') ? 'active' : '' %>">
-                                <%= product.p_name_en %>
-                            </a>
-                        <% }); %>
-                    </div>
-                </div>
-   
-                <!-- Quantity -->
+            <div class="button-group">
                 <div class="quantity">
                     <button class="btn-num" onclick="decreaseQuantity(event)">-</button>
                     <input type="text" id="quantity" value="1" name="quantity" />
                     <button class="btn-num" onclick="increaseQuantity(event)">+</button>
                 </div>
-
-
-                <!-- Hidden Inputs -->
-                <input type="hidden" name="p_id" value="<%= product.p_id %>" />
-                <input type="hidden" name="p_name" value="<%= product.p_name_en %>" />
-                <input type="hidden" name="p_price" value="<%= discounted_price %>" />
-                <input type="hidden" name="p_image" value="<%= productImages[0] %>" />
-                <input type="hidden" name="p_type" value="<%= product.p_name_en %>" />
-
-                <div>
+                <!-- Form Add to Cart -->
+                <form action="/add-to-cart" method="POST" class="inline-form">
+                    <!-- Hidden Inputs for Add to Cart -->
+                    <input type="hidden" name="p_id" value="<%= product.p_id %>" />
+                    <input type="hidden" name="p_name" value="<%= product.p_name_en %>" />
+                    <input type="hidden" name="p_price" value="<%= discounted_price %>" />
+                    <input type="hidden" name="p_image" value="<%= productImages[0] %>" />
+                    <input type="hidden" name="p_type" value="<%= product.p_name_en %>" />
+                    <input type="hidden" name="quantity" value="1" />
+            
                     <button type="submit" class="add-to-cart">Add to Cart</button>
-                    <!-- Thông báo cho Add to Cart -->
-                    <div id="notification-cart" class="notification hidden">
-                        <i class="fas fa-check-circle checkmark"></i>
-                        <p><b>This feature will be updated soon!</b></p>
-                    </div>
-
-                    <button onclick="buyItem()" class="buy-now">Buy now</button>
-                    <!-- Thông báo cho Add to Cart -->
-                    <div id="notification-cart" class="notification hidden">
-                        <i class="fas fa-check-circle checkmark"></i>
-                        <p><b>This feature will be updated soon!</b></p>
-                    </div>
-                </div>
-
-
-                <div class="product-info">
-                    <table>
-                        <tr>
-                            <th>Category:</th>
-                            <td>
-                                <%= product.p_category %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Product Code:</th>
-                            <td>
-                                <%= product.p_number %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Age:</th>
-                            <td>
-                                <%= product.p_age %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Supplier:</th>
-                            <td>
-                                <%= provider %>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                </form>
+            
+                <!-- Form Buy Now -->
+                <form action="/buy-now" method="POST" class="inline-form">
+                    <!-- Hidden Inputs for Buy Now -->
+                    <input type="hidden" name="p_id" value="<%= product.p_id %>" />
+                    <input type="hidden" name="p_name" value="<%= product.p_name_en %>" />
+                    <input type="hidden" name="p_price" value="<%= discounted_price %>" />
+                    <input type="hidden" name="p_image" value="<%= productImages[0] %>" />
+                    <input type="hidden" name="p_type" value="<%= product.p_name_en %>" />
+                    <input type="hidden" name="quantity" value="1" />
+            
+                    <button type="submit" class="buy-now">Buy Now</button>
+                </form>
+            </div>
+    
+            <div class="product-info">
+                <table>
+                    <tr>
+                        <th>Category:</th>
+                        <td><%= product.p_category %></td>
+                    </tr>
+                    <tr>
+                        <th>Product Code:</th>
+                        <td><%= product.p_number %></td>
+                    </tr>
+                    <tr>
+                        <th>Age:</th>
+                        <td><%= product.p_age %></td>
+                    </tr>
+                    <tr>
+                        <th>Supplier:</th>
+                        <td><%= provider %></td>
+                    </tr>
+                </table>
             </div>
         </div>
-    </form>
+    </div>
+    
     <div class="comments-container">
         <div class="comments-section">
             <h2>

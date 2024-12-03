@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('head.ejs') %>
+        <title>Shopping Cart</title>
+        <link rel="stylesheet" href="../css/index.css"> <!-- Đường dẫn tới tệp CSS -->
+
+</head>
+<style>
+    /* Container Styles */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Flex Layout */
+    .flex-container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        /* Đảm bảo bố cục vẫn đẹp trên màn hình nhỏ */
+    }
+
+    .cart-details {
+        flex: 0 0 55%;
+        /* Chiếm 55% không gian */
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-summary {
+        flex: 0 0 40%;
+        /* Chiếm 40% không gian */
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Table Styles */
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .cart-table th,
+    .cart-table td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Styling the select box */
+    .input-group select {
+        width: 100%;
+        /* Đảm bảo combobox chiếm toàn bộ chiều rộng của input */
+        padding: 10px;
+        /* Thêm khoảng cách bên trong */
+        border-radius: 8px;
+        /* Bo góc cho select */
+        border: 1px solid #ccc;
+        /* Màu viền */
+        background-color: #f9f9f9;
+        /* Màu nền */
+        font-size: 14px;
+        /* Kích thước chữ */
+        box-sizing: border-box;
+        /* Đảm bảo chiều rộng bao gồm padding */
+    }
+
+    /* Hover effect for the select box */
+    .input-group select:hover {
+        border-color: #888;
+        /* Đổi màu viền khi hover */
+    }
+
+    /* Focus effect for the select box */
+    .input-group select:focus {
+        border-color: #007bff;
+        /* Đổi màu viền khi focus */
+        outline: none;
+        /* Bỏ viền mặc định */
+        background-color: #e9f1ff;
+        /* Thêm màu nền khi focus */
+    }
+
+
+    .product-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .product-info img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+    }
+
+    /* User Information */
+    .user-info {
+        padding: 20px;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .user-info h3 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    .input-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .input-group input:focus {
+        border-color: #d0021b;
+        outline: none;
+    }
+
+    .submit-btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background-color: #d0021b;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #ff1934;
+    }
+
+    .new-account-message {
+        text-align: center;
+        font-size: 14px;
+        color: #ff6347;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+
+    /* Quantity Controls */
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .quantity-controls button {
+        padding: 5px 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background: #f9f9f9;
+        cursor: pointer;
+    }
+
+    .quantity-controls input {
+        width: 40px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    /* Cart Actions */
+    .cart-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .cart-actions input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+
+    .cart-actions button {
+        padding: 10px 20px;
+        background: #f06292;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    /* Cart Summary */
+    .cart-summary h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .summary-details,
+    .summary-total {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .shipping-info p {
+        color: #555;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+
+    /* Calculate Shipping */
+    .calculate-shipping h3 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .calculate-shipping select,
+    .calculate-shipping input,
+    .calculate-shipping button {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .checkout-button {
+        width: 100%;
+        padding: 15px;
+        background: #000;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .breadcrumb {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px 300px;
+        margin-bottom: 1rem;
+        list-style: none;
+        background-color: transparent;
+        border-radius: 0.25rem;
+    }
+
+    .breadcrumb-item+.breadcrumb-item::before {
+        display: inline-block;
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+        color: #6c757d;
+        content: "/";
+    }
+
+    .breadcrumb-item a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item a:hover {
+        text-decoration: underline;
+    }
+
+    .breadcrumb-item.active {
+        color: #6c757d;
+    }
+
+    @media (max-width: 768px) {
+
+        .cart-details,
+        .cart-summary {
+            flex: 0 0 100%;
+            /* Chiếm 100% màn hình trên thiết bị nhỏ */
+        }
+        .breadcrumb {
+            display: none;
+        }
+    }
+</style>
+<!-- <script>
+    console.log("Current website:", "<%= website %>");
+</script> -->
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <%- include('header_home_en.ejs') %>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+        </ol>
+    </nav>
+
+    <div class="container">
+        <div class="flex-container">
+            <!-- Cart Details -->
+            <div class="cart-details">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>PRODUCT</th>
+                            <th>PRICE</th>
+                            <th>QUANTITY</th>
+                            <th>TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (cartItems.length> 0) { %>
+                            <% cartItems.forEach(item=> { %>
+                                <tr>
+                                    <td class="product-info">
+                                        <img alt="<%= item.p_name %>" src="../images/<%= item.p_image %>" />
+                                        <%= item.p_name %>
+                                    </td>
+                                    <td>$ <%= item.p_price.toFixed(2) %>
+                                    </td>
+                                    <td>
+                                        <div class="quantity-controls">
+                                            <button type="button" class="decrease-btn"
+                                                data-pid="<%= item.p_id %>">-</button>
+                                            <input type="text" name="quantity" value="<%= item.quantity %>"
+                                                data-pid="<%= item.p_id %>" class="quantity-input" />
+                                            <button type="button" class="increase-btn"
+                                                data-pid="<%= item.p_id %>">+</button>
+                                        </div>
+                                    </td>
+                                    <td>$ <%= (item.p_price * item.quantity).toFixed(2) %>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="4">Your cart is empty.</td>
+                                        </tr>
+                                        <% } %>
+                    </tbody>
+                </table>
+                <div class="cart-actions">
+                    <input type="text" placeholder="Add Couppn">
+                    <form action="/add-coupon" method="post">
+                        <button style="border-radius: 8px;" type="submit">ADD COUPON</button>
+                    </form>
+                    <form id="update-cart-form" action="/update-cart" method="post">
+                        <% cartItems.forEach(item=> { %>
+                            <input type="hidden" name="p_id[]" value="<%= item.p_id %>">
+                            <input type="hidden" name="quantity[]" id="hidden-quantity-<%= item.p_id %>"
+                                value="<%= item.quantity %>">
+                            <% }); %>
+                                <button style="border-radius: 8px;" type="submit">UPDATE CART</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-summary">
+                <h2>CART TOTALS</h2>
+                <div class="summary-details">
+                    <span>Subtotal:</span>
+                    <span>$ <%= totalAmount.toFixed(2) %></span>
+                </div>
+                <div class="shipping-info">
+                    <span>Shipping:</span>
+                    <p>
+                        There are no shipping methods available. Please double check your address, or contact us if you
+                        need any help.
+                    </p>
+                </div>
+
+                <!-- User Information -->
+                <div class="user-info">
+                    <h3>User Information</h3>
+                    <% if (userLogin.userID==-1) { %>
+                        <!-- Form update information -->
+                        <form id="update-cart-form" action="/update-user-info" method="post">
+                            <!-- User ID hidden input -->
+                            <input type="hidden" name="user_id" value="<%= userLogin.userID %>">
+                            <!-- If user_id is -1, display message for new account creation -->
+
+                            <p class="new-account-message">No account found. Please fill out the details to create a new
+                                account.</p>
+                            <!-- Username Input -->
+                            <div class="input-group">
+                                <label for="username"><strong>Fullname:</strong></label>
+                                <input type="text" id="username" name="fullname" value="<%= userLogin.fullname || '' %>"
+                                    required placeholder="Enter Fullname">
+                            </div>
+
+                            <!-- Address Input -->
+                            <div class="input-group">
+                                <label for="address"><strong>Address:</strong></label>
+                                <input type="text" id="address" name="address" value="<%= userLogin.address || '' %>"
+                                    required placeholder="Enter address">
+                            </div>
+
+                            <!-- Phone Input -->
+                            <div class="input-group">
+                                <label for="phone"><strong>Phone:</strong></label>
+                                <input type="text" id="phone" name="phone" value="<%= userLogin.phone || '' %>" required
+                                    placeholder="Enter phone number">
+                            </div>
+
+                            <!-- Username Input -->
+                            <div class="input-group">
+                                <label for="username"><strong>Username:</strong></label>
+                                <input type="text" id="address" name="username" value="<%= userLogin.username || '' %>"
+                                    required placeholder="Enter Username">
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="input-group">
+                                <label for="password"><strong>Password:</strong></label>
+                                <input type="password" id="phone" name="password"
+                                    value="<%= userLogin.password || '' %>" required placeholder="Enter phone number">
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="submit-btn">Update Information</button>
+                        </form>
+                        <% } else { %>
+                            <!-- Form update information -->
+                            <form id="update-cart-form" action="/checkout" method="post">
+                                <!-- User ID hidden input -->
+                                <input type="hidden" name="user_id" value="<%= userLogin.userID %>">
+
+                                <!-- Username Input -->
+                                <div class="input-group">
+                                    <label for="username"><strong>Fullname:</strong></label>
+                                    <input type="text" id="username" name="fullname"
+                                        value="<%= userLogin.fullname || '' %>" required placeholder="Enter Fullname">
+                                </div>
+
+                                <!-- Address Input -->
+                                <div class="input-group">
+                                    <label for="address"><strong>Address:</strong></label>
+                                    <input type="text" id="address" name="address"
+                                        value="<%= userLogin.address || '' %>" required placeholder="Enter address">
+                                </div>
+
+                                <!-- Phone Input -->
+                                <div class="input-group">
+                                    <label for="phone"><strong>Phone:</strong></label>
+                                    <input type="text" id="phone" name="phone" value="<%= userLogin.phone || '' %>"
+                                        required placeholder="Enter phone number">
+                                </div>
+
+                                <!-- Type Delivery Combobox -->
+                                <div class="input-group">
+                                    <label for="delivery"><strong>Type Delivery:</strong></label>
+                                    <select id="delivery" name="delivery" required>
+                                        <option value="fast">Fast
+                                        </option>
+                                        <option value="normal">Normal</option>
+                                    </select>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <button type="submit" class="checkout-button">Check out</button>
+                            </form>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Footer Section -->
+        <footer id="footer-section">
+            <%- include('footer.ejs') %>
+        </footer>
+
+        <!-- Cart Section -->
+        <%- include('cart.ejs') %>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const increaseButtons = document.querySelectorAll('.increase-btn');
+                    const decreaseButtons = document.querySelectorAll('.decrease-btn');
+                    const updateForm = document.getElementById('update-cart-form');
+
+                    // Xử lý nút tăng số lượng
+                    increaseButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const pid = button.getAttribute('data-pid');
+                            const input = document.querySelector(`.quantity-input[data-pid="${pid}"]`);
+                            const hiddenInput = document.getElementById(`hidden-quantity-${pid}`);
+                            let currentValue = parseInt(input.value);
+                            input.value = currentValue + 1;
+                            hiddenInput.value = input.value; // Cập nhật giá trị ẩn
+                        });
+                    });
+
+                    // Xử lý nút giảm số lượng
+                    decreaseButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const pid = button.getAttribute('data-pid');
+                            const input = document.querySelector(`.quantity-input[data-pid="${pid}"]`);
+                            const hiddenInput = document.getElementById(`hidden-quantity-${pid}`);
+                            let currentValue = parseInt(input.value);
+                            if (currentValue > 1) {
+                                input.value = currentValue - 1;
+                                hiddenInput.value = input.value; // Cập nhật giá trị ẩn
+                            }
+                        });
+                    });
+                });
+
+                // Đồng bộ giá trị quantity-input với hidden-quantity khi người dùng thay đổi
+                document.querySelectorAll('.quantity-input').forEach(input => {
+                    input.addEventListener('input', function () {
+                        const pid = this.dataset.pid; // Lấy p_id tương ứng
+                        const hiddenInput = document.querySelector(`#hidden-quantity-${pid}`);
+                        if (hiddenInput) {
+                            hiddenInput.value = this.value; // Cập nhật giá trị hidden field
+                        }
+                    });
+                });
+
+            </script>
+
+</body>
+
+</html>

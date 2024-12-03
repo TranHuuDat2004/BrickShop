@@ -154,13 +154,15 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
         background-color: white;
+        width: 100%;
+        max-width: 450px;
+        height: 500px;
         z-index: 9999;
         flex-direction: column;
         justify-content: space-between;
         padding: 20px;
+        
     }
 
     .navLayer.active {
@@ -454,22 +456,22 @@
             <% if (website==='index.ejs' ) { %>
                 <li><a class="active" href="/index">Home</a></li>
                 <li><a href="/product">Products</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="/contact">Contact Us</a></li>
                 <% } else if (website==='contact.ejs' ) { %>
                     <li><a href="/index">Home</a></li>
                     <li><a href="/product">Products</a></li>
-                    <li><a class="active" href="#">Contact Us</a></li>
+                    <li><a href="/contact" class="active">Contact Us</a></li>
                     <% } else { %>
                         <li><a href="/index">Home</a></li>
                         <li><a class="active" href="/product">Products</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
                         <% } %>
         </ul>
 
         <div class="search-bar">
-            <input type="text" placeholder="Search">
-            <button class="btn-cart"><i class="fa-duotone fa-solid fa-magnifying-glass fa-xl"
-                    style="color: #d0021b;"></i></button>
+            <!-- <input type="text" placeholder="Search"> -->
+            <!-- <button class="btn-cart"><i class="fa-duotone fa-solid fa-magnifying-glass fa-xl"
+                    style="color: #d0021b;"></i></button> -->
 
             <!-- Dark mode -->
             <!-- <button id="darkModeToggle" class="btn-cart" onclick="toggleDarkMode()"><a class="fa-duotone fa-solid fa-sun fa-xl" style="--fa-primary-color: #ffbb00; --fa-secondary-color: #ffbb00;"></a></button> -->
@@ -493,6 +495,8 @@
             </div> -->
 
             <!-- Show Icon cart and Profile Avatar -->
+            <button class="btn-cart"><i class="fa-duotone fa-solid fa-magnifying-glass fa-xl"
+                style="color: #d0021b;"></i></button>
             <button class="btn-cart"><i id="cartButton" class="fa-duotone fa-solid fa-cart-shopping fa-2xl"
                     style="color: #d0021b; padding-right:10px"></i></button>
             <% if (userLogin && userLogin.userName) { %>
@@ -532,28 +536,30 @@
             <img src="/images/logo.png" width="200" alt="Brick Shop Logo">
             <span class="closeBtn" onclick="toggleMenu()">X</span>
         </div>
-        <ul class="nav-items">
+        <ul style="padding-top: 50px; padding-bottom: 50px; background-color: white;" class="nav-items">
             <% if (website==='index.ejs' ) { %>
                 <li><a class="active" href="/index">Home</a></li>
                 <li><a href="/product">Products</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="/contact">Contact Us</a></li>
                 <% } else if (website==='contact.ejs' ) { %>
                     <li><a href="/index">Home</a></li>
                     <li><a href="/product">Products</a></li>
-                    <li><a class="active" href="#">Contact Us</a></li>
+                    <li><a class="active" href="/contact">Contact Us</a></li>
                     <% } else { %>
                         <li><a href="/index">Home</a></li>
                         <li><a class="active" href="/product">Products</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
                         <% } %>
 
                             <!-- Show Icon cart and Profile Avatar -->
                             <% if (userLogin && userLogin.userName) { %>
-                                <li><a href="/General">View Cart</a></li>
+                                <li><a href="/view-cart">View Cart</a></li>
                                 <li><a href="/General">View Profile</a></li>
+                                <li><a href="/logout">Logout</a></li>
                                 <% } else { %>
+                                    <li><a href="/view-cart">View Cart</a></li>
                                     <li><a href="/Signup_en">Sign Up</a></li>
-                                    <li><a href="/ChooseLogin_en">Login</a></li>
+                                    <li><a href="/form_login_en">Login</a></li>
                                     <% } %>
         </ul>
 

@@ -47,7 +47,7 @@
                     <% const productImages=product.image.split(',').map(img=> img.trim()); %>
                         <div class="product animation">
                             <a href="/Product_Detail?id=<%= product.id %>">
-                                <img class="img1 w-100" src="../images/<%= productImages[0] %>" height="200"
+                                <img class="img1 w-100" style="object-fit: cover;" src="../images/<%= productImages[0] %>" height="200"
                                     alt="<%= product.nameEN %>">
                                 <p class="name">
                                     <%= product.nameEn %>
