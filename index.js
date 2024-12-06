@@ -1315,12 +1315,12 @@ app.get('/Keeppley_Products', auth_user, cartMiddleware, (req, res) => {
   });
 });
 
-app.get('/sario', auth_user, cartMiddleware, (req, res) => {
-  const website = 'sario.ejs';
+app.get('/search', auth_user, cartMiddleware, (req, res) => {
+  const website = 'search.ejs';
   const userLogin = res.locals.userLogin;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('sario', { website, userLogin, cartItems });
+  res.render('search', { website, userLogin, cartItems });
 });
 
 app.get('/Sidebar', auth_user, cartMiddleware, (req, res) => {
@@ -1369,8 +1369,9 @@ app.get('/logout', (req, res) => {
 app.get('/Admin/index', auth_user, cartMiddleware, (req, res) => {
   const website = 'index.ejs';
   const userLogin = res.locals.userLogin
+
   //Get the actual numbers of order
-  /*const sqlOrder = 'SELECT COUNT(*) AS orderCount FROM order';
+  const sqlOrder = 'SELECT COUNT(*) AS orderCount FROM order';
 
   conn.query(sqlOrder, (err, results) => {
     if (err) {
@@ -1379,7 +1380,7 @@ app.get('/Admin/index', auth_user, cartMiddleware, (req, res) => {
     }
   
     // Pass the user count to the EJS template
-  const orderCount = results[0].orderCount;*/
+  const orderCount = results[0].orderCount;
 
   //Get the actual numbers of user
   const sqlUser = 'SELECT COUNT(*) AS userCount FROM user';
@@ -1393,7 +1394,7 @@ app.get('/Admin/index', auth_user, cartMiddleware, (req, res) => {
     // Pass the user count to the EJS template
   const userCount = results[0].userCount;
 
-  res.render('Admin/index', { website, userLogin, userCount });
+  res.render('Admin/index', { website, userLogin, orderCount, userCount });
   });
 
 });

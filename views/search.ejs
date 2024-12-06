@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('head.ejs') %>
+        <title>
+            Product
+        </title>
+        <link rel="stylesheet" href="../css/category_product.css" />
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    .header {
+        margin: 20px 0;
+    }
+    .header img {
+        vertical-align: middle;
+    }
+    .header h1 {
+        display: inline;
+        font-size: 24px;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
+    .search-bar-input {
+        margin: 20px 0;
+        position: relative;
+        display: inline-block;
+    }
+    .search-bar-input input {
+        width: 300px;
+        padding: 10px;
+        border-radius: 25px;
+        border: 1px solid #ccc;
+    }
+    .search-bar-input .fa-search {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #ccc;
+    }
+    .popular-searches {
+        margin: 20px 0;
+    }
+    .popular-searches span {
+        margin: 0 10px;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        cursor: pointer;
+    }
+    .filters {
+        margin: 20px 0;
+    }
+    .filters select {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin: 0 10px;
+    }
+    .recommended-products {
+        margin: 40px 0;
+    }
+    .recommended-products h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    .product-list {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .product-item {
+        margin: 10px;
+        text-align: center;
+    }
+    .product-item img {
+        width: 150px;
+        height: 150px;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+    }
+    .product-item p {
+        margin: 10px 0 5px;
+    }
+    .product-item .price {
+        color: #888;
+    }
+    @media (max-width: 600px) {
+        .search-bar-input input {
+            width: 200px;
+        }
+        .product-item img {
+            width: 100px;
+            height: 100px;
+        }
+    }
+</style>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <%- include('header_home_en.ejs') %>
+    </header>
+
+<body>
+    <div class="header">
+        <img alt="Bear icon" height="30" src="https://storage.googleapis.com/a1aa/image/fKuYVwJd6sWQSCr5u1QMA7sKeeiTlw12O5W2Veero2vJ9pAfE.jpg" width="30"/>
+        <h1>What are you looking for?</h1>
+    </div>
+    <div class="search-bar-input">
+        <input placeholder="Search" type="text"/>
+        <i class="fas fa-search"></i>
+    </div>
+    <div class="filters">
+        <select>
+            <option value="price-asc">Giá tăng dần</option>
+            <option value="price-desc">Giá giảm dần</option>
+        </select>
+        <select>
+            <option value="all">Tất cả chủ đề</option>
+            <option value="lego">Lego</option>
+            <option value="qman">Qman</option>
+            <option value="keeppley">Keeppley</option>
+        </select>
+    </div>
+    <div class="recommended-products">
+        <h2>Recommended products</h2>
+        <div class="product-list">
+            <div class="product-item">
+                <img alt="Pink stuffed bunny" height="150" src="https://storage.googleapis.com/a1aa/image/l88DBfl3I61ILKYbUWdinTdl4FdjdfZAqv2tMLGGpzZtPF4TA.jpg" width="150"/>
+                <p>Flower</p>
+                <p class="price">$12.99</p>
+            </div>
+            <div class="product-item">
+                <img alt="White stuffed bunny with yellow flower" height="150" src="https://storage.googleapis.com/a1aa/image/F33aoSPAJaLMIByAXTUZcsbiciFm2kLY5QTNgeBZCvx1nC8JA.jpg" width="150"/>
+                <p>Flower</p>
+                <p class="price">$10.99</p>
+            </div>
+            <div class="product-item">
+                <img alt="Stuffed bear in baby towel" height="150" src="https://storage.googleapis.com/a1aa/image/4loU57o0I2otOtoQECZVZsk0iTLgXOvXreywWrMVeJJuPF4TA.jpg" width="150"/>
+                <p>Bear Baby Towel</p>
+                <p class="price">$12.99</p>
+            </div>
+            <div class="product-item">
+                <img alt="Blue stuffed elephant" height="150" src="https://storage.googleapis.com/a1aa/image/3H65RvzoD0ZRMltAq7eUEgM3VDZbya2L5a6OB6dTEVAznC8JA.jpg" width="150"/>
+                <p>Elephant Jelly Cat</p>
+                <p class="price">$10.99</p>
+            </div>
+            <div class="product-item">
+                <img alt="Stuffed giraffe" height="150" src="https://storage.googleapis.com/a1aa/image/78XcVVBHnToYLJJzNHL54a3CfSGTPbGkUPF5I7mKtKJ0nC8JA.jpg" width="150"/>
+                <p>Giraffe Jelly Cat</p>
+                <p class="price">$12.99</p>
+            </div>
+            <div class="product-item">
+                <img alt="Stuffed unicorn" height="150" src="https://storage.googleapis.com/a1aa/image/Q8LdUEvmk74xBRdJPs0hXUeRoxDdY7axb2r1n6YVAmL2nC8JA.jpg" width="150"/>
+                <p>Unicorn</p>
+                <p class="price">$10.99</p>
+            </div>
+        </div>
+    </div>
+
+        <!-- Footer Section -->
+        <footer id="footer-section">
+            <%- include('footer.ejs') %>
+        </footer>
+    
+        <!-- Cart Section -->
+        <%- include('cart.ejs') %>
+</body>
+</html>
