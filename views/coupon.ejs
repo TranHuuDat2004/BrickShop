@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('head.ejs') %>
+        <title>
+            Product
+        </title>
+        <link rel="stylesheet" href="../css/category_product.css" />
+</head>
+
+<style>
+    .coupon-container {
+        display: flex;
+        /* Sử dụng flexbox */
+        flex-wrap: wrap;
+        /* Cho phép các item xuống hàng */
+        gap: 20px;
+        /* Khoảng cách giữa các voucher */
+        padding: 20px;
+        background-color: #f9f9f9;
+        /* Màu nền cho container */
+    }
+
+
+    .coupon {
+        display: flex;
+        flex: 1 1 calc(33.33% - 20px);
+        /* Chiều rộng linh hoạt, 3 voucher mỗi hàng */
+        max-width: 300px;
+        /* Đảm bảo không quá to */
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        margin: 10px 0;
+        background-color: #fff;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        /* Hiệu ứng bóng */
+    }
+
+    .coupon img {
+        flex-shrink: 0;
+        /* Không cho ảnh co lại */
+        width: 60px;
+        height: 60px;
+        margin: 10px;
+    }
+
+    .coupon .left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #d0021b;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .coupon .left p {
+        margin: 5px 0;
+    }
+
+    .coupon .right {
+        padding: 10px;
+        flex-grow: 1;
+        /* Cho phép chiếm toàn bộ chiều ngang */
+    }
+
+    .coupon .right p {
+        margin: 5px 0;
+    }
+
+    .coupon .right .save-btn {
+        background-color: #d0021b;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .coupon .right .save-btn:hover {
+        background-color: #e64a19;
+    }
+
+    .coupon .right .terms {
+        color: #1e88e5;
+        text-decoration: none;
+    }
+
+    .coupon .right .terms:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .coupon {
+            flex: 1 1 calc(50% - 20px);
+            /* Hiển thị 2 voucher mỗi hàng */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .coupon {
+            flex: 1 1 100%;
+            /* Hiển thị 1 voucher mỗi hàng */
+        }
+    }
+</style>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <%- include('header_home_en.ejs') %>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="/product">Products</a></li>
+            <li class="breadcrumb-item"><a href="/coupon">Coupons</a></li>
+        </ol>
+    </nav>
+
+    <body>
+        <div class="coupon-container">
+            <div class="coupon">
+                <div class="left">
+                    <p>
+                        Coupon
+                    </p>
+                    <img alt="Brick Shop logo" height="60"
+                        src="../images/favicon.png"
+                        width="60" />
+                    <p>
+                        Brick Shop
+                    </p>
+                </div>
+                <div class="right">
+                    <p>
+                        <strong>
+                            Giảm 10%
+                        </strong>
+                    </p>
+                    <!-- <p>
+                        Đơn Tối Thiểu ₫200k
+                    </p> -->
+                    <p>
+                        Code: HelloUser
+
+                    </p>
+                    <button class="save-btn" onclick="copyToClipboard('HelloUser')">Lưu</button>
+                </div>
+            </div>
+            <div class="coupon">
+                <div class="left">
+                    <p>
+                        Coupon
+                    </p>
+                    <img alt="Brick Shop logo" height="60"
+                        src="../images/favicon.png"
+                        width="60" />
+                    <p>
+                        Brick Shop
+                    </p>
+                </div>
+                <div class="right">
+                    <p>
+                        <strong>
+                            Giảm ₫30k
+                        </strong>
+                    </p>
+                    <p>
+                        Đơn Tối Thiểu ₫200k
+                    </p>
+                    <p>
+                        Có hiệu lực từ 01 Th12
+
+                    </p>
+                    <button class="save-btn">
+                        Lưu
+                    </button>
+                </div>
+            </div>
+            <div class="coupon">
+                <div class="left">
+                    <p>
+                        Coupon
+                    </p>
+                    <img alt="Brick Shop logo" height="60"
+                        src="../images/favicon.png"
+                        width="60" />
+                    <p>
+                        Brick Shop
+                    </p>
+                </div>
+                <div class="right">
+                    <p>
+                        <strong>
+                            Giảm ₫30k
+                        </strong>
+                    </p>
+                    <p>
+                        Đơn Tối Thiểu ₫200k
+                    </p>
+                    <p>
+                        Có hiệu lực từ 01 Th12
+
+                    </p>
+                    <button class="save-btn">
+                        Lưu
+                    </button>
+                </div>
+            </div>
+            <div class="coupon">
+                <div class="left">
+                    <p>
+                        Coupon
+                    </p>
+                    <img alt="Brick Shop logo" height="60"
+                        src="../images/favicon.png"
+                        width="60" />
+                    <p>
+                        Brick Shop
+                    </p>
+                </div>
+                <div class="right">
+                    <p>
+                        <strong>
+                            Giảm ₫30k
+                        </strong>
+                    </p>
+                    <p>
+                        Đơn Tối Thiểu ₫200k
+                    </p>
+                    <p>
+                        Có hiệu lực từ 01 Th12
+
+                    </p>
+                    <button class="save-btn">
+                        Lưu
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+        <!-- Footer Section -->
+        <footer id="footer-section">
+            <%- include('footer.ejs') %>
+        </footer>
+
+        <!-- Cart Section -->
+        <%- include('cart.ejs') %>
+    </body>
+<!-- Repeat the coupon div as needed -->
+<script>
+    function copyToClipboard(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('Đã sao chép vào bộ nhớ tạm: ' + text);
+    }
+    </script>
+</html>

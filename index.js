@@ -6,12 +6,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session'); // Import express-session
 const bcrypt = require('bcrypt');
-
-//const nodemailer = require('nodemailer');
-//const crypto = require('crypto');
-
 const moment = require('moment');
-
 
 const loginFacebook = require('./login_facebook'); // Import file Facebook Login
 const conn = require('./connectDB');
@@ -198,6 +193,7 @@ app.get('/', auth_user, cartMiddleware, (req, res) => {
     });
 });
 
+
 app.get('/index', auth_user, cartMiddleware, (req, res) => {
   const website = 'index.ejs'; // Lấy tên file từ URL
   const userLogin = res.locals.userLogin;
@@ -365,13 +361,6 @@ app.get('/Connections', auth_user, cartMiddleware, (req, res) => {
   res.render('Connections', { website, userLogin, cartItems });
 });
 
-app.get('/doraemon', auth_user, cartMiddleware, (req, res) => {
-  const website = 'doraemon.ejs';
-  const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('doraemon', { website, userLogin, cartItems });
-});
 
 app.get('/footer', auth_user, cartMiddleware, (req, res) => {
   const website = 'footer.ejs';
@@ -398,7 +387,6 @@ app.get('/form_login_en', auth_user, cartMiddleware, (req, res) => {
   const errorMessage = ''
   res.render('form_login_en', { website, userLogin, cartItems, successMessage, errorMessage });
 });
-
 
 // --------------------------------------------------------------------------- //
 
@@ -471,10 +459,6 @@ app.get('/Languages', auth_user, cartMiddleware, (req, res) => {
   res.render('Languages', { website, userLogin, cartItems });
 });
 
-// Forgot password recovery
-//app.
-
-
 // Route để lấy danh sách sản phẩm và render ra trang
 app.get('/LEGO_Products', auth_user, cartMiddleware, (req, res) => {
   const website = 'LEGO_Products.ejs';
@@ -541,7 +525,7 @@ app.get('/Signup_en', auth_user, cartMiddleware, (req, res) => {
 // Xử lý đăng ký
 app.post('/register', (req, res) => {
   const { userName, email, password } = req.body;
-  const website = 'Index.ejs';
+  const website = 'register.ejs';
   const userLogin = res.locals.userLogin;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
@@ -582,6 +566,114 @@ app.post('/register', (req, res) => {
   })
 })
 
+// Route để lấy danh sách sản phẩm mới và render ra trang
+app.get('/new_arrivals', auth_user, cartMiddleware, (req, res) => {
+  const website = 'new_arrivals.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
+
+  // Lấy số trang từ query và thiết lập số lượng sản phẩm mỗi trang
+  const page = parseInt(req.query.page) || 1; // Mặc định là trang 1 nếu không có query
+  const limit = 20; // Số sản phẩm mỗi trang
+  const offset = (page - 1) * limit; // Tính vị trí bắt đầu của sản phẩm
+
+  // Tổng số sản phẩm (để tính tổng số trang)
+  const sqlCount = `
+  SELECT COUNT(*) AS total 
+  FROM product 
+  WHERE p_product_status = 'new'
+`;
+
+
+  conn.query(sqlCount, (err, resultCount) => {
+    if (err) {
+      console.error("Error counting products: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+
+    const totalProducts = resultCount[0].total;
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    // Truy vấn sản phẩm theo giới hạn và phân trang
+    const sqlProducts = `
+    SELECT * 
+    FROM product 
+    WHERE	p_product_status = 'new'
+    LIMIT ${limit} OFFSET ${offset}
+`;
+
+    conn.query(sqlProducts, (err, resultProducts) => {
+      if (err) {
+        console.error("Error querying products: " + err.stack);
+        return res.status(500).send("Database query error");
+      }
+
+      res.render('new_arrivals', {
+        website,
+        userLogin,
+        products: resultProducts,
+        currentPage: page,
+        totalPages
+      });
+    });
+  });
+});
+
+// Route để lấy danh sách sản phẩm giảm giá và render ra trang
+app.get('/discount', auth_user, cartMiddleware, (req, res) => {
+  const website = 'discount.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
+
+  // Lấy số trang từ query và thiết lập số lượng sản phẩm mỗi trang
+  const page = parseInt(req.query.page) || 1; // Mặc định là trang 1 nếu không có query
+  const limit = 20; // Số sản phẩm mỗi trang
+  const offset = (page - 1) * limit; // Tính vị trí bắt đầu của sản phẩm
+
+  // Tổng số sản phẩm (để tính tổng số trang)
+  const sqlCount = `
+    SELECT COUNT(*) AS total 
+    FROM product 
+    WHERE p_discount > 0 
+    ORDER BY p_discount DESC
+`;
+
+  conn.query(sqlCount, (err, resultCount) => {
+    if (err) {
+      console.error("Error counting products: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+
+    const totalProducts = resultCount[0].total;
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    // Truy vấn sản phẩm theo giới hạn và phân trang
+    const sqlProducts = `
+    SELECT * 
+    FROM product 
+    WHERE p_discount > 0 
+    ORDER BY p_discount DESC 
+    LIMIT ${limit} OFFSET ${offset}
+`;
+
+    conn.query(sqlProducts, (err, resultProducts) => {
+      if (err) {
+        console.error("Error querying products: " + err.stack);
+        return res.status(500).send("Database query error");
+      }
+
+      res.render('discount', {
+        website,
+        userLogin,
+        products: resultProducts,
+        currentPage: page,
+        totalPages
+      });
+    });
+  });
+});
 
 // Route để lấy danh sách sản phẩm và render ra trang
 app.get('/product', auth_user, cartMiddleware, (req, res) => {
@@ -608,7 +700,12 @@ app.get('/product', auth_user, cartMiddleware, (req, res) => {
     const totalPages = Math.ceil(totalProducts / limit);
 
     // Truy vấn sản phẩm theo giới hạn và phân trang
-    const sqlProducts = `SELECT * FROM product LIMIT ${limit} OFFSET ${offset}`;
+    const sqlProducts = `
+    SELECT * 
+    FROM product 
+    ORDER BY RAND() 
+    LIMIT ${limit} OFFSET ${offset}
+`;
     conn.query(sqlProducts, (err, resultProducts) => {
       if (err) {
         console.error("Error querying products: " + err.stack);
@@ -1366,37 +1463,11 @@ app.get('/logout', (req, res) => {
 
 
 // ----------------------- Admin -------------------------------- //
-app.get('/Admin/index', auth_user, cartMiddleware, (req, res) => {
+app.get('/Admin/index', auth_user, (req, res) => {
   const website = 'index.ejs';
-  const userLogin = res.locals.userLogin
+  const userLogin = res.locals.userLogin;
 
-  //Get the actual numbers of order
-  const sqlOrder = 'SELECT COUNT(*) AS orderCount FROM order';
-
-  conn.query(sqlOrder, (err, results) => {
-    if (err) {
-      console.error("Error querying users: " + err.stack);
-      return res.status(500).send("Database query error");
-    }
-  
-    // Pass the user count to the EJS template
-  const orderCount = results[0].orderCount;
-
-  //Get the actual numbers of user
-  const sqlUser = 'SELECT COUNT(*) AS userCount FROM user';
-
-  conn.query(sqlUser, (err, results) => {
-    if (err) {
-      console.error("Error querying users: " + err.stack);
-      return res.status(500).send("Database query error");
-    }
-  
-    // Pass the user count to the EJS template
-  const userCount = results[0].userCount;
-
-  res.render('Admin/index', { website, userLogin, orderCount, userCount });
-  });
-
+  res.render('Admin/index', { website, userLogin });
 });
 
 app.get('/Admin/addProduct', auth_user, cartMiddleware, (req, res) => {
@@ -1502,6 +1573,15 @@ app.get('/contact', auth_user, cartMiddleware, (req, res) => {
   res.render('contact', { website, userLogin, cartItems });
 });
 
+app.get('/coupon', auth_user, cartMiddleware, (req, res) => {
+  const website = 'coupon.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
+  res.render('coupon', { website, userLogin, cartItems });
+});
+
+
 // Xử lý route POST /contact
 app.post('/contact', (req, res) => {
   const website = 'contact.ejs';
@@ -1515,18 +1595,18 @@ app.post('/contact', (req, res) => {
   const values = [name, email, phone, subject, message];
 
   conn.query(sql, values, (err, results) => {
-      if (err) {
-          console.error('Error inserting data into contacts table:', err);
-          res.status(500).send('An error occurred while saving your contact.');
-          return;
-      }
-      console.log('Data inserted:', results);
-      res.render('thankyou_your_contact', { website, userLogin, cartItems });
+    if (err) {
+      console.error('Error inserting data into contacts table:', err);
+      res.status(500).send('An error occurred while saving your contact.');
+      return;
+    }
+    console.log('Data inserted:', results);
+    res.render('thankyou_your_contact', { website, userLogin, cartItems });
   });
 });
 
 // Cấu hình cổng để server lắng nghe
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log("Server is running on http://localhost:3001");
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

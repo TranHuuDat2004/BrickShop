@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 30, 2024 lúc 04:13 PM
+-- Thời gian đã tạo: Th12 06, 2024 lúc 10:26 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -115,6 +115,29 @@ INSERT INTO `category` (`id`, `name_en`, `name_vn`, `images`, `provider`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `contact`
+--
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(12) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `message` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `contact`
+--
+
+INSERT INTO `contact` (`id`, `name`, `email`, `phone`, `subject`, `message`) VALUES
+(1, 'huudatlego', 'huudat.lego@gmail.com', '0909141', 'Thêm nhiều chủ đề lego nữa đi', 'Thêm nhiều chủ đề lego nữa đi'),
+(2, 'huyle', 'huyle@gmail.com', '0909141', 'Lego quá đẹp', 'Lego quá đẹp');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `group`
 --
 
@@ -135,7 +158,8 @@ INSERT INTO `group` (`group_id`, `group_name`, `group_desc`) VALUES
 (4, 'Doraemon', NULL),
 (5, 'Build & Fun', NULL),
 (6, 'Sumikko', NULL),
-(7, 'Lego Chima', NULL);
+(7, 'Lego Chima', NULL),
+(8, 'Lego Ninjago', NULL);
 
 -- --------------------------------------------------------
 
@@ -182,7 +206,10 @@ INSERT INTO `group_product` (`group_id`, `product_id`) VALUES
 (6, 24),
 (6, 25),
 (7, 1),
-(7, 33);
+(7, 33),
+(8, 2),
+(8, 3),
+(8, 31);
 
 -- --------------------------------------------------------
 
@@ -241,7 +268,7 @@ CREATE TABLE `product` (
   `p_sold` int(10) NOT NULL,
   `p_age` varchar(255) NOT NULL,
   `p_stock_status` enum('in_stock','out_of_stock') NOT NULL DEFAULT 'in_stock',
-  `p_product_status` enum('bestseller','top_revenue','normal') NOT NULL DEFAULT 'normal'
+  `p_product_status` enum('bestseller','top_revenue','normal','new') NOT NULL DEFAULT 'new'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -250,8 +277,8 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, `p_price_en`, `p_price_vn`, `p_discount`, `p_category`, `p_tutorial`, `p_description_en`, `p_description_vn`, `p_sold`, `p_age`, `p_stock_status`, `p_product_status`) VALUES
 (1, '70229', 'Lion Triple Pack', '', '70229.jpg', 9.99, 0, 20, 'Lego Chima', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(2, '70300', 'Battle Sult', '', 'axl.jpg,clay.jpg,macy.jpg,aaron.jpg,lance.jpg', 9.99, 0, 20, 'Lego Nexo Knight', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(3, 'K20700', 'Character Detective Conan', '', 'Conan.jpg,Ran Mori.jpg,Kid.jpg,Ai Haibara.jpg', 9.99, 0, 20, 'Conan', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(2, '71806', 'Cole Elemental Earth Mech', '', '71806.webp', 9.99, 0, 80, 'Lego Ninjago', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(3, '71807', 'Sora Technic Mech', '', '71807.webp', 9.99, 0, 20, 'Lego Ninjago', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (4, 'K20801', 'Hello Kitty', 'Hello Kitty', 'HelloKitty.jpg', 9.99, 0, 100, 'Sario', 'K20801.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller'),
 (5, 'K20802', 'Melody', 'Melody', 'Melody.jpg,,', 9.99, 0, 20, 'Sario', 'K20802.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (6, 'K20804', 'Purin', 'Purin', 'Purin.jpg,,', 9.99, 0, 20, 'Sario', 'K20804.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
@@ -353,6 +380,12 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `group`
 --
 ALTER TABLE `group`
@@ -413,10 +446,16 @@ ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT cho bảng `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT cho bảng `group`
 --
 ALTER TABLE `group`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `order`
