@@ -193,6 +193,7 @@ app.get('/', auth_user, cartMiddleware, (req, res) => {
     });
 });
 
+
 app.get('/index', auth_user, cartMiddleware, (req, res) => {
   const website = 'index.ejs'; // Lấy tên file từ URL
   const userLogin = res.locals.userLogin;
@@ -360,13 +361,6 @@ app.get('/Connections', auth_user, cartMiddleware, (req, res) => {
   res.render('Connections', { website, userLogin, cartItems });
 });
 
-app.get('/doraemon', auth_user, cartMiddleware, (req, res) => {
-  const website = 'doraemon.ejs';
-  const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('doraemon', { website, userLogin, cartItems });
-});
 
 app.get('/footer', auth_user, cartMiddleware, (req, res) => {
   const website = 'footer.ejs';
@@ -531,7 +525,7 @@ app.get('/Signup_en', auth_user, cartMiddleware, (req, res) => {
 // Xử lý đăng ký
 app.post('/register', (req, res) => {
   const { userName, email, password } = req.body;
-  const website = 'Index.ejs';
+  const website = 'register.ejs';
   const userLogin = res.locals.userLogin;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
@@ -1305,12 +1299,12 @@ app.get('/Keeppley_Products', auth_user, cartMiddleware, (req, res) => {
   });
 });
 
-app.get('/sario', auth_user, cartMiddleware, (req, res) => {
-  const website = 'sario.ejs';
+app.get('/search', auth_user, cartMiddleware, (req, res) => {
+  const website = 'search.ejs';
   const userLogin = res.locals.userLogin;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('sario', { website, userLogin, cartItems });
+  res.render('search', { website, userLogin, cartItems });
 });
 
 app.get('/Sidebar', auth_user, cartMiddleware, (req, res) => {
@@ -1359,8 +1353,7 @@ app.get('/logout', (req, res) => {
 app.get('/Admin/index', auth_user, cartMiddleware, (req, res) => {
   const website = 'index.ejs';
   const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
+
   res.render('Admin/index', { website, userLogin, cartItems });
 });
 
@@ -1493,5 +1486,5 @@ app.post('/contact', (req, res) => {
 // Cấu hình cổng để server lắng nghe
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log("Server is running on http://localhost:3001");
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

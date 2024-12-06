@@ -6,7 +6,7 @@
 <head>
     <%- include('head.ejs') %>
         <title>Brick Shop - Keeppley Products</title>
-        <link rel="stylesheet" href="../css/product.css" />
+        <link rel="stylesheet" href="../css/category_product.css" />
 </head>
 
 
@@ -37,7 +37,7 @@
 
     <section class="products">
         <h2>Keeppley Products</h2>
-        <div class="product-grid">
+        <div class="category-grid">
             <% if (categories.length> 0) { %>
                 <% categories.forEach(category=> { %>
                     <a href="/Category_Product/?id=<%= category.id %>">

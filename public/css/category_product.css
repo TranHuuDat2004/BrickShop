@@ -337,6 +337,63 @@
         margin-bottom: 20px;
     }
 
+    .category-grid {
+        width: 75%;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        padding: 20px 100px;
+        /* 5 cột, mỗi cột có cùng kích thước */
+        gap: 20px;
+        /* Khoảng cách giữa các sản phẩm */
+        margin-bottom: 40px;
+        /* Khoảng cách dưới */
+    }
+
+    /* Responsive Styles Header */
+    @media (max-width: 1400px) {
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* 4 cột, mỗi cột có cùng kích thước */
+            gap: 20px;
+            /* Khoảng cách giữa các sản phẩm */
+            margin-bottom: 40px;
+            /* Khoảng cách dưới */
+            padding: 10px 0px;
+        }
+
+    }
+
+    /* Responsive Styles Header */
+    @media (max-width: 900px) {
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* 2 cột, mỗi cột có cùng kích thước */
+            gap: 20px;
+            /* Khoảng cách giữa các sản phẩm */
+            margin-bottom: 40px;
+            /* Khoảng cách dưới */
+            padding: 10px 0px;
+        }
+
+    }
+
+    /* Responsive Styles Header */
+    @media (max-width: 768px) {
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* 2 cột, mỗi cột có cùng kích thước */
+            gap: 20px;
+            /* Khoảng cách giữa các sản phẩm */
+            margin-bottom: 40px;
+            /* Khoảng cách dưới */
+            padding: 10px 0px;
+        }
+
+    }
+
     .product-grid {
         display: grid;
         grid-template-columns: repeat(5, 1fr);

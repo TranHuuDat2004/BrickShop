@@ -6,12 +6,80 @@
 }
 
 a {
-  text-decoration: none; /* Bỏ gạch chân dưới liên kết */
+  text-decoration: none;
+  /* Bỏ gạch chân dưới liên kết */
 }
 
 body {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
+}
+
+.banner-sale {
+  background-image: url("../images/lego-background.png");
+  text-align: center;
+  padding: 50px 20px;
+  position: relative;
+}
+
+.banner-sale img {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.banner-sale img.left {
+  left: 20px;
+}
+
+.banner-sale img.right {
+  right: 20px;
+}
+
+.banner-sale h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.banner-sale p {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.banner-sale .buttons {
+  margin-top: 20px;
+}
+
+.banner-sale .buttons button {
+  background-color: #d0021b;
+  /* Desktop Navbar */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.nav-sale {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.nav-sale .nav-sale-item {
+  text-align: center;
+  margin: 0 10px;
+}
+
+.nav-sale .nav-sale-item img {
+  width: 50px;
+  height: 50px;
+}
+
+.nav-sale .nav-sale-item p {
+  margin: 5px 0 0;
 }
 
 /* Desktop Navbar */
@@ -62,7 +130,7 @@ body {
 
 .hamburger-menu {
   padding: 15px 15px;
-  background-color: #ff5c5c;
+  background-color: #d0021b;
   color: white;
   border: none;
   border-radius: 5px;
@@ -115,17 +183,17 @@ body {
   padding: 10px 20px;
   border-radius: 10px;
   background-color: #fff;
-  color: #ff5c5c;
+  color: #d0021b;
   font-weight: bold;
   text-decoration: none;
   font-size: 16px;
   text-align: center;
-  border: 1px solid #ff5c5c;
+  border: 1px solid #d0021b;
   transition: background-color 0.3s ease;
 }
 
 .nav-items .active {
-  background-color: #ff5c5c;
+  background-color: #d0021b;
   color: white;
 }
 
@@ -138,8 +206,8 @@ body {
 
 .lang-btn {
   background-color: #fff;
-  color: #ff5c5c;
-  border: 1px solid #ff5c5c;
+  color: #d0021b;
+  border: 1px solid #d0021b;
   padding: 10px 20px;
   border-radius: 50px;
   margin: 0 10px;
@@ -149,7 +217,7 @@ body {
 
 .lang-btn.active,
 .lang-btn:hover {
-  background-color: #ff5c5c;
+  background-color: #d0021b;
   color: white;
 }
 
@@ -180,7 +248,7 @@ body {
 
 .hamburger-menu {
   padding: 10px 10px;
-  background-color: #ff5c5c;
+  background-color: #d0021b;
   color: white;
   border: none;
   border-radius: 5px;
@@ -189,7 +257,7 @@ body {
 
 .btn {
   padding: 10px 20px;
-  background-color: #ff5c5c;
+  background-color: #d0021b;
   color: white;
   border: none;
   border-radius: 16px;
@@ -201,22 +269,34 @@ body {
   padding: 10px 20px;
   background-color: #ffffff;
   /* Màu nền trắng */
-  color: #ff5c5c;
+  color: #d0021b;
   /* Màu chữ */
-  border: 1px solid #ff5c5c;
-  /* Viền với màu #ff5c5c */
+  border: 1px solid #d0021b;
+  /* Viền với màu #d0021b */
   border-radius: 16px;
   /* Độ bo tròn viền */
   cursor: pointer;
 }
 
-
-
-/* Qman Section */
-.qman-section {
+/* Banner Section */
+.banner-section {
   display: flex;
   padding: 50px;
-  height: 900px;
+  height: 450px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* Hình nền bao phủ toàn bộ phần tử */
+  background-position: center;
+  background-image: url("../images/banner-sale.jpg");
+  /* Căn giữa hình nền */
+}
+
+/* lego Section */
+.lego-section {
+  display: flex;
+  padding: 50px;
+  height: 700px;
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -226,36 +306,139 @@ body {
   /* Căn giữa hình nền */
 }
 
-/* Responsive chỉnh sửa cho màn hình nhỏ hơn */
-@media only screen and (max-width: 768px) {
-  .qman-section {
-    background-image: url("../images/index-phone.png");
-    
-    /* Chiều cao tự động điều chỉnh theo nội dung */
-  }
-
-}
-
-
-.qman-text {
-  flex: 1;
-}
-
-.qman-text h1 {
+.lego-text h1 {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
-.qman-image img {
+
+/* Responsive chỉnh sửa cho màn hình nhỏ hơn */
+@media only screen and (max-width: 768px) {
+  .lego-section {
+    height: 1100px;
+    background-image: url("../images/index-phone.png");
+
+    /* Chiều cao tự động điều chỉnh theo nội dung */
+  }
+
+  .lego-text h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+
+}
+
+.lego-text {
+  flex: 1;
+}
+
+.lego-image img {
   max-width: 100%;
   padding-left: 30px;
 }
 
-.dark-mode.qman-image img {
+.dark-mode.lego-image img {
   max-width: 100%;
   padding-left: 30px;
   filter: brightness(0.8) contrast(1.2);
 }
+
+/* Qman Section */
+.qman-container {
+  display: flex;
+  padding: 50px;
+  height: 700px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* Hình nền bao phủ toàn bộ phần tử */
+  background-position: center;
+  background-image: url("../images/index-qman.png");
+  /* Căn giữa hình nền */
+}
+
+.qman-logo {
+  padding-left: 700px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.qman-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.qman-logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.qman-content {
+  padding-left: 650px;
+  font-size: 16px;
+}
+
+.qman-content b {
+  font-weight: bold;
+}
+
+.qman-images {
+  padding-left: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  width: 100%;
+}
+
+.qman-images img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 800px) {
+  .qman-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-left: 0px;
+  }
+
+  /* Qman Section */
+  .qman-container {
+    display: flex;
+    padding: 50px;
+    height: 900px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* Hình nền bao phủ toàn bộ phần tử */
+    background-position: center;
+    background-image: url("../images/qman-phone.png");
+    /* Căn giữa hình nền */
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .qman-images {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .qman-content {
+    font-size: 16px;
+    padding-left: 0px;
+  }
+
+  .qman-container h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+}
+
 
 
 /* Keeppley Section */
@@ -264,7 +447,7 @@ body {
   display: flex;
   padding: 50px;
   color: white;
-  height: 900px;
+  height: 700px;
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -274,12 +457,33 @@ body {
   background-image: url('../images/20220906090844329.jpg');
 }
 
+.keeppley-text h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+
 /* Responsive chỉnh sửa cho màn hình nhỏ hơn */
 @media only screen and (max-width: 768px) {
-  .keeppley-section {
-    max-height: 1800px;
-    /* Chiều cao tự động điều chỉnh theo nội dung */
-    background-image: url('../images/20220906090914242.jpg');
+    /* Qman Section */
+    .keeppley-section {
+      display: flex;
+      padding: 50px;
+      height: 700px;
+      width: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      /* Hình nền bao phủ toàn bộ phần tử */
+      background-position: center;
+      background-image: url('../images/20220906090914242.jpg');
+      /* Căn giữa hình nền */
+      flex-direction: column;
+      align-items: center;
+    }
+
+  .keeppley-container h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
   }
 }
 
@@ -287,57 +491,9 @@ body {
   flex: 1;
 }
 
-.keeppley-text h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
 .keeppley-image img {
   max-width: 100%;
   padding-left: 30px;
-}
-
-/* LEGO Section */
-.lego-section {
-  padding: 50px;
-  background-color: #fff;
-}
-
-/* Default for larger screens (desktop) */
-
-.img-lego {
-  flex: 1 1 25%;
-  /* Each image takes up 25% of the container width */
-  max-width: 25%;
-  padding: 20px;
-  box-sizing: border-box;
-  /* Include padding in width calculations */
-}
-
-.lego-products {
-  display: flex;
-  flex-wrap: wrap;
-  /* Ensure wrapping on smaller screens */
-}
-
-.lego-products .product {
-  width: 350px;
-  flex-basis: 350px;
-  /* Ensures the element respects the set width */
-  margin: 10px;
-  /* Optional: Adds spacing between products */
-  box-sizing: border-box;
-  /* Ensure padding/borders don’t affect width */
-}
-
-
-.lego-products .product img {
-  max-width: 100px;
-}
-
-.lego-section .img-container{
-  display: flex;
-
 }
 
 /* Tablet - kích thước màn hình từ 768px đến 1024px */
@@ -424,14 +580,14 @@ body {
 /* Responsive Styles Header */
 @media (max-width: 1400px) {
   .product-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      /* 4 cột, mỗi cột có cùng kích thước */
-      gap: 20px;
-      /* Khoảng cách giữa các sản phẩm */
-      margin-bottom: 40px;
-      /* Khoảng cách dưới */
-      padding: 10px 0px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 cột, mỗi cột có cùng kích thước */
+    gap: 20px;
+    /* Khoảng cách giữa các sản phẩm */
+    margin-bottom: 40px;
+    /* Khoảng cách dưới */
+    padding: 10px 0px;
   }
 
 }
@@ -439,14 +595,14 @@ body {
 /* Responsive Styles Header */
 @media (max-width: 900px) {
   .product-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      /* 2 cột, mỗi cột có cùng kích thước */
-      gap: 20px;
-      /* Khoảng cách giữa các sản phẩm */
-      margin-bottom: 40px;
-      /* Khoảng cách dưới */
-      padding: 10px 0px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 2 cột, mỗi cột có cùng kích thước */
+    gap: 20px;
+    /* Khoảng cách giữa các sản phẩm */
+    margin-bottom: 40px;
+    /* Khoảng cách dưới */
+    padding: 10px 0px;
   }
 
 }
@@ -454,14 +610,14 @@ body {
 /* Responsive Styles Header */
 @media (max-width: 768px) {
   .product-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      /* 2 cột, mỗi cột có cùng kích thước */
-      gap: 20px;
-      /* Khoảng cách giữa các sản phẩm */
-      margin-bottom: 40px;
-      /* Khoảng cách dưới */
-      padding: 10px 0px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 cột, mỗi cột có cùng kích thước */
+    gap: 20px;
+    /* Khoảng cách giữa các sản phẩm */
+    margin-bottom: 40px;
+    /* Khoảng cách dưới */
+    padding: 10px 0px;
   }
 
 }
@@ -483,13 +639,71 @@ body {
   font-size: 16px;
 }
 
-h4{
-  text-align: center;
+.item-slick1 {
+  height: 600px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* Hình nền bao phủ toàn bộ phần tử */
+  background-position: center;
+}
+
+h1{
+  font-weight: 700;
 }
 
 h2{
+  font-weight: 700;
   text-align: center;
 }
+
+h4{
+  font-size: 18px;
+  text-align: center;
+}
+
+.sale-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.sale-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 300px;
+  text-align: left;
+  position: relative;
+}
+.sale-card img {
+  width: 100%;
+  height: auto;
+}
+.sale-card-content {
+  padding: 20px;
+}
+.sale-card-content h3 {
+  font-size: 1.5em;
+  margin: 0;
+  color: #333;
+}
+.sale-card-content p {
+  font-size: 1em;
+  color: #666;
+  margin: 10px 0;
+}
+.sale-card-content .shop-now {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #5a4b41;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
 /* Footer */
 footer a {
   color: #000;
@@ -626,7 +840,7 @@ footer button {
     width: 250px;
   }
 
-  .hide-phone{
+  .hide-phone {
     display: none;
   }
 }
