@@ -6,7 +6,12 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session'); // Import express-session
 const bcrypt = require('bcrypt');
+
+//const nodemailer = require('nodemailer');
+//const crypto = require('crypto');
+
 const moment = require('moment');
+
 
 const loginFacebook = require('./login_facebook'); // Import file Facebook Login
 const conn = require('./connectDB');
@@ -193,7 +198,6 @@ app.get('/', auth_user, cartMiddleware, (req, res) => {
     });
 });
 
-
 app.get('/index', auth_user, cartMiddleware, (req, res) => {
   const website = 'index.ejs'; // Lấy tên file từ URL
   const userLogin = res.locals.userLogin;
@@ -361,6 +365,13 @@ app.get('/Connections', auth_user, cartMiddleware, (req, res) => {
   res.render('Connections', { website, userLogin, cartItems });
 });
 
+app.get('/doraemon', auth_user, cartMiddleware, (req, res) => {
+  const website = 'doraemon.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
+  res.render('doraemon', { website, userLogin, cartItems });
+});
 
 app.get('/footer', auth_user, cartMiddleware, (req, res) => {
   const website = 'footer.ejs';
@@ -387,6 +398,7 @@ app.get('/form_login_en', auth_user, cartMiddleware, (req, res) => {
   const errorMessage = ''
   res.render('form_login_en', { website, userLogin, cartItems, successMessage, errorMessage });
 });
+
 
 // --------------------------------------------------------------------------- //
 
@@ -459,6 +471,10 @@ app.get('/Languages', auth_user, cartMiddleware, (req, res) => {
   res.render('Languages', { website, userLogin, cartItems });
 });
 
+// Forgot password recovery
+//app.
+
+
 // Route để lấy danh sách sản phẩm và render ra trang
 app.get('/LEGO_Products', auth_user, cartMiddleware, (req, res) => {
   const website = 'LEGO_Products.ejs';
@@ -525,7 +541,7 @@ app.get('/Signup_en', auth_user, cartMiddleware, (req, res) => {
 // Xử lý đăng ký
 app.post('/register', (req, res) => {
   const { userName, email, password } = req.body;
-  const website = 'register.ejs';
+  const website = 'Index.ejs';
   const userLogin = res.locals.userLogin;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
@@ -1352,9 +1368,35 @@ app.get('/logout', (req, res) => {
 // ----------------------- Admin -------------------------------- //
 app.get('/Admin/index', auth_user, cartMiddleware, (req, res) => {
   const website = 'index.ejs';
-  const userLogin = res.locals.userLogin;
+  const userLogin = res.locals.userLogin
 
-  res.render('Admin/index', { website, userLogin, cartItems });
+  //Get the actual numbers of order
+  const sqlOrder = 'SELECT COUNT(*) AS orderCount FROM order';
+
+  conn.query(sqlOrder, (err, results) => {
+    if (err) {
+      console.error("Error querying users: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+  
+    // Pass the user count to the EJS template
+  const orderCount = results[0].orderCount;
+
+  //Get the actual numbers of user
+  const sqlUser = 'SELECT COUNT(*) AS userCount FROM user';
+
+  conn.query(sqlUser, (err, results) => {
+    if (err) {
+      console.error("Error querying users: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+  
+    // Pass the user count to the EJS template
+  const userCount = results[0].userCount;
+
+  res.render('Admin/index', { website, userLogin, orderCount, userCount });
+  });
+
 });
 
 app.get('/Admin/addProduct', auth_user, cartMiddleware, (req, res) => {
@@ -1486,5 +1528,5 @@ app.post('/contact', (req, res) => {
 // Cấu hình cổng để server lắng nghe
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log("Server is running on http://localhost:3001");
 });
