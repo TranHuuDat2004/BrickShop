@@ -116,21 +116,27 @@
         <h1>What are you looking for?</h1>
     </div>
     <div class="search-bar-input">
-        <input placeholder="Search" type="text"/>
-        <i class="fas fa-search"></i>
+        <form action="/search" method="get" id="searchForm">
+            <input placeholder="Search" name="keyword" type="text" value="<%= keyword %>"/>
+            <i class="fas fa-search" id="searchIcon"></i>
+        </form>
     </div>
     <div class="filters">
-        <select>
-            <option value="price-asc">Giá tăng dần</option>
-            <option value="price-desc">Giá giảm dần</option>
-        </select>
-        <select>
-            <option value="all">Tất cả chủ đề</option>
-            <option value="lego">Lego</option>
-            <option value="qman">Qman</option>
-            <option value="keeppley">Keeppley</option>
-        </select>
+        <form action="/search" method="get" id="categoryForm">
+            <select name="sortBy" onchange="this.form.submit()">
+                <option value="price-asc" <%= sortBy === 'price-asc' ? 'selected' : '' %>>Giá tăng dần</option>
+                <option value="price-desc" <%= sortBy === 'price-desc' ? 'selected' : '' %>>Giá giảm dần</option>
+            </select>
+            <select name="category" onchange="this.form.submit()">
+                <option value="all" <%= category === 'all' ? 'selected' : '' %>>Tất cả chủ đề</option>
+                <% categories.forEach(cat => { %>
+                    <option value="<%= cat.p_category %>" <%= category === cat.p_category ? 'selected' : '' %>><%= cat.p_category %></option>
+                <% }); %>
+            </select>
+        </form>
+          
     </div>
+    
     <div class="recommended-products">
         <h2>Recommended products</h2>
         <div class="product-list">
@@ -166,13 +172,69 @@
             </div>
         </div>
     </div>
+    <section class="products">
+        <h2>Product</h2>
+        <div class="product-grid">
+            <% if (products && products.length > 0) { %>
+                <% products.forEach(product => { %>
+                    <div class="product animation">
+                        <a href="/Product_Detail/?id=<%= product.p_id %>">
+                            <div class="product">
+                                <img style="object-fit: cover;" height="200" src="../images/<%= product.p_image.split(',')[0].trim() %>" alt="<%= product.p_name %>">
+                                <% if (product.p_discount > 0) { %>
+                                    <div class="discount-badge"><%= product.p_discount %>%</div>
+                                <% } %>
+                                <p class="name"><%= product.p_name_en %></p>
+                                <p class="num"><%= product.p_category %></p>
+                                <% const discounted_price = (product.p_price_en * (1 - (product.p_discount / 100))).toFixed(2) %>
+                                <p class="price">
+                                    <delete class="num" style="text-decoration: line-through; font-size: 14px;">$<%= product.p_price_en %></delete>
+                                    $<%= discounted_price %>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No products available</p>
+            <% } %>
+        </div>
+        
+    </section>
 
-        <!-- Footer Section -->
-        <footer id="footer-section">
-            <%- include('footer.ejs') %>
-        </footer>
+
+    <% if (totalPages > 1) { %>
+        <div class="pagination">
+            <% if (currentPage > 1) { %>
+                <a href="/search?page=<%= currentPage - 1 %>&keyword=<%= keyword %>&category=<%= category %>&sortBy=<%= sortBy %>">&laquo; Previous</a>
+            <% } %>
+        
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="/search?page=<%= i %>&keyword=<%= keyword %>&category=<%= category %>&sortBy=<%= sortBy %>" class="<%= i === currentPage ? 'active' : '' %>">
+                    <%= i %>
+                </a>
+            <% } %>
+        
+            <% if (currentPage < totalPages) { %>
+                <a href="/search?page=<%= currentPage + 1 %>&keyword=<%= keyword %>&category=<%= category %>&sortBy=<%= sortBy %>">Next &raquo;</a>
+            <% } %>
+        </div>
+    <% } %>
     
-        <!-- Cart Section -->
-        <%- include('cart.ejs') %>
+    
+    <!-- Footer Section -->
+    <footer id="footer-section">
+        <%- include('footer.ejs') %>
+    </footer>
+
+    <!-- Cart Section -->
+    <%- include('cart.ejs') %>
+    <script>
+          document.getElementById("searchIcon").addEventListener("click", function(event) {
+                event.preventDefault(); // Ngừng hành động mặc định của thẻ i
+                document.getElementById("searchForm").submit(); // Submit form khi click vào icon
+            });
+
+    </script>
 </body>
 </html>

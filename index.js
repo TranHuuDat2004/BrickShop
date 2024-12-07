@@ -1415,10 +1415,85 @@ app.get('/Keeppley_Products', auth_user, cartMiddleware, (req, res) => {
 app.get('/search', auth_user, cartMiddleware, (req, res) => {
   const website = 'search.ejs';
   const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('search', { website, userLogin, cartItems });
+  const cartItems = res.locals.cartItems;
+  const totalAmount = res.locals.totalAmount;
+
+  const keyword = req.query.keyword || '';
+  const category = req.query.category || 'all';
+  const sortBy = req.query.sortBy || 'price-asc';
+
+  const page = parseInt(req.query.page) || 1;
+  const limit = 20;
+  const offset = (page - 1) * limit;
+
+  const sqlCategories = 'SELECT DISTINCT p_category FROM product';
+  conn.query(sqlCategories, (err, resultCategories) => {
+    if (err) {
+      console.error("Error fetching categories: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+
+    const sqlCount = 'SELECT COUNT(*) AS total FROM product WHERE p_name_en LIKE ?';
+    conn.query(sqlCount, [`%${keyword}%`], (err, resultCount) => {
+      if (err) {
+        console.error("Error counting products: " + err.stack);
+        return res.status(500).send("Database query error");
+      }
+
+      
+      let sqlProducts = `
+        SELECT *, 
+               p_price_en * (1 - (p_discount / 100)) AS discounted_price 
+        FROM product 
+        WHERE p_name_en LIKE ?`;
+
+      if (category !== 'all') {
+        sqlProducts += ` AND p_category = ?`;
+      }
+
+      if (sortBy === 'price-asc') {
+        sqlProducts += ` ORDER BY discounted_price ASC`; 
+      } else if (sortBy === 'price-desc') {
+        sqlProducts += ` ORDER BY discounted_price DESC`; 
+      }
+
+      sqlProducts += ` LIMIT ${limit} OFFSET ${offset}`;
+
+      const queryParams = category !== 'all' ? [`%${keyword}%`, category] : [`%${keyword}%`];
+
+      conn.query(sqlProducts, queryParams, (err, resultProducts) => {
+        if (err) {
+          console.error("Error querying products: " + err.stack);
+          return res.status(500).send("Database query error");
+        }
+        const totalProducts = resultCount.total;
+        let totalPages = 1;
+  
+        if (totalProducts <= limit) {
+          totalPages = 1;
+        }else{
+          totalPages = Math.ceil(totalProducts / limit);
+        }
+        res.render('search', {
+          website,
+          userLogin,
+          cartItems,
+          totalAmount,
+          products: resultProducts,
+          currentPage: page,
+          totalPages,
+          keyword,
+          categories: resultCategories,
+          category, 
+          sortBy 
+        });
+      });
+    });
+  });
 });
+
+
+
 
 app.get('/Sidebar', auth_user, cartMiddleware, (req, res) => {
   const website = 'Sidebar.ejs';
@@ -1465,8 +1540,10 @@ app.get('/logout', (req, res) => {
 // ----------------------- Admin -------------------------------- //
 app.get('/Admin/index', auth_user, (req, res) => {
   const website = 'index.ejs';
-  const userLogin = res.locals.userLogin;
+  const userLogin = res.locals.userLogin
 
+  //Get the actual numbers of order
+  const sqlOrder = 'SELECT COUNT(*) AS orderCount FROM order';
   res.render('Admin/index', { website, userLogin });
 });
 
@@ -1527,10 +1604,20 @@ app.get('/Admin/manageProduct', auth_user, cartMiddleware, (req, res) => {
 
 app.get('/Admin/comment', auth_user, cartMiddleware, (req, res) => {
   const website = 'comment.ejs';
+  const sql = "SELECT * FROM product";
   const userLogin = res.locals.userLogin;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('Admin/comment', { website, userLogin, cartItems });
+  conn.query(sql, (error, results) => {
+    if (error) throw error;
+
+    const products = results.map(product => ({
+      ...product,
+      p_image: product.p_image.split(',').map(img => img.trim())
+    }));
+
+    res.render('Admin/comment', { website, userLogin, cartItems, products });
+  });
 });
 
 app.get('/Admin/ManageOrder', auth_user, cartMiddleware, (req, res) => {
