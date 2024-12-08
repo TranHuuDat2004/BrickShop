@@ -189,7 +189,7 @@
                </h2>
 
                <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                  List Of Products
+                  List Of Comments
                </h4>
 
                <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -198,47 +198,39 @@
                         <thead>
                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                               <th class="px-4 py-3">ID</th>
-                              <th style="text-align: center;" class="px-4 py-3">Image</th>
-                              <th class="px-4 py-3">Name</th>
-                              <th class="px-4 py-3">Age</th>
-                              <th class="px-4 py-3">Provider</th>
-                              <th class="px-4 py-3">Price</th>
-                              <th class="px-4 py-3">Status</th>
+                              <th class="px-4 py-3">Product</th>
+                              <th class="px-4 py-3">User</th>
+                              <th class="px-4 py-3">Rank</th>
+                              <th class="px-4 py-3">Detail</th>
                               <th class="px-4 py-3">Actions</th>
                            </tr>
                         </thead>
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                           <% products.forEach(product => { %>
+                           <% comments.forEach(comment => { %>
                               <tr class="text-gray-700 dark:text-gray-400">
                                  <td class="px-4 py-3 text-sm">
                                     <div class="flex items-center text-sm">
-                                       <p class="font-semibold"><%= product.p_id %></p>
+                                       <p class="font-semibold"><%= comment.id %></p>
                                     </div>
                                  </td>
                                  <td class="px-4 py-3 text-sm">
-                                    <img style="width: 200px ; border-radius: 12px;" src="/images/<%= product.p_image[0] %>">
+                                    <%= comment.product_name %>
                                  </td>
                                  <td class="px-4 py-3 text-sm">
-                                    <%= product.p_name_en %>
+                                    <%= comment.user_name %>
                                  </td>
                                  <td class="px-4 py-3 text-sm">
-                                    <%= product.p_age %>
+                                    <%= comment.rank %>
                                  </td>
                                  <td class="px-4 py-3 text-sm">
-                                    <%= product.p_category %>
-                                 </td>
-                                 <td class="px-4 py-3 text-sm">
-                                    $<%= product.p_price_en %>
-                                 </td>
-                                 <td class="px-4 py-3 text-sm">
-                                    <%= product.p_product_status %>
+                                    $<%= comment.detail %>
                                  </td>
                                  <td class="px-4 py-3">
                                     <div class="flex items-center space-x-4 text-sm">
-                                       <a href="/editProduct/<%= product.p_id %>" class="text-purple-600">
+                                       <a href="/editProduct/<%= comment.id %>" class="text-purple-600">
                                           <i class="fas fa-edit"></i>
                                        </a>
-                                       <a href="/deleteProduct/<%= product.p_id %>" class="text-red-600">
+                                       <a href="/deleteProduct/<%= comment.id %>" class="text-red-600">
                                           <i class="fas fa-trash-alt"></i>
                                        </a>
                                     </div>

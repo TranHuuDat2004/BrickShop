@@ -499,11 +499,15 @@ app.get('/Password', auth_user, cartMiddleware, (req, res) => {
 });
 
 app.get('/view-cart', auth_user, cartMiddleware, (req, res) => {
+  console.log('req.session', req.session)
   const website = 'view-cart.ejs';
   const userLogin = res.locals.userLogin;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('view-cart', { website, userLogin, cartItems });
+  const discountApplied = req.session.discountApplied || 0;
+  const errorMessage = req.query.error || "";
+  const total = req.session.total || 0;
+  res.render('view-cart', { website, userLogin, cartItems,discountApplied,total,errorMessage  });
 });
 
 app.get('/Notifications', auth_user, cartMiddleware, (req, res) => {
@@ -788,7 +792,20 @@ app.get('/Product_Detail', auth_user, cartMiddleware, async (req, res) => {
 
     // Xử lý kết quả groupProducts
     const group = groupProducts.length > 0 ? groupProducts : [{ group_id: 0, p_name_en: "Default" }];
-
+    const sqlComments = `
+    SELECT c.id, c.rank, c.detail, c.created_at, u.username 
+    FROM comment c
+    JOIN user u ON c.userid = u.userID
+    WHERE c.productid = ?
+    ORDER BY c.created_at DESC
+  `;
+  
+  const comments = await new Promise((resolve, reject) => {
+    conn.query(sqlComments, [p_id], (err, results) => {
+      if (err) reject(err);
+      resolve(results);
+    });
+  });
     // Render trang chi tiết sản phẩm
     res.render('Product_Detail', {
       website,
@@ -799,13 +816,41 @@ app.get('/Product_Detail', auth_user, cartMiddleware, async (req, res) => {
       provider,
       productImages,
       group,
+      comments
     });
   } catch (err) {
     console.error("Database query error: " + err.stack);
     res.status(500).send("Database query error");
   }
 });
+app.post('/Product_Detail/addComment', auth_user, async (req, res) => {
+  const { product_id, user_id, rank, comment_detail } = req.body;
+  // Kiểm tra dữ liệu đầu vào
+  if (!product_id || !user_id || !rank || !comment_detail) {
+    return res.status(400).send("Missing required fields");
+  }
 
+  const sqlAddComment = `
+    INSERT INTO comment (productid, userid, rank, detail, created_at)
+    VALUES (?, ?, ?, ?, NOW())
+  `;
+
+  try {
+    // Lưu bình luận vào cơ sở dữ liệu
+    await new Promise((resolve, reject) => {
+      conn.query(sqlAddComment, [product_id, user_id, rank, comment_detail], (err, results) => {
+        if (err) reject(err);
+        resolve(results);
+      });
+    });
+
+    // Redirect lại trang chi tiết sản phẩm
+    res.redirect(`/Product_Detail?id=${product_id}`);
+  } catch (err) {
+    console.error("Error adding comment: ", err);
+    res.status(500).send("Error adding comment");
+  }
+});
 // Thêm giỏ hàng
 app.post('/buy-now', auth_user, cartMiddleware, (req, res) => {
   const { p_id, p_name, p_type, quantity, p_price, p_image } = req.body; // Nhận giá trị từ frontend
@@ -1056,6 +1101,41 @@ app.post('/update-cart', auth_user, async (req, res) => {
   }
 });
 
+app.post('/use-coupon', auth_user, cartMiddleware,async (req, res) => {
+  const couponCode = req.body.couponCode.trim();
+  const cartItems = res.locals.cartItems;
+  console.log('cartItems', cartItems)
+  const user_id = res.locals.userLogin?.userID || -1;
+  try {
+    const [coupon] = await new Promise((resolve, reject) => {
+      conn.query('SELECT * FROM coupon WHERE code = ? AND `condition` = "active" AND validityPeriod >= NOW()', [couponCode], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    if (!coupon) {
+      return res.redirect('/view-cart?error=Coupon is invalid or expired');
+    }
+    const totalAmount = cartItems.reduce((total, item) => total + item.total_price, 0);
+    if (totalAmount<coupon.minimum) {
+      return res.redirect('/view-cart?error=Coupon is invalid or expired');
+    }
+    const discount = coupon.discount;
+    console.log('first', discount)
+    console.log('totalAmount', totalAmount)
+    const discountAmount = (totalAmount * discount) / 100; 
+    const newTotalAmount = totalAmount - discountAmount;
+    console.log('newTotalAmount', newTotalAmount)
+    console.log('discountAmount', discountAmount)
+    req.session.total = newTotalAmount;
+    req.session.discountApplied = discountAmount;
+
+    res.redirect('/view-cart');
+  } catch (error) {
+    return res.redirect('/view-cart?error=Internal Server Error');
+  }
+});
 
 // Endpoint để lấy giỏ hàng của người dùng
 app.get('/get-cart', auth_user, cartMiddleware, (req, res) => {
@@ -1555,6 +1635,44 @@ app.get('/Admin/addProduct', auth_user, cartMiddleware, (req, res) => {
   res.render('Admin/addProduct', { website, userLogin, cartItems });
 });
 
+app.get('/Admin/addCoupon', auth_user, cartMiddleware, (req, res) => {
+  const website = 'addCoupon.ejs';
+  const userLogin = res.locals.userLogin;
+  res.render('Admin/addCoupon', { website, userLogin });
+});
+app.post('/Admin/addCoupon', auth_user, async (req, res) => {
+  const { nameCoupon, discount, code, validityPeriod,quantity_Coupon,minimum_order } = req.body;
+  // Kiểm tra dữ liệu đầu vào
+  if (!nameCoupon || !discount || !code || !validityPeriod || !quantity_Coupon || !minimum_order) {
+    return res.status(400).send("Missing required fields");
+  } const currentDate = new Date();
+  const validityDate = new Date(validityPeriod);
+  const condition = "active"
+  if (quantity_Coupon <= 0 || validityDate < currentDate) {
+    condition = 'hidden';
+  }
+  const sqlAddCoupon = `
+    INSERT INTO coupon (nameCoupon, discount, code,\`condition\`, validityPeriod,quantity,minimum)
+    VALUES (?, ?, ?,?, ?,?,?)
+  `;
+
+  try {
+    // Lưu coupon vào cơ sở dữ liệu
+    await new Promise((resolve, reject) => {
+      conn.query(sqlAddCoupon, [nameCoupon, discount, code,condition, validityPeriod,quantity_Coupon,minimum_order], (err, results) => {
+        if (err) reject(err);
+        resolve(results);
+      });
+    });
+
+    // Redirect về trang danh sách coupon
+    res.redirect('/Admin/ManageDiscount');
+  } catch (err) {
+    console.error("Error adding coupon: ", err);
+    res.status(500).send("Error adding coupon");
+  }
+});
+
 app.get('/Admin/addCategory', auth_user, cartMiddleware, (req, res) => {
   const website = 'addCategory.ejs';
   const userLogin = res.locals.userLogin;
@@ -1582,7 +1700,6 @@ app.get('/Admin/manageUser', auth_user, cartMiddleware, (req, res) => {
     res.render('Admin/manageUser', { website, userLogin, cartItems, users });
   });
 });
-
 app.get('/Admin/manageProduct', auth_user, cartMiddleware, (req, res) => {
   const sql = "SELECT * FROM product";
   const website = 'manageProduct.ejs';
@@ -1600,25 +1717,33 @@ app.get('/Admin/manageProduct', auth_user, cartMiddleware, (req, res) => {
     res.render('Admin/manageProduct', { website, userLogin, cartItems, products });
   });
 });
-
-
 app.get('/Admin/comment', auth_user, cartMiddleware, (req, res) => {
+  const sql = `
+    SELECT 
+      comment.id, 
+      comment.rank, 
+      comment.detail, 
+      comment.created_at, 
+      product.p_name_en AS product_name, 
+      user.userName AS user_name
+    FROM comment
+    JOIN product ON comment.productid = product.p_id
+    JOIN user ON comment.userid = user.userID
+  `;
+  
   const website = 'comment.ejs';
-  const sql = "SELECT * FROM product";
   const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
   conn.query(sql, (error, results) => {
     if (error) throw error;
-
-    const products = results.map(product => ({
-      ...product,
-      p_image: product.p_image.split(',').map(img => img.trim())
+    const comments = results.map(comment => ({
+      ...comment,
+      created_at: new Date(comment.created_at).toLocaleString(), // Định dạng ngày
     }));
-
-    res.render('Admin/comment', { website, userLogin, cartItems, products });
+    console.log('comments', comments)
+    res.render('Admin/comment', { website, userLogin, comments });
   });
 });
+
 
 app.get('/Admin/ManageOrder', auth_user, cartMiddleware, (req, res) => {
   const website = 'ManageOrder.ejs';
@@ -1628,12 +1753,30 @@ app.get('/Admin/ManageOrder', auth_user, cartMiddleware, (req, res) => {
   res.render('Admin/ManageOrder', { website, userLogin, cartItems });
 });
 
-app.get('/Admin/ManageDiscount', auth_user, cartMiddleware, (req, res) => {
-  const website = 'ManageDiscount.ejs';
-  const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('Admin/ManageDiscount', { website, userLogin, cartItems });
+app.get('/Admin/ManageDiscount', auth_user, cartMiddleware, async(req, res) => {
+  const sql = `
+  SELECT 
+    coupon.id, 
+    coupon.nameCoupon, 
+    coupon.discount, 
+    coupon.code, 
+    coupon.quantity,
+    coupon.condition, 
+    coupon.validityPeriod
+  FROM coupon
+`;
+
+const website = 'ManageDiscount.ejs';
+const userLogin = res.locals.userLogin;
+conn.query(sql, (error, results) => {
+  if (error) throw error;
+  const coupons = results.map(coupon => ({
+    ...coupon,
+    created_at: new Date(coupon.created_at).toLocaleString(),
+    validityPeriod: moment(coupon.validityPeriod).format('YYYY-MM-DD')   // Định dạng ngày
+  }));
+  res.render('Admin/ManageDiscount', { website, userLogin, coupons });
+});
 });
 
 app.get('/Admin/ManageReview', auth_user, cartMiddleware, (req, res) => {
@@ -1664,8 +1807,38 @@ app.get('/coupon', auth_user, cartMiddleware, (req, res) => {
   const website = 'coupon.ejs';
   const userLogin = res.locals.userLogin;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('coupon', { website, userLogin, cartItems });
+
+  // SQL query để lấy các coupon có condition là 'active'
+  const sql = `
+    SELECT 
+      coupon.id, 
+      coupon.nameCoupon, 
+      coupon.discount, 
+      coupon.code, 
+      coupon.quantity, 
+      coupon.condition, 
+      coupon.minimum,
+      coupon.validityPeriod
+    FROM coupon
+    WHERE coupon.condition = 'active'
+  `;
+
+  // Thực hiện truy vấn với conn.query
+  conn.query(sql, (error, results) => {
+    if (error) {
+      console.error('Error fetching coupons:', error);
+      return res.status(500).send('Error fetching coupons');
+    }
+
+    const formattedCoupons = results.map(coupon => ({
+      ...coupon,
+      created_at: new moment(Date().toLocaleString()).format('YYYY-MM-DD'),
+      validityPeriod: moment(coupon.validityPeriod).format('YYYY-MM-DD')  // Định dạng ngày
+    }));
+
+    // Render trang coupon.ejs và truyền vào dữ liệu
+    res.render('coupon', { website, userLogin, cartItems, coupons: formattedCoupons });
+  });
 });
 
 
