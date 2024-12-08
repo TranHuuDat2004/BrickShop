@@ -2,7 +2,7 @@ const mysql = require('mysql');
 
 // Tạo kết nối cơ sở dữ liệu
 const conn = mysql.createConnection({
-  host: 'localhost',
+  host: '54.66.21.102',
   user: 'root',
   password: '',
   database: 'keeppley-shop'
