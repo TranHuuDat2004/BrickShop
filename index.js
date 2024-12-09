@@ -194,64 +194,6 @@ app.get('/', auth_user, cartMiddleware, (req, res) => {
 });
 
 
-app.get('/index', auth_user, cartMiddleware, (req, res) => {
-  const website = 'index.ejs'; // Lấy tên file từ URL
-  const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  console.log(userLogin)
-  // Truy vấn danh sách sản phẩm của từng nhà cung cấp
-  const sqlQman = "SELECT * FROM `category` WHERE `provider` = 'Qman'";
-  const sqlKeeppley = "SELECT * FROM `category` WHERE `provider` = 'Keeppley'";
-  const sqlLEGO = "SELECT * FROM `category` WHERE `provider` = 'LEGO'";
-
-  // Dùng Promise để chạy các truy vấn đồng thời và đợi tất cả hoàn thành
-  Promise.all([
-    new Promise((resolve, reject) => {
-      conn.query(sqlQman, (err, results) => {
-        if (err) reject("Error querying Qman: " + err.stack);
-        else resolve(results.map(category => ({
-          id: category.id,
-          name: category.name_en,
-          images: category.images ? category.images.split(',').map(img => img.trim()) : [] // Tách chuỗi hình ảnh thành mảng
-        })).slice(0, 4)); // Lấy 4 mục đầu tiên
-      });
-    }),
-    new Promise((resolve, reject) => {
-      conn.query(sqlKeeppley, (err, results) => {
-        if (err) reject("Error querying Keeppley: " + err.stack);
-        else resolve(results.map(category => ({
-          id: category.id,
-          name: category.name_en,
-          images: category.images ? category.images.split(',').map(img => img.trim()) : []
-        })).slice(0, 4)); // Lấy 4 mục đầu tiên
-      });
-    }),
-    new Promise((resolve, reject) => {
-      conn.query(sqlLEGO, (err, results) => {
-        if (err) reject("Error querying LEGO: " + err.stack);
-        else resolve(results.map(category => ({
-          id: category.id,
-          name: category.name_en,
-          images: category.images ? category.images.split(',').map(img => img.trim()) : []
-        })).slice(0, 4)); // Lấy 4 mục đầu tiên
-      });
-    })
-  ])
-    .then(([qmanCategories, keeppleyCategories, legoCategories]) => {
-      // Render view và truyền dữ liệu categories vào EJS
-      res.render('index', { website, userLogin, cartItems, qmanCategories, keeppleyCategories, legoCategories });
-    })
-    .catch(error => {
-      console.error(error);
-      res.status(500).send("Database query error");
-    });
-});
-
-app.get('/head', auth_user, cartMiddleware, (req, res) => {
-  res.render('head');
-});
-
 app.get('/ChooseLogin_en', auth_user, cartMiddleware, (req, res) => {
   const website = 'ChooseLogin_en.ejs'; // Lấy tên file từ URL
   const userLogin = res.locals.userLogin;
@@ -507,7 +449,7 @@ app.get('/view-cart', auth_user, cartMiddleware, (req, res) => {
   const discountApplied = req.session.discountApplied || 0;
   const errorMessage = req.query.error || "";
   const total = req.session.total || 0;
-  res.render('view-cart', { website, userLogin, cartItems,discountApplied,total,errorMessage  });
+  res.render('view-cart', { website, userLogin, cartItems, discountApplied, total, errorMessage });
 });
 
 app.get('/Notifications', auth_user, cartMiddleware, (req, res) => {
@@ -799,13 +741,13 @@ app.get('/Product_Detail', auth_user, cartMiddleware, async (req, res) => {
     WHERE c.productid = ?
     ORDER BY c.created_at DESC
   `;
-  
-  const comments = await new Promise((resolve, reject) => {
-    conn.query(sqlComments, [p_id], (err, results) => {
-      if (err) reject(err);
-      resolve(results);
+
+    const comments = await new Promise((resolve, reject) => {
+      conn.query(sqlComments, [p_id], (err, results) => {
+        if (err) reject(err);
+        resolve(results);
+      });
     });
-  });
     // Render trang chi tiết sản phẩm
     res.render('Product_Detail', {
       website,
@@ -1101,7 +1043,7 @@ app.post('/update-cart', auth_user, async (req, res) => {
   }
 });
 
-app.post('/use-coupon', auth_user, cartMiddleware,async (req, res) => {
+app.post('/use-coupon', auth_user, cartMiddleware, async (req, res) => {
   const couponCode = req.body.couponCode.trim();
   const cartItems = res.locals.cartItems;
   console.log('cartItems', cartItems)
@@ -1118,13 +1060,13 @@ app.post('/use-coupon', auth_user, cartMiddleware,async (req, res) => {
       return res.redirect('/view-cart?error=Coupon is invalid or expired');
     }
     const totalAmount = cartItems.reduce((total, item) => total + item.total_price, 0);
-    if (totalAmount<coupon.minimum) {
+    if (totalAmount < coupon.minimum) {
       return res.redirect('/view-cart?error=Coupon is invalid or expired');
     }
     const discount = coupon.discount;
     console.log('first', discount)
     console.log('totalAmount', totalAmount)
-    const discountAmount = (totalAmount * discount) / 100; 
+    const discountAmount = (totalAmount * discount) / 100;
     const newTotalAmount = totalAmount - discountAmount;
     console.log('newTotalAmount', newTotalAmount)
     console.log('discountAmount', discountAmount)
@@ -1281,6 +1223,10 @@ app.post('/checkout', (req, res) => {
   const fullname = req.body.fullname || 'normal'; // Mặc định là 'normal'
   const address = req.body.address || 'unknown'; // Mặc định là 'unknown'
 
+  // 3. Lấy giá tổng
+  const total = req.body.total;
+  console.log(total)
+  
   if (user_id === -1) {
     return res.status(401).send('User not logged in');
   }
@@ -1308,8 +1254,6 @@ app.post('/checkout', (req, res) => {
       const orderCount = countResult[0].orderCount + 1;
       const o_id = `${datePart}${String(orderCount).padStart(4, '0')}`;
 
-      // 3. Tính tổng giá trị đơn hàng
-      const total = cartItems.reduce((sum, item) => sum + item.p_price * item.quantity, 0);
 
       // 4. Lưu vào bảng order (bao gồm cả delivery, fullname và address)
       conn.query('INSERT INTO `order` (o_id, user_id, total, delivery, fullname, address) VALUES (?, ?, ?, ?, ?, ?)',
@@ -1520,7 +1464,7 @@ app.get('/search', auth_user, cartMiddleware, (req, res) => {
         return res.status(500).send("Database query error");
       }
 
-      
+
       let sqlProducts = `
         SELECT *, 
                p_price_en * (1 - (p_discount / 100)) AS discounted_price 
@@ -1532,9 +1476,9 @@ app.get('/search', auth_user, cartMiddleware, (req, res) => {
       }
 
       if (sortBy === 'price-asc') {
-        sqlProducts += ` ORDER BY discounted_price ASC`; 
+        sqlProducts += ` ORDER BY discounted_price ASC`;
       } else if (sortBy === 'price-desc') {
-        sqlProducts += ` ORDER BY discounted_price DESC`; 
+        sqlProducts += ` ORDER BY discounted_price DESC`;
       }
 
       sqlProducts += ` LIMIT ${limit} OFFSET ${offset}`;
@@ -1548,10 +1492,10 @@ app.get('/search', auth_user, cartMiddleware, (req, res) => {
         }
         const totalProducts = resultCount.total;
         let totalPages = 1;
-  
+
         if (totalProducts <= limit) {
           totalPages = 1;
-        }else{
+        } else {
           totalPages = Math.ceil(totalProducts / limit);
         }
         res.render('search', {
@@ -1564,8 +1508,8 @@ app.get('/search', auth_user, cartMiddleware, (req, res) => {
           totalPages,
           keyword,
           categories: resultCategories,
-          category, 
-          sortBy 
+          category,
+          sortBy
         });
       });
     });
@@ -1641,7 +1585,7 @@ app.get('/Admin/addCoupon', auth_user, cartMiddleware, (req, res) => {
   res.render('Admin/addCoupon', { website, userLogin });
 });
 app.post('/Admin/addCoupon', auth_user, async (req, res) => {
-  const { nameCoupon, discount, code, validityPeriod,quantity_Coupon,minimum_order } = req.body;
+  const { nameCoupon, discount, code, validityPeriod, quantity_Coupon, minimum_order } = req.body;
   // Kiểm tra dữ liệu đầu vào
   if (!nameCoupon || !discount || !code || !validityPeriod || !quantity_Coupon || !minimum_order) {
     return res.status(400).send("Missing required fields");
@@ -1659,7 +1603,7 @@ app.post('/Admin/addCoupon', auth_user, async (req, res) => {
   try {
     // Lưu coupon vào cơ sở dữ liệu
     await new Promise((resolve, reject) => {
-      conn.query(sqlAddCoupon, [nameCoupon, discount, code,condition, validityPeriod,quantity_Coupon,minimum_order], (err, results) => {
+      conn.query(sqlAddCoupon, [nameCoupon, discount, code, condition, validityPeriod, quantity_Coupon, minimum_order], (err, results) => {
         if (err) reject(err);
         resolve(results);
       });
@@ -1730,7 +1674,7 @@ app.get('/Admin/comment', auth_user, cartMiddleware, (req, res) => {
     JOIN product ON comment.productid = product.p_id
     JOIN user ON comment.userid = user.userID
   `;
-  
+
   const website = 'comment.ejs';
   const userLogin = res.locals.userLogin;
   conn.query(sql, (error, results) => {
@@ -1753,7 +1697,7 @@ app.get('/Admin/ManageOrder', auth_user, cartMiddleware, (req, res) => {
   res.render('Admin/ManageOrder', { website, userLogin, cartItems });
 });
 
-app.get('/Admin/ManageDiscount', auth_user, cartMiddleware, async(req, res) => {
+app.get('/Admin/ManageDiscount', auth_user, cartMiddleware, async (req, res) => {
   const sql = `
   SELECT 
     coupon.id, 
@@ -1766,17 +1710,17 @@ app.get('/Admin/ManageDiscount', auth_user, cartMiddleware, async(req, res) => {
   FROM coupon
 `;
 
-const website = 'ManageDiscount.ejs';
-const userLogin = res.locals.userLogin;
-conn.query(sql, (error, results) => {
-  if (error) throw error;
-  const coupons = results.map(coupon => ({
-    ...coupon,
-    created_at: new Date(coupon.created_at).toLocaleString(),
-    validityPeriod: moment(coupon.validityPeriod).format('YYYY-MM-DD')   // Định dạng ngày
-  }));
-  res.render('Admin/ManageDiscount', { website, userLogin, coupons });
-});
+  const website = 'ManageDiscount.ejs';
+  const userLogin = res.locals.userLogin;
+  conn.query(sql, (error, results) => {
+    if (error) throw error;
+    const coupons = results.map(coupon => ({
+      ...coupon,
+      created_at: new Date(coupon.created_at).toLocaleString(),
+      validityPeriod: moment(coupon.validityPeriod).format('YYYY-MM-DD')   // Định dạng ngày
+    }));
+    res.render('Admin/ManageDiscount', { website, userLogin, coupons });
+  });
 });
 
 app.get('/Admin/ManageReview', auth_user, cartMiddleware, (req, res) => {

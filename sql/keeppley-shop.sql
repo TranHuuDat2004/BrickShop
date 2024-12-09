@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 08, 2024 at 03:59 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th12 09, 2024 lúc 04:56 AM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `keeppley-shop`
+-- Cơ sở dữ liệu: `keeppley-shop`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Cấu trúc bảng cho bảng `admin`
 --
 
 CREATE TABLE `admin` (
@@ -40,7 +40,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `admin`
+-- Đang đổ dữ liệu cho bảng `admin`
 --
 
 INSERT INTO `admin` (`adminID`, `userName`, `email`, `loginpassword`, `image`, `birthday`, `bio`, `country`, `phone`) VALUES
@@ -52,7 +52,7 @@ INSERT INTO `admin` (`adminID`, `userName`, `email`, `loginpassword`, `image`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart`
+-- Cấu trúc bảng cho bảng `cart`
 --
 
 CREATE TABLE `cart` (
@@ -67,27 +67,21 @@ CREATE TABLE `cart` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `cart`
+-- Đang đổ dữ liệu cho bảng `cart`
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `p_id`, `p_name`, `p_price`, `p_image`, `p_type`, `quantity`) VALUES
-(14, 31, 1, 'Character Sario', 7.99, 'HelloKitty.jpg', 'Melody', 10),
-(22, 31, 8, 'Hello Kitty Mini Car', 13.99, 'HelloKittyMiniCar.jpg', 'Hello Kitty Mini Car', 10),
 (27, 39, 4, 'Hello Kitty', 0, 'HelloKitty.jpg', 'Hello Kitty', 4),
-(29, 31, 4, 'Hello Kitty', 0, 'HelloKitty.jpg', 'Hello Kitty', 10),
-(30, 31, 7, 'Cinnamon', 7.99, 'Cinnamon.jpg', 'Cinnamon', 10),
 (31, 39, 1, 'Lion Triple Pack', 7.99, '70229.jpg', 'Lion Triple Pack', 3),
 (32, 39, 12, 'Doraemon-Bus', 9.59, 'Doraemon-Bus.jpg', 'Doraemon-Bus', 7),
-(33, 31, 16, 'Ran Mori', 7.99, 'Ran Mori.jpg', 'Ran Mori', 13),
-(34, 31, 17, 'Kid', 7.99, 'Kid.jpg', 'Kid', 13),
 (35, 46, 8, 'Hello Kitty Mini Car', 13.99, 'HelloKittyMiniCar.jpg', 'Hello Kitty Mini Car', 100),
 (36, 46, 12, 'Doraemon-Bus', 9.59, 'Doraemon-Bus.jpg', 'Doraemon-Bus', 101),
-(66, -1, 8, 'Hello Kitty Mini Car', 13.99, 'HelloKittyMiniCar.jpg', 'Hello Kitty Mini Car', 2);
+(64, -1, 33, 'Ice Bear Tribe', 7.99, '70230.jpg', 'Ice Bear Tribe', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Cấu trúc bảng cho bảng `category`
 --
 
 CREATE TABLE `category` (
@@ -99,7 +93,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `category`
+-- Đang đổ dữ liệu cho bảng `category`
 --
 
 INSERT INTO `category` (`id`, `name_en`, `name_vn`, `images`, `provider`) VALUES
@@ -116,31 +110,54 @@ INSERT INTO `category` (`id`, `name_en`, `name_vn`, `images`, `provider`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comment`
+-- Cấu trúc bảng cho bảng `comment`
 --
 
 CREATE TABLE `comment` (
   `id` int(11) NOT NULL,
   `productid` int(11) NOT NULL,
-  `userid` int(11) NOT NULL,
+  `userid` int(50) NOT NULL,
   `rank` int(11) DEFAULT NULL CHECK (`rank` between 1 and 5),
   `detail` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `comment`
+-- Đang đổ dữ liệu cho bảng `comment`
 --
 
 INSERT INTO `comment` (`id`, `productid`, `userid`, `rank`, `detail`, `created_at`) VALUES
 (1, 21, 52, 5, 'sdasd', '2024-12-07 16:46:28'),
 (2, 24, 52, 5, 'ddd', '2024-12-08 09:56:30'),
-(3, 9, 52, 5, 'Very good!', '2024-12-08 14:55:48');
+(3, 4, 31, 4, 'Đẹp', '2024-12-09 03:55:03');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `coupon`
+-- Cấu trúc bảng cho bảng `contact`
+--
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(12) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `message` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `contact`
+--
+
+INSERT INTO `contact` (`id`, `name`, `email`, `phone`, `subject`, `message`) VALUES
+(1, 'huudatlego', 'huudat.lego@gmail.com', '0909141', 'Thêm nhiều chủ đề lego nữa đi', 'Thêm nhiều chủ đề lego nữa đi'),
+(2, 'huyle', 'huyle@gmail.com', '0909141', 'Lego quá đẹp', 'Lego quá đẹp');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `coupon`
 --
 
 CREATE TABLE `coupon` (
@@ -155,18 +172,18 @@ CREATE TABLE `coupon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `coupon`
+-- Đang đổ dữ liệu cho bảng `coupon`
 --
 
 INSERT INTO `coupon` (`id`, `nameCoupon`, `discount`, `code`, `condition`, `validityPeriod`, `quantity`, `minimum`) VALUES
-(1, 'adasd', 22, 'eqwe', 'hidden', '2024-12-13', 0, 200),
-(2, 'a', 50, 'sÁ', 'active', '2024-12-11', 2, 10),
-(4, 'xzxzx', 10, 'az', 'active', '2024-12-19', 2, 200);
+(1, 'NewUser', 22, 'NewUser', 'hidden', '2024-12-13', 0, 200),
+(2, 'BlackFriday', 50, 'BlackFriday', 'active', '2024-12-11', 2, 10),
+(4, 'Weekend', 10, 'Weekend', 'active', '2024-12-19', 2, 50);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group`
+-- Cấu trúc bảng cho bảng `group`
 --
 
 CREATE TABLE `group` (
@@ -176,7 +193,7 @@ CREATE TABLE `group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `group`
+-- Đang đổ dữ liệu cho bảng `group`
 --
 
 INSERT INTO `group` (`group_id`, `group_name`, `group_desc`) VALUES
@@ -186,12 +203,13 @@ INSERT INTO `group` (`group_id`, `group_name`, `group_desc`) VALUES
 (4, 'Doraemon', NULL),
 (5, 'Build & Fun', NULL),
 (6, 'Sumikko', NULL),
-(7, 'Lego Chima', NULL);
+(7, 'Lego Chima', NULL),
+(8, 'Lego Ninjago', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_product`
+-- Cấu trúc bảng cho bảng `group_product`
 --
 
 CREATE TABLE `group_product` (
@@ -200,7 +218,7 @@ CREATE TABLE `group_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `group_product`
+-- Đang đổ dữ liệu cho bảng `group_product`
 --
 
 INSERT INTO `group_product` (`group_id`, `product_id`) VALUES
@@ -233,12 +251,15 @@ INSERT INTO `group_product` (`group_id`, `product_id`) VALUES
 (6, 24),
 (6, 25),
 (7, 1),
-(7, 33);
+(7, 33),
+(8, 2),
+(8, 3),
+(8, 31);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order`
+-- Cấu trúc bảng cho bảng `order`
 --
 
 CREATE TABLE `order` (
@@ -253,19 +274,10 @@ CREATE TABLE `order` (
   `total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `order`
---
-
-INSERT INTO `order` (`id`, `o_id`, `user_id`, `order_date`, `fullname`, `address`, `delivery`, `status`, `total`) VALUES
-(13, '202412050001', 52, '2024-12-05 22:19:19', 'Dương Thị Thuỳ Linh', 'Thu Duc', 'normal', 0, 7.99),
-(20, '202412060001', 52, '2024-12-06 23:51:42', 'Cindy Duong', 'Thu Duc', 'normal', 0, 23.97),
-(21, '202412080001', 52, '2024-12-08 21:55:02', 'Dương Thị Thuỳ Linh', 'Thu Duc', 'fast', 0, 21.98);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_detail`
+-- Cấu trúc bảng cho bảng `order_detail`
 --
 
 CREATE TABLE `order_detail` (
@@ -279,22 +291,10 @@ CREATE TABLE `order_detail` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `order_detail`
---
-
-INSERT INTO `order_detail` (`id`, `o_id`, `user_id`, `p_id`, `p_name`, `p_image`, `price`, `quantity`) VALUES
-(27, '202412050001', 52, 24, 'Comfortable Corner', 'Comforable Corner.jpg', 7.99, 1),
-(28, '202412060001', 52, 22, 'Qtea-PDQ', 'Qtea.jpg', 7.99, 1),
-(29, '202412060001', 52, 23, 'Qman Mart-PDQ', 'Qmart.jpg', 7.99, 1),
-(30, '202412060001', 52, 21, 'Burger', 'Burger.jpg', 7.99, 1),
-(31, '202412080001', 52, 31, 'Lloyd Mech Battle', '71781.jpg', 7.99, 1),
-(32, '202412080001', 52, 8, 'Hello Kitty Mini Car', 'HelloKittyMiniCar.jpg', 13.99, 1);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
+-- Cấu trúc bảng cho bảng `product`
 --
 
 CREATE TABLE `product` (
@@ -313,25 +313,25 @@ CREATE TABLE `product` (
   `p_sold` int(10) NOT NULL,
   `p_age` varchar(255) NOT NULL,
   `p_stock_status` enum('in_stock','out_of_stock') NOT NULL DEFAULT 'in_stock',
-  `p_product_status` enum('bestseller','top_revenue','normal') NOT NULL DEFAULT 'normal'
+  `p_product_status` enum('bestseller','top_revenue','normal','new') NOT NULL DEFAULT 'new'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `product`
+-- Đang đổ dữ liệu cho bảng `product`
 --
 
 INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, `p_price_en`, `p_price_vn`, `p_discount`, `p_category`, `p_tutorial`, `p_description_en`, `p_description_vn`, `p_sold`, `p_age`, `p_stock_status`, `p_product_status`) VALUES
 (1, '70229', 'Lion Triple Pack', '', '70229.jpg', 9.99, 0, 20, 'Lego Chima', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(2, '70300', 'Battle Sult', '', 'axl.jpg,clay.jpg,macy.jpg,aaron.jpg,lance.jpg', 9.99, 0, 20, 'Lego Nexo Knight', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(3, 'K20700', 'Character Detective Conan', '', 'Conan.jpg,Ran Mori.jpg,Kid.jpg,Ai Haibara.jpg', 9.99, 0, 20, 'Conan', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(4, 'K20801', 'Hello Kitty', 'Hello Kitty', 'HelloKitty.jpg', 9.99, 0, 100, 'Sario', 'K20801.pdf', '', '', 0, '6-12', 'in_stock', 'bestseller'),
+(2, '71806', 'Cole Elemental Earth Mech', '', '71806.webp', 9.99, 0, 80, 'Lego Ninjago', '', '', '', 0, '12+', 'in_stock', 'new'),
+(3, '71807', 'Sora Technic Mech', '', '71807.webp', 9.99, 0, 20, 'Lego Ninjago', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(4, 'K20801', 'Hello Kitty', 'Hello Kitty', 'HelloKitty.jpg', 9.99, 0, 100, 'Sario', 'K20801.pdf', '', '', 0, '6-12', 'in_stock', 'new'),
 (5, 'K20802', 'Melody', 'Melody', 'Melody.jpg,,', 9.99, 0, 20, 'Sario', 'K20802.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (6, 'K20804', 'Purin', 'Purin', 'Purin.jpg,,', 9.99, 0, 20, 'Sario', 'K20804.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(7, 'K20803', 'Cinnamon', 'Cinnamon', 'Cinnamon.jpg,,', 9.99, 0, 20, 'Sario', 'K20803.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(7, 'K20803', 'Cinnamon', 'Cinnamon', 'Cinnamon.jpg,,', 9.99, 0, 20, 'Sario', 'K20803.pdf', '', '', 0, '12+', 'in_stock', 'new'),
 (8, 'K20805', 'Hello Kitty Mini Car', 'Hello Kitty Mini Car', 'HelloKittyMiniCar.jpg,,', 19.99, 0, 30, 'Sario', 'K20805.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (9, 'K20806', 'Hello Kitty Mini Bus', 'Hello Kitty Mini Bus', 'HelloKittyMiniBus.jpg,,', 19.99, 0, 20, 'Sario', 'K20806.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (10, 'K20402', 'Nobita Room', 'Nobita Room', 'NobitaRoom.jpg,,', 15.99, 0, 20, 'Doraemon', 'K20402.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(11, 'K20406', 'Doraemon-Beetles', 'Doraemon-Beetles', 'Doraemon-Beetles.jpg,,', 11.99, 0, 20, 'Doraemon', 'K20406.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(11, 'K20406', 'Doraemon-Beetles', 'Doraemon-Beetles', 'Doraemon-Beetles.jpg,,', 11.99, 0, 20, 'Doraemon', 'K20406.pdf', '', '', 0, '12+', 'in_stock', 'new'),
 (12, 'K20407', 'Doraemon-Bus', 'Doraemon-Bus', 'Doraemon-Bus.jpg,,', 11.99, 0, 20, 'Doraemon', 'K20407.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (13, 'K20408', 'Doraemon-TV', 'Doraemon-TV', 'Doraemon-TV.jpg,,', 13.99, 0, 20, 'Doraemon', 'K20408.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (14, 'K20409', 'Doraemon-Cement Pipe Space', 'Doraemon-Cement Pipe Space', 'Doraemon-CementPipeSpace.jpg,,', 9.99, 0, 20, 'Doraemon', 'K20409.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
@@ -339,12 +339,12 @@ INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, 
 (16, 'K20702', 'Ran Mori', 'Ran Mori', 'Ran Mori.jpg,,', 9.99, 0, 20, 'Conan', 'K20702.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (17, 'K20703', 'Kid', 'Kid', 'Kid.jpg,,', 9.99, 0, 20, 'Conan', 'K20703.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (18, 'K20704', 'Ai Haibara', 'Ai Haibara', 'Ai Haibara.jpg,,', 9.99, 0, 20, 'Conan', 'K20704.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(19, '35011', 'Sweetie Story', 'Sweetie Story', 'Sweet.jpg,,', 9.99, 0, 20, 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(19, '35011', 'Sweetie Story', 'Sweetie Story', 'Sweet.jpg,,', 9.99, 0, 20, 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'new'),
 (20, '77012', 'Relax Coffee Time', 'Relax Coffee Time', 'Coffee.jpg,,', 9.99, 0, 20, 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (21, '35012', 'Burger', 'Burger', 'Burger.jpg,,', 9.99, 0, 20, 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (22, '35014', 'Qtea-PDQ', 'Qtea-PDQ', 'Qtea.jpg,,', 9.99, 0, 20, 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (23, '35015', 'Qman Mart-PDQ', 'Qman Mart-PDQ', 'Qmart.jpg,,', 9.99, 0, 20, 'Build & Fun', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
-(24, '77011', 'Comfortable Corner', 'Comfortable Corner', 'Comforable Corner.jpg,,', 9.99, 0, 20, 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
+(24, '77011', 'Comfortable Corner', 'Comfortable Corner', 'Comforable Corner.jpg,,', 9.99, 0, 20, 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'new'),
 (25, '77013', 'Delicious Bento', 'Delicious Bento', 'Bento.jpg,,', 9.99, 0, 20, 'Sumikko', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (26, '70365', 'Battle Sult Axl', 'Lego Axl', 'Axl.jpg,,', 9.99, 0, 20, 'Lego Nexo Knight', '70365.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (27, '70362', 'Battle Sult Clay', 'Battle Sult Clay', 'Clay.jpg,,', 9.99, 0, 20, 'Lego Nexo Knight', '70362.pdf', '', '', 0, '12+', 'in_stock', 'bestseller'),
@@ -359,7 +359,7 @@ INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Cấu trúc bảng cho bảng `user`
 --
 
 CREATE TABLE `user` (
@@ -376,7 +376,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user`
+-- Đang đổ dữ liệu cho bảng `user`
 --
 
 INSERT INTO `user` (`userID`, `userName`, `fullname`, `email`, `loginpassword`, `image`, `address`, `bio`, `country`, `phone`) VALUES
@@ -400,33 +400,32 @@ INSERT INTO `user` (`userID`, `userName`, `fullname`, `email`, `loginpassword`, 
 (48, 'thuylinh2004', 'Dương Thị Thùy Linh', '', '$2b$10$gMTtetUaxFId9EZIjzhb3OM1kpmnNYvGFo54RMngx1e5sBg.o1JPy', 'ThuyKhanh.jpg', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
 (49, 'huyle2004', 'Lê Tấn Huy', '', '$2b$10$fd5E16qEErFHsMQ4Hk3b/OYAvzDTeFYwuY5df31U9.WlpZCbpdmYG', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
 (50, 'MinhPhucDao', 'Đào Minh Phúc', '', '$2b$10$dWkOpL7.1P3D/ryh.Y3JH.j7vrqwl3JDEJuOvP4IXEbRU8nBeG8mO', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
-(51, 'MinhPhucDao111', 'Đào Minh Phúc', '', '$2b$10$8DVHz3gTCQ.oqL2I9nQx5e8qHi5TgxZMtTWNoHwyAXOHFMO/YbJNe', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
-(52, 'linh', '', 'linh@gmail.com', '$2b$10$sc0KgakzisUBhykaQbhUzuaSMYJJv0KKxN4L5YHnMSsP2CcuEFd8W', '', NULL, '', '', '');
+(51, 'MinhPhucDao111', 'Đào Minh Phúc', '', '$2b$10$8DVHz3gTCQ.oqL2I9nQx5e8qHi5TgxZMtTWNoHwyAXOHFMO/YbJNe', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141');
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `admin`
+-- Chỉ mục cho bảng `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`adminID`);
 
 --
--- Indexes for table `cart`
+-- Chỉ mục cho bảng `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `category`
+-- Chỉ mục cho bảng `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `comment`
+-- Chỉ mục cho bảng `comment`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`id`),
@@ -434,127 +433,138 @@ ALTER TABLE `comment`
   ADD KEY `userid` (`userid`);
 
 --
--- Indexes for table `coupon`
+-- Chỉ mục cho bảng `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `coupon`
 --
 ALTER TABLE `coupon`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `code` (`code`);
 
 --
--- Indexes for table `group`
+-- Chỉ mục cho bảng `group`
 --
 ALTER TABLE `group`
   ADD PRIMARY KEY (`group_id`);
 
 --
--- Indexes for table `group_product`
+-- Chỉ mục cho bảng `group_product`
 --
 ALTER TABLE `group_product`
   ADD PRIMARY KEY (`group_id`,`product_id`),
   ADD KEY `product_id` (`product_id`);
 
 --
--- Indexes for table `order`
+-- Chỉ mục cho bảng `order`
 --
 ALTER TABLE `order`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `o_id` (`o_id`);
 
 --
--- Indexes for table `order_detail`
+-- Chỉ mục cho bảng `order_detail`
 --
 ALTER TABLE `order_detail`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `product`
+-- Chỉ mục cho bảng `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`p_id`);
 
 --
--- Indexes for table `user`
+-- Chỉ mục cho bảng `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`userID`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT cho bảng `admin`
 --
 ALTER TABLE `admin`
   MODIFY `adminID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `cart`
+-- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
--- AUTO_INCREMENT for table `category`
+-- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `comment`
+-- AUTO_INCREMENT cho bảng `comment`
 --
 ALTER TABLE `comment`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `coupon`
+-- AUTO_INCREMENT cho bảng `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `coupon`
 --
 ALTER TABLE `coupon`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `group`
+-- AUTO_INCREMENT cho bảng `group`
 --
 ALTER TABLE `group`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `order`
+-- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT for table `order_detail`
+-- AUTO_INCREMENT cho bảng `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
--- AUTO_INCREMENT for table `product`
+-- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
   MODIFY `p_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT cho bảng `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `userID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `comment`
+-- Các ràng buộc cho bảng `comment`
 --
 ALTER TABLE `comment`
-  ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`productid`) REFERENCES `product` (`p_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `user` (`userID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`productid`) REFERENCES `product` (`p_id`);
 
 --
--- Constraints for table `group_product`
+-- Các ràng buộc cho bảng `group_product`
 --
 ALTER TABLE `group_product`
   ADD CONSTRAINT `group_product_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE,

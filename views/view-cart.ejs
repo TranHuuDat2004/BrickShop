@@ -294,6 +294,7 @@
             flex: 0 0 100%;
             /* Chiếm 100% màn hình trên thiết bị nhỏ */
         }
+
         .breadcrumb {
             display: none;
         }
@@ -312,7 +313,7 @@
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
         </ol>
     </nav>
@@ -366,7 +367,7 @@
                         <input type="text" name="couponCode" placeholder="Add Coupon" />
                         <button style="border-radius: 8px;" type="submit">ADD COUPON</button>
                     </form>
-                    
+
                     <form id="update-cart-form" action="/update-cart" method="post">
                         <% cartItems.forEach(item=> { %>
                             <input type="hidden" name="p_id[]" value="<%= item.p_id %>">
@@ -391,7 +392,6 @@
                 <div class="summary-details">
                     <span>Coupon:</span>
                     <span> $ <%= discountApplied.toFixed(2) %></span>
-                
                 </div>
                 <div class="shipping-info">
                     <span>Shipping: </span>
@@ -402,7 +402,7 @@
                 </div>
                 <div class="summary-details">
                     <span>Total:</span>
-                 <span>$ <%= total.toFixed(2) %></span>
+                    <span>$ <%= total.toFixed(2) %></span>
                 </div>
                 <!-- User Information -->
                 <div class="user-info">
@@ -451,6 +451,9 @@
                                     value="<%= userLogin.password || '' %>" required placeholder="Enter phone number">
                             </div>
 
+                            <!-- Tổng giá tiền -->
+                            <input type="hidden" name="total" value="<%= total.toFixed(2) %>">
+
                             <!-- Submit Button -->
                             <button type="submit" class="submit-btn">Update Information</button>
                         </form>
@@ -490,6 +493,9 @@
                                         <option value="normal">Normal</option>
                                     </select>
                                 </div>
+
+                                <!-- Tổng giá tiền -->
+                                <input type="hidden" name="total" value="<%= total.toFixed(2) %>">
 
                                 <!-- Submit Button -->
                                 <button type="submit" class="checkout-button">Check out</button>
@@ -554,11 +560,11 @@
                 });
 
             </script>
-    <% if (errorMessage) { %>
-        <script>
-          alert('<%= errorMessage %>');
-        </script>
-      <% } %>
+            <% if (errorMessage) { %>
+                <script>
+                    alert('<%= errorMessage %>');
+                </script>
+                <% } %>
 </body>
 
 </html>

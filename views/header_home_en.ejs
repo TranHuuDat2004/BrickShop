@@ -446,7 +446,7 @@
 
     <!-- Desktop Navbar -->
     <div class="navbar desktop">
-        <a href="/index">
+        <a href="/">
             <div class="logo">
                 <img src="/images/logo.png" width="200" alt="Brick Shop Logo">
             </div>
@@ -454,15 +454,15 @@
 
         <ul>
             <% if (website==='index.ejs' ) { %>
-                <li><a class="active" href="/index">Home</a></li>
+                <li><a class="active" href="/">Home</a></li>
                 <li><a href="/product">Products</a></li>
                 <li><a href="/contact">Contact Us</a></li>
                 <% } else if (website==='contact.ejs' ) { %>
-                    <li><a href="/index">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="/product">Products</a></li>
                     <li><a href="/contact" class="active">Contact Us</a></li>
                     <% } else { %>
-                        <li><a href="/index">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a class="active" href="/product">Products</a></li>
                         <li><a href="/contact">Contact Us</a></li>
                         <% } %>
@@ -538,15 +538,15 @@
         </div>
         <ul style="padding-top: 50px; padding-bottom: 50px; background-color: white;" class="nav-items">
             <% if (website==='index.ejs' ) { %>
-                <li><a class="active" href="/index">Home</a></li>
+                <li><a class="active" href="/">Home</a></li>
                 <li><a href="/product">Products</a></li>
                 <li><a href="/contact">Contact Us</a></li>
                 <% } else if (website==='contact.ejs' ) { %>
-                    <li><a href="/index">Home</a></li>
+                    <li><a href="/">Home</a></li>
                     <li><a href="/product">Products</a></li>
                     <li><a class="active" href="/contact">Contact Us</a></li>
                     <% } else { %>
-                        <li><a href="/index">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a class="active" href="/product">Products</a></li>
                         <li><a href="/contact">Contact Us</a></li>
                         <% } %>
@@ -632,10 +632,10 @@
 
         //     if (element.classList.contains("dark-mode")) {
         //         // Chuyển sang hình nền dark mode
-        //         qmanSection.style.backgroundImage = "url('../images/index_dark.png')";
+        //         qmanSection.style.backgroundImage = "url('../images/_dark.png')";
         //     } else {
         //         // Chuyển lại hình nền sáng
-        //         qmanSection.style.backgroundImage = "url('../images/index.png')";
+        //         qmanSection.style.backgroundImage = "url('../images/.png')";
         //     }
 
         //     var qmanImage = document.querySelector('.qman-section img'); // Truy xuất hình ảnh

@@ -119,7 +119,7 @@
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="/product">Products</a></li>
             <li class="breadcrumb-item"><a href="/coupon">Coupons</a></li>
         </ol>
@@ -143,24 +143,25 @@
                   <div class="right">
                     <p>
                       <strong>
-                        Giảm <%= coupon.discount %>%
+                        Save <%= coupon.discount %>%
                       </strong>
                     </p>
                     <p>
-                      Đơn Tối Thiểu $<%= coupon.minimum %>k
+                      Minimum Order $<%= coupon.minimum %>
                     </p>
                     <p>
-                      Có hiệu lực từ <br> <%= coupon.created_at %>
+                      Valid from <br> <%= coupon.created_at %>
                     </p>
                     <p>
-                      Đến <br> <%= coupon.validityPeriod %>
+                      Until <br> <%= coupon.validityPeriod %>
                     </p>
-                    <button class="save-btn" onclick="copyToClipboard('<%= coupon.code %>')">Lưu</button>
+                    <button class="save-btn" onclick="copyToClipboard('<%= coupon.code %>')">Save</button>
                   </div>
                 </div>
               <% }) %>
               
         </div>
+        
         <!-- Footer Section -->
         <footer id="footer-section">
             <%- include('footer.ejs') %>
