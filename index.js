@@ -1222,11 +1222,9 @@ app.post('/checkout', (req, res) => {
   const delivery = req.body.delivery || 'normal'; // Mặc định là 'normal'
   const fullname = req.body.fullname || 'normal'; // Mặc định là 'normal'
   const address = req.body.address || 'unknown'; // Mặc định là 'unknown'
+  const totalAmount2 = req.body.totalAmount;
+  const discountApplied = req.body.discountApplied;
 
-  // 3. Lấy giá tổng
-  const total = req.body.total;
-  console.log(total)
-  
   if (user_id === -1) {
     return res.status(401).send('User not logged in');
   }
@@ -1244,6 +1242,12 @@ app.post('/checkout', (req, res) => {
 
     // 2. Tạo mã o_id (8 số ngày tháng năm + 4 số tự tăng)
     const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD
+
+
+    // 3. Lấy giá tổng
+    const total = parseFloat((totalAmount2 - discountApplied).toFixed(2));
+
+    console.log(total)
 
     conn.query('SELECT COUNT(*) AS orderCount FROM `order` WHERE DATE(order_date) = CURDATE()', (err, countResult) => {
       if (err) {
