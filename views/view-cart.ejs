@@ -402,7 +402,10 @@
                 </div>
                 <div class="summary-details">
                     <span>Total:</span>
-                    <span>$ <%= total.toFixed(2) %></span>
+                    <span>
+                        $<%= (parseFloat(totalAmount.toFixed(2)) - parseFloat(discountApplied.toFixed(2))).toFixed(2) %>
+                    </span>
+
                 </div>
                 <!-- User Information -->
                 <div class="user-info">
@@ -452,7 +455,8 @@
                             </div>
 
                             <!-- Tổng giá tiền -->
-                            <input type="hidden" name="total" value="<%= total.toFixed(2) %>">
+                            <input type="hidden" name="totalAmount" value="<%= totalAmount .toFixed(2) %>">
+                            <input type="hidden" name="discountApplied" value="<%= discountApplied.toFixed(2) %>">
 
                             <!-- Submit Button -->
                             <button type="submit" class="submit-btn">Update Information</button>
@@ -495,7 +499,8 @@
                                 </div>
 
                                 <!-- Tổng giá tiền -->
-                                <input type="hidden" name="total" value="<%= total.toFixed(2) %>">
+                                <input type="hidden" name="totalAmount" value="<%= totalAmount .toFixed(2) %>">
+                                <input type="hidden" name="discountApplied" value="<%= discountApplied.toFixed(2) %>">
 
                                 <!-- Submit Button -->
                                 <button type="submit" class="checkout-button">Check out</button>
