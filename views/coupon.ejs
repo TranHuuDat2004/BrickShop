@@ -119,7 +119,7 @@
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="/product">Products</a></li>
             <li class="breadcrumb-item"><a href="/coupon">Coupons</a></li>
         </ol>
@@ -127,126 +127,41 @@
 
     <body>
         <div class="coupon-container">
-            <div class="coupon">
-                <div class="left">
+            <% coupons.forEach(coupon => { %>
+                <div class="coupon">
+                  <div class="left">
                     <p>
-                        Coupon
+                      Coupon
                     </p>
                     <img alt="Brick Shop logo" height="60"
-                        src="../images/favicon.png"
-                        width="60" />
+                         src="../images/favicon.png"
+                         width="60" />
                     <p>
-                        Brick Shop
+                      Brick Shop
                     </p>
+                  </div>
+                  <div class="right">
+                    <p>
+                      <strong>
+                        Save <%= coupon.discount %>%
+                      </strong>
+                    </p>
+                    <p>
+                      Minimum Order $<%= coupon.minimum %>
+                    </p>
+                    <p>
+                      Valid from <br> <%= coupon.created_at %>
+                    </p>
+                    <p>
+                      Until <br> <%= coupon.validityPeriod %>
+                    </p>
+                    <button class="save-btn" onclick="copyToClipboard('<%= coupon.code %>')">Save</button>
+                  </div>
                 </div>
-                <div class="right">
-                    <p>
-                        <strong>
-                            Giảm 10%
-                        </strong>
-                    </p>
-                    <!-- <p>
-                        Đơn Tối Thiểu ₫200k
-                    </p> -->
-                    <p>
-                        Code: HelloUser
-
-                    </p>
-                    <button class="save-btn" onclick="copyToClipboard('HelloUser')">Lưu</button>
-                </div>
-            </div>
-            <div class="coupon">
-                <div class="left">
-                    <p>
-                        Coupon
-                    </p>
-                    <img alt="Brick Shop logo" height="60"
-                        src="../images/favicon.png"
-                        width="60" />
-                    <p>
-                        Brick Shop
-                    </p>
-                </div>
-                <div class="right">
-                    <p>
-                        <strong>
-                            Giảm ₫30k
-                        </strong>
-                    </p>
-                    <p>
-                        Đơn Tối Thiểu ₫200k
-                    </p>
-                    <p>
-                        Có hiệu lực từ 01 Th12
-
-                    </p>
-                    <button class="save-btn">
-                        Lưu
-                    </button>
-                </div>
-            </div>
-            <div class="coupon">
-                <div class="left">
-                    <p>
-                        Coupon
-                    </p>
-                    <img alt="Brick Shop logo" height="60"
-                        src="../images/favicon.png"
-                        width="60" />
-                    <p>
-                        Brick Shop
-                    </p>
-                </div>
-                <div class="right">
-                    <p>
-                        <strong>
-                            Giảm ₫30k
-                        </strong>
-                    </p>
-                    <p>
-                        Đơn Tối Thiểu ₫200k
-                    </p>
-                    <p>
-                        Có hiệu lực từ 01 Th12
-
-                    </p>
-                    <button class="save-btn">
-                        Lưu
-                    </button>
-                </div>
-            </div>
-            <div class="coupon">
-                <div class="left">
-                    <p>
-                        Coupon
-                    </p>
-                    <img alt="Brick Shop logo" height="60"
-                        src="../images/favicon.png"
-                        width="60" />
-                    <p>
-                        Brick Shop
-                    </p>
-                </div>
-                <div class="right">
-                    <p>
-                        <strong>
-                            Giảm ₫30k
-                        </strong>
-                    </p>
-                    <p>
-                        Đơn Tối Thiểu ₫200k
-                    </p>
-                    <p>
-                        Có hiệu lực từ 01 Th12
-
-                    </p>
-                    <button class="save-btn">
-                        Lưu
-                    </button>
-                </div>
-            </div>
-            
+              <% }) %>
+              
         </div>
+        
         <!-- Footer Section -->
         <footer id="footer-section">
             <%- include('footer.ejs') %>

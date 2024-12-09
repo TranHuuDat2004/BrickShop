@@ -189,7 +189,7 @@
                </h2>
 
                <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                  List Of Comments
+                  List Of Coupons
                </h4>
 
                <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -198,39 +198,47 @@
                         <thead>
                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                               <th class="px-4 py-3">ID</th>
-                              <th class="px-4 py-3">Product</th>
-                              <th class="px-4 py-3">User</th>
-                              <th class="px-4 py-3">Rank</th>
-                              <th class="px-4 py-3">Detail</th>
+                              <th class="px-4 py-3">Name coupon</th>
+                              <th class="px-4 py-3">Discount</th>
+                              <th class="px-4 py-3">Code</th>
+                              <th class="px-4 py-3">Quantity</th>
+                              <th class="px-4 py-3">Condition</th>
+                              <th class="px-4 py-3">ValidityPeriod</th>
                               <th class="px-4 py-3">Actions</th>
                            </tr>
                         </thead>
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                           <% comments.forEach(comment => { %>
+                           <% coupons.forEach(coupon => { %>
                               <tr class="text-gray-700 dark:text-gray-400">
                                  <td class="px-4 py-3 text-sm">
                                     <div class="flex items-center text-sm">
-                                       <p class="font-semibold"><%= comment.id %></p>
+                                       <p class="font-semibold"><%= coupon.id %></p>
                                     </div>
                                  </td>
                                  <td class="px-4 py-3 text-sm">
-                                    <%= comment.product_name %>
+                                    <%= coupon.nameCoupon %>
                                  </td>
                                  <td class="px-4 py-3 text-sm">
-                                    <%= comment.user_name %>
+                                    <%= coupon.discount %>
                                  </td>
                                  <td class="px-4 py-3 text-sm">
-                                    <%= comment.rank %>
+                                    <%= coupon.code %>
                                  </td>
                                  <td class="px-4 py-3 text-sm">
-                                    $<%= comment.detail %>
+                                  <%= coupon.quantity %>
+                               </td>
+                                 <td class="px-4 py-3 text-sm">
+                                    <%= coupon.condition %>
                                  </td>
+                                 <td class="px-4 py-3 text-sm">
+                                  <%= coupon.validityPeriod %>
+                               </td>
                                  <td class="px-4 py-3">
                                     <div class="flex items-center space-x-4 text-sm">
-                                       <a href="/editProduct/<%= comment.id %>" class="text-purple-600">
+                                       <a href="/editProduct/<%= coupon.id %>" class="text-purple-600">
                                           <i class="fas fa-edit"></i>
                                        </a>
-                                       <a href="/deleteProduct/<%= comment.id %>" class="text-red-600">
+                                       <a href="/deleteProduct/<%= coupon.id %>" class="text-red-600">
                                           <i class="fas fa-trash-alt"></i>
                                        </a>
                                     </div>

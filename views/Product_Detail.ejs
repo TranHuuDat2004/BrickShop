@@ -19,7 +19,7 @@
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="/product">Products</a></li>
             <li class="breadcrumb-item active" aria-current="page">
                 <%= provider %></a>
@@ -148,66 +148,53 @@
             <h2>
                 User Comments
             </h2>
-            <div class="comment">
-                <img alt="User profile picture" height="50" src="../user/thuykhanh.png" width="50" />
-                <div class="comment-details">
-                    <p class="name">
-                        User 1
-                    </p>
-                    <p class="stars">
-                        ★★★★☆
-                    </p>
-                    <p class="description">
-                        Great product! My kids love it.
-                    </p>
-                </div>
-            </div>
-            <div class="comment">
-                <img alt="User profile picture" height="50"
-                    src="https://storage.googleapis.com/a1aa/image/RGFsUXfDGKwaRit8kOlCMG7yz04xjEcBLNhbkgJFz9s3TX6JA.jpg"
-                    width="50" />
-                <div class="comment-details">
-                    <p class="name">
-                        User 2
-                    </p>
-                    <p class="stars">
-                        ★★★★★
-                    </p>
-                    <p class="description">
-                        Excellent quality and fast shipping.
-                    </p>
-                </div>
-            </div>
-            <div class="comment">
-                <img alt="User profile picture" height="50"
-                    src="https://storage.googleapis.com/a1aa/image/RGFsUXfDGKwaRit8kOlCMG7yz04xjEcBLNhbkgJFz9s3TX6JA.jpg"
-                    width="50" />
-                <div class="comment-details">
-                    <p class="name">
-                        User 3
-                    </p>
-                    <p class="stars">
-                        ★★★☆☆
-                    </p>
-                    <p class="description">
-                        Good product but a bit expensive.
-                    </p>
-                </div>
-            </div>
+            <% if (comments.length > 0) { %>
+                <% comments.forEach(comment => { %>
+                  <div class="comment">
+                    <img alt="User profile picture" height="50" src="/user/male.png" width="50" />
+                    <div class="comment-details">
+                        <p><strong><%= comment.username %></strong>:</p>
+                        <p class="stars">
+                            <% for (let i = 1; i <= 5; i++) { %>
+                              <% if (i <= comment.rank) { %>
+                                ★
+                              <% } else { %>
+                                ☆
+                              <% } %>
+                            <% } %>
+                          </p>
+                        <p><%= comment.detail %></p>
+                        <p><em><%= new Date(comment.created_at).toLocaleString() %></em></p>
+                    </div>
+                  </div>
+                <% }) %>
+              <% } else { %>
+                <p class="noComment">No comments yet. Be the first to comment!</p>
+              <% } %>
 
             <!-- Hiện điền comment khi đăng nhập -->
             <% if (userLogin && userLogin.userName) { %>
                 <div class="comment-form">
-                    <h3>
-                        Add a Comment
-                    </h3>
-                    <input placeholder="Your Name" type="text" />
-                    <textarea placeholder="Your Comment" rows="4"></textarea>
-                    <button>
-                        Submit
-                    </button>
+                  <h3>Add a Comment</h3>
+                  <form action="/Product_Detail/addComment" method="POST">
+                    <input type="hidden" name="product_id" value="<%= product.p_id %>" />
+                    <input type="hidden" name="user_id" value="<%= userLogin.userID %>" />
+                    <label for="rank">Rating:</label>
+                    <select style="height: 30px;" name="rank" id="rank" required>
+                      <option value="5">5 - Excellent</option>
+                      <option value="4">4 - Good</option>
+                      <option value="3">3 - Average</option>
+                      <option value="2">2 - Poor</option>
+                      <option value="1">1 - Very Poor</option>
+                    </select>
+                    <textarea name="comment_detail" placeholder="Your Comment" rows="4" required></textarea>
+                    <button type="submit">Submit</button>
+                  </form>
                 </div>
-                <% } %>
+              <% } else { %>
+                <p>Please log in to leave a comment.</p>
+              <% } %>
+              
 
         </div>
     </div>
