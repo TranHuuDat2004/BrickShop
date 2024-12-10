@@ -221,7 +221,7 @@
 
                         <td class="px-4 py-3 text-sm">
                           <%= new Date(order.order_date).toLocaleDateString('en-US') %>
-                          <%= new Date(order.order_date).toLocaleTimeString('en-US') %>
+                            <%= new Date(order.order_date).toLocaleTimeString('en-US') %>
                         </td>
 
                         <td class="px-4 py-3 text-sm">
@@ -235,13 +235,24 @@
                         <td class="px-4 py-3 text-sm">
                           <%= order.delivery %>
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                          <%= order.status %>
+
+                        <td>
+                          <% if (order.status===0) { %>
+                            Pending
+                            <% } else if (order.status===1) { %>
+                              Confirmed
+                              <% } else if (order.status===2) { %>
+                                Shipping
+                                <% } else if (order.status===3) { %>
+                                  Delivered
+                                  <% } else { %>
+                                    Unknown Status
+                                    <% } %>
                         </td>
 
                         <td class="px-4 py-3">
                           <div class="flex items-center space-x-4 text-sm">
-                            <a href="/editOrder?o_id=<%= order.o_id %>"
+                            <a href="/Admin/editOrder?o_id=<%= order.o_id %>"
                               class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                               aria-label="Edit">
                               <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
