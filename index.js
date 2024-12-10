@@ -66,11 +66,6 @@ const loginHandler = require('./login'); // Import loginHandler từ login.js
 // Sử dụng loginHandler cho route /login
 app.post('/login', loginHandler);
 
-const changePasswordRouter = require('./changePassword'); // Đảm bảo đường dẫn chính xác
-
-// Sử dụng route mới
-app.use('/', changePasswordRouter);
-
 const userRoutes = require('./user'); // Nhập file user.js
 // Sử dụng các route từ user.js
 app.use(userRoutes);
@@ -212,6 +207,77 @@ app.get('/404', auth_user, cartMiddleware, (req, res) => {
   const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
   res.render('404', { website, userLogin, cartItems });
 });
+
+app.post('/change-password', cartMiddleware, async (req, res) => {
+  const { userID, current_password, new_password, repeat_new_password } = req.body;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+
+  // Xóa thông báo trước đó
+  req.session.success_message = null;
+  req.session.error_pass0 = null;
+  req.session.error_pass1 = null;
+
+  try {
+      // 1. Lấy mật khẩu hiện tại từ cơ sở dữ liệu
+      const sql = "SELECT loginpassword FROM User WHERE userID = ?";
+      conn.query(sql, [userID], async (err, results) => {
+          if (err) {
+              console.error("Lỗi truy vấn:", err);
+              return res.status(500).send("Có lỗi xảy ra.");
+          }
+
+          if (results.length === 0) {
+              req.session.error_pass0 = "Tài khoản không tồn tại.";
+              return res.redirect('/change-password');
+          }
+
+          const hashedPassword = results[0].loginpassword;
+
+          // 2. Kiểm tra mật khẩu hiện tại
+          const isMatch = await bcrypt.compare(current_password, hashedPassword);
+          if (!isMatch) {
+              error_message = "Mật khẩu hiện tại không đúng.";
+              success_message = ''
+              const website = 'Password.ejs';
+              res.render('Password', { userLogin: req.session.userLogin, error_message, success_message, website });
+          }
+
+          // 3. Kiểm tra mật khẩu mới và mật khẩu xác nhận
+          if (new_password !== repeat_new_password) {
+              error_message = "Mật khẩu mới không khớp.";
+              success_message = ''
+              const website = 'Password.ejs';
+              const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+              const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
+              res.render('Password', { userLogin: req.session.userLogin, error_message, success_message, website, cartItems });
+
+          }
+
+          // 4. Mã hóa và cập nhật mật khẩu mới
+          const newHashedPassword = await bcrypt.hash(new_password, 10);
+          const updateSql = "UPDATE User SET loginpassword = ? WHERE userID = ?";
+          conn.query(updateSql, [newHashedPassword, userID], (updateErr) => {
+              if (updateErr) {
+                  console.error("Lỗi cập nhật mật khẩu:", updateErr);
+                  return res.status(500).send("Có lỗi xảy ra.");
+              }
+
+              // Thông báo thành công
+              error_message = ''
+              success_message = "Cập nhật mật khẩu thành công!";
+              // Cập nhật ảnh trong session
+              const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+              const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
+              const website = 'Password.ejs';
+              res.render('Password', { userLogin: req.session.userLogin, error_message, success_message, website, cartItems  });
+          });
+      });
+  } catch (err) {
+      console.error("Lỗi hệ thống:", err);
+      res.status(500).send("Có lỗi xảy ra.");
+  }
+});
+
 
 // Route xử lý '/Category_Product' với middleware auth_user
 app.get('/Category_Product', auth_user, cartMiddleware, (req, res) => {
