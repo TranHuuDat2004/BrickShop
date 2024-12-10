@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 09, 2024 lúc 04:56 AM
+-- Thời gian đã tạo: Th12 10, 2024 lúc 04:23 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -129,7 +129,8 @@ CREATE TABLE `comment` (
 INSERT INTO `comment` (`id`, `productid`, `userid`, `rank`, `detail`, `created_at`) VALUES
 (1, 21, 52, 5, 'sdasd', '2024-12-07 16:46:28'),
 (2, 24, 52, 5, 'ddd', '2024-12-08 09:56:30'),
-(3, 4, 31, 4, 'Đẹp', '2024-12-09 03:55:03');
+(3, 4, 31, 4, 'Đẹp', '2024-12-09 03:55:03'),
+(4, 18, 31, 5, 'Good', '2024-12-10 15:08:44');
 
 -- --------------------------------------------------------
 
@@ -177,8 +178,8 @@ CREATE TABLE `coupon` (
 
 INSERT INTO `coupon` (`id`, `nameCoupon`, `discount`, `code`, `condition`, `validityPeriod`, `quantity`, `minimum`) VALUES
 (1, 'NewUser', 22, 'NewUser', 'hidden', '2024-12-13', 0, 200),
-(2, 'BlackFriday', 50, 'BlackFriday', 'active', '2024-12-11', 2, 10),
-(4, 'Weekend', 10, 'Weekend', 'active', '2024-12-19', 2, 50);
+(4, 'Weekend', 10, 'Weekend', 'active', '2024-12-19', 2, 50),
+(5, 'Mini', 15, 'Hello', 'active', '2025-01-02', 3, 5);
 
 -- --------------------------------------------------------
 
@@ -250,7 +251,6 @@ INSERT INTO `group_product` (`group_id`, `product_id`) VALUES
 (6, 20),
 (6, 24),
 (6, 25),
-(7, 1),
 (7, 33),
 (8, 2),
 (8, 3),
@@ -271,8 +271,17 @@ CREATE TABLE `order` (
   `address` varchar(255) NOT NULL,
   `delivery` varchar(255) NOT NULL,
   `status` tinyint(4) DEFAULT 0,
-  `total` decimal(10,2) NOT NULL
+  `total` decimal(10,2) NOT NULL,
+  `phone` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `order`
+--
+
+INSERT INTO `order` (`id`, `o_id`, `user_id`, `order_date`, `fullname`, `address`, `delivery`, `status`, `total`, `phone`) VALUES
+(18, '202412100001', 31, '2024-12-10 21:59:19', 'Trần Hữu Đạt', '19 Nguyễn Hữu Thọ Quận 7', 'fast', 0, 12.79, '0909000'),
+(19, '202412100002', 31, '2024-12-10 22:08:15', 'Trần Hữu Đạt', '19 Nguyễn Hữu Thọ Quận 7', 'fast', 3, 5.60, '0909000');
 
 -- --------------------------------------------------------
 
@@ -290,6 +299,14 @@ CREATE TABLE `order_detail` (
   `price` decimal(10,2) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `order_detail`
+--
+
+INSERT INTO `order_detail` (`id`, `o_id`, `user_id`, `p_id`, `p_name`, `p_image`, `price`, `quantity`) VALUES
+(37, '202412100001', 31, 10, 'Nobita Room', 'NobitaRoom.jpg', 12.79, 1),
+(38, '202412100002', 31, 13, 'Doraemon-TV', 'Doraemon-TV.jpg', 11.19, 1);
 
 -- --------------------------------------------------------
 
@@ -321,7 +338,6 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`p_id`, `p_number`, `p_name_en`, `p_name_vn`, `p_image`, `p_price_en`, `p_price_vn`, `p_discount`, `p_category`, `p_tutorial`, `p_description_en`, `p_description_vn`, `p_sold`, `p_age`, `p_stock_status`, `p_product_status`) VALUES
-(1, '70229', 'Lion Triple Pack', '', '70229.jpg', 9.99, 0, 20, 'Lego Chima', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (2, '71806', 'Cole Elemental Earth Mech', '', '71806.webp', 9.99, 0, 80, 'Lego Ninjago', '', '', '', 0, '12+', 'in_stock', 'new'),
 (3, '71807', 'Sora Technic Mech', '', '71807.webp', 9.99, 0, 20, 'Lego Ninjago', '', '', '', 0, '12+', 'in_stock', 'bestseller'),
 (4, 'K20801', 'Hello Kitty', 'Hello Kitty', 'HelloKitty.jpg', 9.99, 0, 100, 'Sario', 'K20801.pdf', '', '', 0, '6-12', 'in_stock', 'new'),
@@ -380,7 +396,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `userName`, `fullname`, `email`, `loginpassword`, `image`, `address`, `bio`, `country`, `phone`) VALUES
-(31, 'TranHuuDat', '', 'huudat.peashooer@gmail.com', '$2b$10$S8/F.zGc9JX48dLGJEnDFefFbepVSmoD4zSjCYZDmdycRm6WxJ9Si', 'Cole.jpg', '19 Nguyễn Hữu Thọ Quận 7', 'Hi', 'Việt Nam', '0909000'),
+(31, 'TranHuuDat', '', 'huudat.peashooer@gmail.com', '$2b$10$6SOXgYtqXz9ysKzA.f1vvuX7ZHU/oQm7CfdYjCiOhnR9wR.8qFoEC', 'Cole.jpg', '19 Nguyễn Hữu Thọ Quận 7', 'Hi', 'Việt Nam', '0909000'),
 (32, 'huyle', '', 'huyle@gmail.com', '$2b$10$7cRJjtF2d7XyBPNyqVWcVOWZxULd1oYnfdOct391qn8LDGcatqRT2', 'Jay.jpg', '2024-11-11', 'Hi', 'Việt Nam', '0909'),
 (33, 'nodepay', 'Trần Hữu Đạt', '', 'huudat', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
 (34, 'phuc.tv', 'Trần Hữu Đạt', '', '$2b$10$AcxrzMSB3qscypL/OKON7ukr7wgkxP06N1rAGgpYquC2hV1wzq5Za', '', '19 Nguyễn Hữu Thọ Quận 7', '', '', '0909141'),
@@ -497,7 +513,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -509,7 +525,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT cho bảng `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `contact`
@@ -521,7 +537,7 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT cho bảng `coupon`
 --
 ALTER TABLE `coupon`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `group`
@@ -533,13 +549,13 @@ ALTER TABLE `group`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
