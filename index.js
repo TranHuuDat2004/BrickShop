@@ -1566,13 +1566,59 @@ app.get('/logout', (req, res) => {
 
 
 // ----------------------- Admin -------------------------------- //
-app.get('/Admin/index', auth_user, (req, res) => {
+app.get('/Admin/index', auth_user, cartMiddleware, (req, res) => {
   const website = 'index.ejs';
   const userLogin = res.locals.userLogin
 
   //Get the actual numbers of order
-  const sqlOrder = 'SELECT COUNT(*) AS orderCount FROM order';
-  res.render('Admin/index', { website, userLogin });
+  const sqlOrder = 'SELECT COUNT(*) AS orderCount FROM `order`';
+
+  conn.query(sqlOrder, (err, results) => {
+
+    if (err) {
+      console.error("Error querying users: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+    // Pass the user count to the EJS template
+  const orderCount = results[0].orderCount;
+
+  //Get the actual numbers of user
+  const sqlUser = 'SELECT COUNT(*) AS userCount FROM `user`';
+
+  conn.query(sqlUser, (err, results) => {
+    if (err) {
+      console.error("Error querying users: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+  
+    // Pass the user count to the EJS template
+  const userCount = results[0].userCount;
+
+  const sqlProduct = 'SELECT COUNT(*) AS productCount FROM `product`';
+
+  conn.query(sqlProduct, (err, results) => {
+    if (err) {
+      console.error("Error querying users: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+  const productCount = results[0].productCount;
+
+  const sqlComment = 'SELECT COUNT(*) AS commentCount FROM `comment`';
+
+  conn.query(sqlComment, (err, results) => {
+    if (err) {
+      console.error("Error querying users: " + err.stack);
+      return res.status(500).send("Database query error");
+    }
+  
+    // Pass the user count to the EJS template
+  const commentCount = results[0].commentCount;
+
+  res.render('Admin/index', { website, userLogin, orderCount, userCount, productCount ,commentCount});
+      });  
+      });
+    });
+  });
 });
 
 app.get('/Admin/addProduct', auth_user, cartMiddleware, (req, res) => {
