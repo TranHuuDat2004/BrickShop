@@ -1738,14 +1738,57 @@ app.get('/Admin/comment', auth_user, cartMiddleware, (req, res) => {
   });
 });
 
+app.get('/deleteComment', auth_user, (req, res) => {
+  const commentId = req.query.id;
 
-app.get('/Admin/ManageOrder', auth_user, cartMiddleware, (req, res) => {
+  // Kiểm tra nếu `commentId` không tồn tại
+  if (!commentId) {
+    return res.status(400).send('Comment ID is required');
+  }
+
+  // Thực hiện xóa comment
+  const sql = 'DELETE FROM comment WHERE id = ?';
+  conn.query(sql, [commentId], (err, result) => {
+    if (err) {
+      console.error('Error deleting comment:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).send('Comment not found');
+    }
+
+    // Chuyển hướng về trang quản lý comment hoặc thông báo thành công
+    res.redirect('/Admin/comment');
+  });
+});
+
+
+app.get('/Admin/ManageOrder', auth_user, (req, res) => {
   const website = 'ManageOrder.ejs';
   const userLogin = res.locals.userLogin;
-  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
-  res.render('Admin/ManageOrder', { website, userLogin, cartItems });
+
+  // Query the order table
+  const sql = 'SELECT * FROM `order`';
+  conn.query(sql, (err, orders) => {
+    if (err) {
+      console.error('Error fetching orders:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    // Format date and time
+    const formattedOrders = orders.map(order => {
+      const date = new Date(order.order_date);
+      return {
+        ...order,
+        order_date: date.toLocaleDateString('en-US') + ' ' + date.toLocaleTimeString('en-US')
+      };
+    });
+
+    res.render('Admin/ManageOrder', { website, userLogin, orders: formattedOrders });
+  });
 });
+
 
 app.get('/Admin/ManageDiscount', auth_user, cartMiddleware, async (req, res) => {
   const sql = `
