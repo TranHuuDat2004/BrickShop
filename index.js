@@ -50,7 +50,9 @@ const getImage = (res, imagePath) => {
   });
 };
 
+// Middleware để parse dữ liệu form
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(session({
   secret: 'yourSecretKey',
   resave: false,
@@ -1224,6 +1226,7 @@ app.post('/checkout', (req, res) => {
   const address = req.body.address || 'unknown'; // Mặc định là 'unknown'
   const totalAmount2 = req.body.totalAmount;
   const discountApplied = req.body.discountApplied;
+  const phone = req.body.phone;
 
   if (user_id === -1) {
     return res.status(401).send('User not logged in');
@@ -1260,8 +1263,8 @@ app.post('/checkout', (req, res) => {
 
 
       // 4. Lưu vào bảng order (bao gồm cả delivery, fullname và address)
-      conn.query('INSERT INTO `order` (o_id, user_id, total, delivery, fullname, address) VALUES (?, ?, ?, ?, ?, ?)',
-        [o_id, user_id, total, delivery, fullname, address],
+      conn.query('INSERT INTO `order` (o_id, user_id, total, delivery, fullname, address, phone) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [o_id, user_id, total, delivery, fullname, address, phone],
         (err) => {
           if (err) {
             console.error('Error inserting into order:', err);
@@ -1685,8 +1688,8 @@ app.get('/Admin/manageUser', auth_user, cartMiddleware, (req, res) => {
     if (error) throw error;
 
     const users = results.map(user => ({
-      id: user.userID,
-      name: user.userName,
+      userID: user.userID,
+      userName: user.userName,
       email: user.email,
       image: user.image
     }));
@@ -1694,6 +1697,7 @@ app.get('/Admin/manageUser', auth_user, cartMiddleware, (req, res) => {
     res.render('Admin/manageUser', { website, userLogin, cartItems, users });
   });
 });
+
 app.get('/Admin/manageProduct', auth_user, cartMiddleware, (req, res) => {
   const sql = "SELECT * FROM product";
   const website = 'manageProduct.ejs';
@@ -1789,6 +1793,64 @@ app.get('/Admin/ManageOrder', auth_user, (req, res) => {
   });
 });
 
+app.get('/Admin/editOrder', auth_user, (req, res) => {
+  const website = 'editOrder.ejs'; // Tên file EJS cho trang chỉnh sửa
+  const userLogin = res.locals.userLogin;
+  const orderId = req.query.o_id; // Lấy `o_id` từ query string
+
+  // Kiểm tra nếu không có `orderId`
+  if (!orderId) {
+    return res.status(400).send('Order ID is required');
+  }
+
+  // Truy vấn thông tin đơn hàng
+  const sql = 'SELECT * FROM `order` WHERE o_id = ?';
+
+  conn.query(sql, [orderId], (err, results) => {
+    if (err) {
+      console.error('Error fetching order details:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    // Kiểm tra nếu không tìm thấy đơn hàng
+    if (results.length === 0) {
+      return res.status(404).send('Order not found');
+    }
+
+    const order = results[0];
+
+    // Render trang editOrder với thông tin đơn hàng
+    res.render('Admin/editOrder', { website, userLogin, order });
+  });
+});
+
+// Route để xử lý POST
+app.post('/Admin/updateOrder', (req, res) => {
+  const { id, o_status } = req.body;
+
+  console.log(id)
+  console.log(o_status)
+  // Kiểm tra dữ liệu
+  if (!id || o_status === undefined) {
+    return res.status(400).send('Missing required fields');
+  }
+
+  // Câu lệnh SQL để cập nhật trạng thái đơn hàng
+  const sql = 'UPDATE `order` SET status = ? WHERE o_id = ?';
+
+  // Thực hiện cập nhật
+  conn.query(sql, [o_status, id], (err, result) => {
+    if (err) {
+      console.error('Error updating order:', err);
+      return res.status(500).send('Failed to update order');
+    }
+
+    console.log(`Order ${id} updated to status ${o_status}`);
+    res.redirect(`/Admin/ManageOrder`); 
+  });
+});
+
+
 
 app.get('/Admin/ManageDiscount', auth_user, cartMiddleware, async (req, res) => {
   const sql = `
@@ -1878,6 +1940,80 @@ app.get('/coupon', auth_user, cartMiddleware, (req, res) => {
   });
 });
 
+app.get('/deleteUser', auth_user, (req, res) => {
+  const userID = req.query.id;
+
+  // Kiểm tra nếu `userID` không tồn tại
+  if (!userID) {
+    return res.status(400).send('User ID is required');
+  }
+
+  // Thực hiện xóa user
+  const sql = 'DELETE FROM user WHERE userID = ?';
+  conn.query(sql, [userID], (err, result) => {
+    if (err) {
+      console.error('Error deleting user:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).send('User not found');
+    }
+
+    // Chuyển hướng về trang quản lý comment hoặc thông báo thành công
+    res.redirect('/Admin/manageUser');
+  });
+});
+
+app.get('/deleteProduct', auth_user, (req, res) => {
+  const productId = req.query.id;
+
+  // Kiểm tra nếu `commentId` không tồn tại
+  if (!productId) {
+    return res.status(400).send('Product ID is required');
+  }
+
+  // Thực hiện xóa comment
+  const sql = 'DELETE FROM product WHERE p_id = ?';
+  conn.query(sql, [productId], (err, result) => {
+    if (err) {
+      console.error('Error deleting product:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).send('Product not found');
+    }
+
+    // Chuyển hướng về trang quản lý comment hoặc thông báo thành công
+    res.redirect('/Admin/manageProduct');
+  });
+});
+
+app.get('/deleteCoupon', auth_user, (req, res) => {
+  const couponId = req.query.id;
+
+  // Kiểm tra nếu `couponId` không tồn tại
+  if (!couponId) {
+    return res.status(400).send('Coupon ID is required');
+  }
+
+  // Thực hiện xóa coupon
+  const sql = 'DELETE FROM coupon WHERE id = ?';
+  conn.query(sql, [couponId], (err, result) => {
+    if (err) {
+      console.error('Error deleting coupon:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).send('Coupon not found');
+    }
+
+    // Chuyển hướng về trang quản lý coupon hoặc thông báo thành công
+    res.redirect('/Admin/ManageDiscount');
+  });
+});
 
 // Xử lý route POST /contact
 app.post('/contact', (req, res) => {
