@@ -1,5 +1,5 @@
 {
-  "name": "Keeppley_Docker",
+  "name": "Keeppley_Nodejs",
   "version": "1.0.0",
   "description": "Mình đang tập thiết kế giao diện ạ",
   "main": "index.js",
@@ -9,23 +9,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TranHuuDat2004/Keeppley-Shop.git"
+    "url": "git+https://github.com/TranHuuDat2004/Keeppley_Nodejs.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TranHuuDat2004/Keeppley-Shop/issues"
+    "url": "https://github.com/TranHuuDat2004/Keeppley_Nodejs/issues"
   },
-  "homepage": "https://github.com/TranHuuDat2004/Keeppley-Shop#readme",
+  "homepage": "https://github.com/TranHuuDat2004/Keeppley_Nodejs#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "express-session": "^1.18.1",
-    "Keeppley_Docker": "file:",
     "moment": "^2.30.1",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",

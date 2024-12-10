@@ -16,9 +16,7 @@ h6 {
     flex: 70%;
     display: flex;
 }
-.noComment{
-    text-align:center;
-}
+
 .left-column img#main-image {
     width: 70%;
     border-radius: 10px;
@@ -472,7 +470,7 @@ body {
     font-weight: bold;
 }
 
- .stars {
+.comment .comment-details .stars {
     color: #f5c518;
 }
 
