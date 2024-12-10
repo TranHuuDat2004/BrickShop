@@ -2015,6 +2015,50 @@ app.get('/deleteCoupon', auth_user, (req, res) => {
   });
 });
 
+// Đơn hàng chi tiết
+app.get('/Admin/OrderDetails', auth_user, cartMiddleware, (req, res) => {
+  const website = 'OrderDetails.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems; // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount; // Tổng số tiền giỏ hàng
+  const o_id = req.query.id;  // Lấy ID từ query string
+
+  console.log('Order ID:', o_id);
+
+  // Truy vấn chi tiết đơn hàng và thông tin đơn hàng từ bảng order
+  const detailQuery = `
+    SELECT 
+      od.p_id, od.p_image, od.price, od.quantity, od.p_name,
+      o.fullname, o.address, o.delivery, o.total, o.order_date
+    FROM order_detail AS od
+    JOIN \`order\` AS o ON od.o_id = o.o_id
+    WHERE od.o_id = ?
+  `;
+
+  conn.query(detailQuery, [o_id], (err, detailResults) => {
+    if (err) {
+      console.error('Error querying order details:', err);
+      return res.status(500).send('Database error');
+    }
+
+    // Truyền dữ liệu vào view
+    res.render('Admin/OrderDetails', {
+      website,
+      userLogin,
+      cartItems,
+      totalAmount,
+      orderDetails: detailResults, // Truyền chi tiết đơn hàng vào view
+      o_id,  // Truyền ID đơn hàng
+      fullname: detailResults[0]?.fullname, // Truyền tên người nhận
+      address: detailResults[0]?.address,   // Truyền địa chỉ giao hàng
+      delivery: detailResults[0]?.delivery, // Truyền phương thức giao hàng
+      orderTotal: detailResults[0]?.total,  // Truyền tổng tiền
+      orderDate: detailResults[0]?.order_date // Truyền ngày đặt hàng
+    });
+  });
+});
+
+
 // Xử lý route POST /contact
 app.post('/contact', (req, res) => {
   const website = 'contact.ejs';
