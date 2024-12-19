@@ -1,57 +1,64 @@
-require('dotenv').config(); // Để đọc biến môi trường từ file .env
+require('dotenv').config(); // Load environment variables from .env file
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
+const express = require('express');
+const session = require('express-session');
+const cors = require('cors'); // Import CORS middleware
+const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Cấu hình Passport với Facebook
+// Enable CORS for all routes
+app.use(cors());
+
+// Configure Passport with Facebook
 passport.use(
   new FacebookStrategy(
     {
-      clientID: process.env.FACEBOOK_APP_ID, // App ID từ Facebook Developer
-      clientSecret: process.env.FACEBOOK_APP_SECRET, // App Secret từ Facebook Developer
-      callbackURL: `http://localhost${PORT}/auth/facebook/callback`,
-      profileFields: ['id', 'displayName', 'email'], // Trường dữ liệu cần lấy từ Facebook
+      clientID: process.env.FACEBOOK_APP_ID, // App ID from Facebook Developer
+      clientSecret: process.env.FACEBOOK_APP_SECRET, // App Secret from Facebook Developer
+      callbackURL: `http://localhost:${PORT}/auth/facebook/callback`,
+      profileFields: ['id', 'displayName', 'email'], // Fields to retrieve from Facebook
     },
     function (accessToken, refreshToken, profile, done) {
-      // Xử lý logic xác thực và lấy thông tin user
+      // Handle authentication and user information
       console.log('Facebook Profile:', profile);
-      // Ví dụ: Lưu user vào database tại đây nếu cần
+      // Example: Save user to database here if needed
       const user = {
         id: profile.id,
         name: profile.displayName,
         email: profile.emails ? profile.emails[0].value : null,
       };
-      return done(null, user); // Lưu thông tin user vào session
+      return done(null, user); // Save user information to session
     }
   )
 );
 
-// Serialize user để lưu vào session
+// Serialize user to save to session
 passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-// Deserialize user từ session
+// Deserialize user from session
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-// Middleware đăng nhập Facebook
+// Middleware for Facebook login
 const loginFacebook = (app) => {
-  // Khởi tạo session
+  // Initialize session
   app.use(
-    require('express-session')({
+    session({
       secret: 'secret-key',
       resave: false,
       saveUninitialized: false,
     })
   );
 
-  // Khởi tạo Passport
+  // Initialize Passport
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Định nghĩa routes liên quan đến Facebook Login
+  // Define routes for Facebook Login
   app.get(
     '/auth/facebook',
     passport.authenticate('facebook', { scope: ['email'] })
@@ -65,20 +72,24 @@ const loginFacebook = (app) => {
     })
   );
 
-  // Route để hiển thị thông tin user
-  app.get('/profile', (req, res) => {
+  // Middleware to check if user is authenticated
+  const ensureAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
-      res.send(`
-        <h1>Welcome, ${req.user.name}</h1>
-        <p>Email: ${req.user.email || 'No email provided'}</p>
-        <a href="/logout">Logout</a>
-      `);
-    } else {
-      res.redirect('/');
+      return next();
     }
+    res.redirect('/');
+  };
+
+  // Route to display user information
+  app.get('/profile', ensureAuthenticated, (req, res) => {
+    res.send(`
+      <h1>Welcome, ${req.user.name}</h1>
+      <p>Email: ${req.user.email || 'No email provided'}</p>
+      <a href="/logout">Logout</a>
+    `);
   });
 
-  // Route logout
+  // Route to logout
   app.get('/logout', (req, res) => {
     req.logout((err) => {
       if (err) return next(err);
@@ -86,5 +97,10 @@ const loginFacebook = (app) => {
     });
   });
 };
+
+// Initialize the loginFacebook middleware
+loginFacebook(app);
+
+
 
 module.exports = loginFacebook;
