@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css">
+
+
+	<!-- link icon -->
+	<link rel="stylesheet" data-purpose="Layout StyleSheet" title="Web Awesome"
+		href="../css_animtion/app-wa-8d95b745961f6b33ab3aa1b98a45291a.css?vsn=d">
+
+
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
+
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-solid.css">
+
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-regular.css">
+
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-light.css">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+
+	<!-- link icon -->
+	<link rel="icon" type="image/png" href="../images/icon.png" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor_animtion/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor_animtion/animate/animate.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor_animtion/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor_animtion/animsition/css/animsition.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor_animtion/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor_animtion/daterangepicker/daterangepicker.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor_animtion/slick/slick.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor_animtion/MagnificPopup/magnific-popup.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../vendor_animtion/perfect-scrollbar/perfect-scrollbar.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../css_animtion/util.css">
+	<link rel="stylesheet" type="text/css" href="../css_animtion/main.css">
+	<!--===============================================================================================-->
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap');
+	</style>
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css">
+	<!-- link icon -->
+	<link rel="stylesheet" data-purpose="Layout StyleSheet" title="Web Awesome"
+		href="/css/app-wa-8d95b745961f6b33ab3aa1b98a45291a.css?vsn=d">
+
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
+
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-solid.css">
+
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-regular.css">
+
+	<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/sharp-light.css">
+
+	<%- include('head.ejs') %>
+		<title>Brick Shop</title>
+		<link rel="stylesheet" href="../css/index.css"> <!-- Đường dẫn tới tệp CSS -->
+</head>
+
+<style>
+	.item-slick1 {
+		height: 600px;
+		width: 100%;
+		background-repeat: no-repeat;
+		background-size: cover;
+		/* Hình nền bao phủ toàn bộ phần tử */
+		background-position: center;
+	}
+
+	h1 {
+		font-weight: 700;
+	}
+
+	h2 {
+		font-weight: 700;
+	}
+
+	h4 {
+		font-size: 18px;
+	}
+
+	.snow {
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		/* Không cản trở các tương tác khác */
+		z-index: 1000;
+		/* Luôn hiển thị phía trên */
+	}
+
+	.snowflake {
+		position: absolute;
+		top: -10px;
+		background-image: url("../images/gift.png");
+		/* Hình hộp quà */
+		background-size: contain;
+		/* Giữ tỉ lệ hình ảnh */
+		background-repeat: no-repeat;
+		/* Không lặp lại */
+		width: 300px;
+		/* Đặt kích thước hộp quà */
+		height: 300px;
+		opacity: 1;
+		animation: fall linear infinite;
+		z-index: 1000;
+		/* Luôn hiển thị phía trên */
+	}
+
+	@keyframes fall {
+		0% {
+			transform: translateY(0);
+			opacity: 0.8;
+		}
+
+		100% {
+			transform: translateY(600vh);
+			/* Hộp quà rơi xuống xa */
+			opacity: 0.5;
+			/* Giảm độ trong suốt khi rơi */
+		}
+	}
+
+	.christmas-tree {
+		position: fixed;
+		bottom: 20px;
+		left: 20px;
+		z-index: 1000;
+		/* Luôn hiển thị phía trên */
+	}
+
+	.christmas-tree img {
+		width: 100px;
+		height: auto;
+	}
+</style>
+
+<body>
+	<!-- Header Section -->
+	<header>
+		<%- include('header_home_en.ejs') %>
+	</header>
+
+	<div class="snow">
+
+		<!-- Slider -->
+		<section class="section-slide">
+			<div class="wrap-slick1">
+				<div class="slick1">
+					<div class="item-slick1" style="background-image: url(../images/slide-5.png);">
+						<div class="container h-full">
+							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+								<div class="layer-slick1 animated visible-false" data-appear="fadeInDown"
+									data-delay="0">
+									<span class="ltext-101 cl2 respon2">
+										Black Friday - up to 80% off
+									</span>
+								</div>
+
+								<div class="layer-slick1 animated visible-false" data-appear="fadeInUp"
+									data-delay="800">
+									<h2 class="stext-119 cl2 p-t-19 p-b-43 respon1">
+										Lego, Qman, Keeppley
+									</h2>
+								</div>
+
+								<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
+									<a href="/discount" style="background-color:#d0021b ; color: white;"
+										class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+										Shop Now
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="item-slick1" style="background-image: url(../images/slide-6.png);">
+						<div class="container h-full">
+							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+								<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
+									<span class="ltext-101 cl2 respon2">
+										Special Deals - up to 50% off
+									</span>
+								</div>
+
+								<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn"
+									data-delay="800">
+									<h2 class="stext-119 cl2 p-t-19 p-b-43 respon1">
+										Exclusive Coupons
+									</h2>
+								</div>
+
+								<div class="layer-slick1 animated visible-false" data-appear="slideInUp"
+									data-delay="1600">
+									<a href="/coupon" style="background-color:#d0021b ; color: white;"
+										class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+										Shop Now
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="item-slick1" style="background-image: url(../images/slide-7.png);">
+						<div class="container h-full">
+							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+								<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft"
+									data-delay="0">
+									<span class="ltext-101 cl2 respon2">
+										Your Order Ships for Free!
+									</span>
+								</div>
+
+								<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight"
+									data-delay="800">
+									<h2 class="stext-119 cl2 p-t-19 p-b-43 respon1">
+										Save on Shipping!
+									</h2>
+								</div>
+
+								<div class="layer-slick1 animated visible-false" data-appear="rotateIn"
+									data-delay="1600">
+									<a href="/product" style="background-color:#d0021b ; color: white;"
+										class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+										Shop Now
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="item-slick1" style="background-image: url(../images/slide-8.png);">
+						<div class="container h-full">
+							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+								<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft"
+									data-delay="0">
+									<span class="ltext-101 cl2 respon2">
+										Update Product every month
+									</span>
+
+
+								</div>
+
+								<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight"
+									data-delay="800">
+									<h2 class="stext-119 cl2 p-t-19 p-b-43 respon1">
+										New arrivals
+									</h2>
+								</div>
+
+								<div class="layer-slick1 animated visible-false" data-appear="rotateIn"
+									data-delay="1600">
+									<a href="/new_arrivals" style="background-color:#d0021b ; color: white;"
+										class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+										Shop Now
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="products">
+			<h2> Discover the Best Deals and New Products for Kids </h2>
+		</section>
+
+		<div style="padding-top: 50px;" class="sale-container">
+			<div class="sale-card">
+				<img alt="Wooden toy with a koala face on a pink background" height="100" src="../images/lego1.png" />
+				<div class="sale-card-content">
+					<h3>
+						Hot deals on trending products
+					</h3>
+					<p>
+						Enjoy discounts of up to 80% on the most popular items.
+					</p>
+					<a class="shop-now" href="/discount">
+						Get Discount
+					</a>
+				</div>
+			</div>
+			<div class="sale-card">
+				<img alt="Stuffed toy with a koala face on a light blue background" height="100"
+					src="../images/lego2.png" />
+				<div class="sale-card-content">
+					<h3>
+						Coupon archive
+					</h3>
+					<p>
+						Grab discount codes and enjoy exclusive deals.
+					</p>
+					<a class="shop-now" href="/coupon">
+						Get Coupon
+					</a>
+				</div>
+			</div>
+			<div class="sale-card">
+				<img alt="Various kids toys on a light green background" height="100" src="../images/lego3.png" />
+				<div class="sale-card-content">
+					<h3>
+						Newly updated products every month
+					</h3>
+					<p>
+						Discover the latest products, don't miss out!
+					</p>
+					<a class="shop-now" href="/new_arrivals">
+						New arrivals
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<section class="products">
+			<h2>Building Dreams with LEGO, Qman, and Keeppley </h2>
+		</section>
+
+		<!-- lego Section -->
+		<section style="padding-left: 80px;" class="lego-section">
+			<div class="lego-text">
+				<div style="margin-bottom: 30px;">
+					<img style="padding-left: 50px;" src="../images/LEGO_logo.png" alt="lego Logo" height="125">
+				</div>
+				<h1 style="margin-bottom: 30px; max-width: 650px;">LEGO: The Globally Iconic and Renowned Toy Brand.
+				</h1>
+				<p style="margin-bottom: 30px; max-width: 570px;">Founded in 1932 by Ole Kirk Christiansen in Denmark,
+					LEGO
+					transitioned from
+					wooden toys to the plastic brick system we know today in 1958. LEGO sets span diverse themes, such
+					as
+					<b>LEGO City, Ninjago, Nexo Knight, Chima</b>, and licensed series like <b>Harry Potter</b> and
+					<b>Despicable Me 4</b>, offering adventures for fans of all ages.
+				</p>
+				<p class="hide-phone" class="p2" style="margin-bottom: 30px; max-width: 570px;">Beyond physical toys,
+					LEGO
+					has expanded into video games, movies (The LEGO Movie), and apps, fostering
+					creativity in both children and adults. Guided by six core values—<b>imagination, creativity, fun,
+						learning, caring, and quality</b>—LEGO's mission is to inspire families worldwide while ensuring
+					exceptional product quality and memorable experiences.</p>
+
+			</div>
+
+		</section>
+
+		<!-- Products Section -->
+		<section class="products">
+			<h2>Explore LEGO Themes</h2>
+			<div class="product-grid">
+				<% if (legoCategories.length> 0) { %>
+					<% legoCategories.forEach(category=> { %>
+						<a href="/Category_Product/?id=<%= category.id %>">
+							<div class="product">
+								<!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+								<img src="../images/<%= category.images[0] %>" alt="<b><%= category.name %></b>">
+								<p style="color: black;">
+									<b>
+										<%= category.name %>
+									</b>
+								</p>
+							</div>
+						</a>
+						<% }) %>
+							<% } else { %>
+								<p>No products available</p>
+								<% } %>
+			</div>
+			<a href="/lego_Products">
+				<h4>View More > </h4>
+			</a>
+		</section>
+
+		<!-- Qman Section -->
+		<div class="qman-container">
+			<div>
+				<div class="qman-logo">
+					<img style="padding-left: 50px;" alt="QMAN logo" height="40" src="../images/2022101014476761.png" />
+				</div>
+				<div class="qman-content">
+					<h1>
+						A leading Chinese toy brand, specializing in original building blocks since 1994.
+					</h1>
+					<p class="hide-phone" style="margin-bottom: 30px">
+						The journey of Qman began in 1994, sparked by Mr. Zhan Kehua's realization of his children's
+						deep
+						love for building blocks. This passion inspired the creation of an original Chinese brand
+						focused on
+						building blocks.
+					</p>
+					<p style="margin-bottom: 30px">
+						Today, Qman has evolved into more than just a children's toy brand — it is a celebrated national
+						brand that has grown alongside multiple generations. We are committed to the brand philosophy
+						that "
+						<b>
+							Qman blocks make dreams come true
+						</b>
+						" and together with our customers, we use small building pieces to bring dreams to life.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Products Section -->
+		<section class="products">
+			<h2>Explore Qman Themes</h2>
+			<div class="product-grid">
+				<% if (qmanCategories.length> 0) { %>
+					<% qmanCategories.forEach(category=> { %>
+						<a href="/Category_Product/?id=<%= category.id %>">
+							<div class="product">
+								<!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+								<img src="../images/<%= category.images[0] %>" alt="<b><%= category.name %></b>">
+								<p style="color: black;">
+									<b>
+										<%= category.name %>
+									</b>
+								</p>
+							</div>
+						</a>
+						<% }) %>
+							<% } else { %>
+								<p>No products available</p>
+								<% } %>
+			</div>
+			<a href="/Qman_Products">
+				<h4>View More > </h4>
+			</a>
+		</section>
+
+		<!-- Keeppley Section -->
+		<section style="padding-left: 100px;" class="keeppley-section">
+			<div class="keeppley-text">
+				<img style="padding-left: 30px;" src="../images/2022082419251955.png" alt="Keeppley Product"
+					height="40">
+				<h1>A new generation block brand, born in 2019.</h1>
+				<p class="hide-phone" style="margin-bottom: 30px; ; max-width: 570px;">Keeppley is a new-generation
+					brand
+					under lego, a company
+					that has
+					specialized in producing building block models similar to LEGO since 1994. Keeppley focuses on
+					offering
+					players high-quality, officially licensed products at affordable prices, making them accessible
+					to
+					anyone.</p>
+				<p style="margin-bottom: 50px; ; max-width: 570px;">
+					Keeppley's product range is incredibly diverse, spanning creative house and shop
+					models,magnificent
+					architectural structures, as well as unique themes like <b>Pokémon, Doraemon,</b> and other
+					anime and
+					manga
+					series.
+				</p>
+			</div>
+			<div class="keeppley-image">
+
+			</div>
+		</section>
+
+		<!-- Products Section -->
+		<section class="products">
+			<h2>Explore Keeppley Themes</h2>
+			<div class="product-grid">
+				<% if (keeppleyCategories.length> 0) { %>
+					<% keeppleyCategories.forEach(category=> { %>
+						<a href="/Category_Product/?id=<%= category.id %>">
+							<div class="product">
+								<!-- Hiển thị hình ảnh đầu tiên trong mảng images -->
+								<img src="../images/<%= category.images[0] %>" alt="<b><%= category.name %></b>">
+								<p style="color: black;">
+									<b>
+										<%= category.name %>
+									</b>
+								</p>
+							</div>
+						</a>
+						<% }) %>
+							<% } else { %>
+								<p>No products available</p>
+								<% } %>
+			</div>
+			<a href="/Keeppley_Products">
+				<h4>View More > </h4>
+			</a>
+		</section>
+
+
+		<!-- Footer Section -->
+		<footer id="footer-section">
+			<%- include('footer.ejs') %>
+		</footer>
+
+	</div>
+	<!-- Hình ảnh cây thông -->
+	<div class="christmas-tree">
+		<img src="../images/tree.png" alt="Cây thông Giáng Sinh" id="christmasTree" height="100px" />
+		<!-- <p>Click on the tree to play music.</p> -->
+	</div>
+
+	<!-- Phần tử âm thanh -->
+	<audio id="christmasMusic">
+		<source src="../audio/NoelRemix.mp3" type="audio/mpeg">
+		Trình duyệt của bạn không hỗ trợ phát nhạc.
+	</audio>
+
+	<!-- Cart Section -->
+	<%- include('cart.ejs') %>
+
+</body>
+<!--===============================================================================================-->
+<script src="../vendor_animtion/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="../vendor_animtion/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="../vendor_animtion/bootstrap/js/popper.js"></script>
+<script src="../vendor_animtion/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="../vendor_animtion/select2/select2.min.js"></script>
+<script>
+	$(".js-select2").each(function () {
+		$(this).select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $(this).next('.dropDownSelect2')
+		});
+	})
+</script>
+<!--===============================================================================================-->
+<script src="../index/../vendor_animtion/daterangepicker/moment.min.js"></script>
+<script src="../index/../vendor_animtion/daterangepicker/daterangepicker.js"></script>
+<script src="../js_animtion/header-slider.js"></script>
+
+<!--===============================================================================================-->
+<script src="../index/../vendor_animtion/slick/slick.min.js"></script>
+
+<!--===============================================================================================-->
+<script src="../index/../vendor_animtion/parallax100/parallax100.js"></script>
+<script>
+	$('.parallax100').parallax100();
+</script>
+<!--===============================================================================================-->
+<script src="../index/../vendor_animtion/MagnificPopup/jquery.magnific-popup.min.js"></script>
+<script>
+	$('.gallery-lb').each(function () { // the containers for all your galleries
+		$(this).magnificPopup({
+			delegate: 'a', // the selector for gallery item
+			type: 'image',
+			gallery: {
+				enabled: true
+			},
+			mainClass: 'mfp-fade'
+		});
+	});
+</script>
+<!--===============================================================================================-->
+<script src="../index/../vendor_animtion/isotope/isotope.pkgd.min.js"></script>
+<!--===============================================================================================-->
+<script src="../index/../vendor_animtion/sweetalert/sweetalert.min.js"></script>
+<script>
+	$('.js-addwish-b2').on('click', function (e) {
+		e.preventDefault();
+	});
+
+	$('.js-addwish-b2').each(function () {
+		var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+		$(this).on('click', function () {
+			swal(nameProduct, "is added to wishlist !", "success");
+
+			$(this).addClass('js-addedwish-b2');
+			$(this).off('click');
+		});
+	});
+
+	$('.js-addwish-detail').each(function () {
+		var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+
+		$(this).on('click', function () {
+			swal(nameProduct, "is added to wishlist !", "success");
+
+			$(this).addClass('js-addedwish-detail');
+			$(this).off('click');
+		});
+	});
+
+	/*---------------------------------------------*/
+
+	$('.js-addcart-detail').each(function () {
+		var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+		$(this).on('click', function () {
+			swal(nameProduct, "is added to cart !", "success");
+		});
+	});
+
+</script>
+<!--===============================================================================================-->
+<script src="../index/../vendor_animtion/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script>
+	$('.js-pscroll').each(function () {
+		$(this).css('position', 'relative');
+		$(this).css('overflow', 'hidden');
+		var ps = new PerfectScrollbar(this, {
+			wheelSpeed: 1,
+			scrollingThreshold: 1000,
+			wheelPropagation: false,
+		});
+
+		$(window).on('resize', function () {
+			ps.update();
+		})
+	});
+</script>
+<!--===============================================================================================-->
+<script src="../js_animtion/main.js"></script>
+<script src="../js_animtion/tooltip.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+
+<script>
+	// Lấy phần tử hình ảnh và audio
+	const christmasTree = document.getElementById('christmasTree');
+	const christmasMusic = document.getElementById('christmasMusic');
+	const message = document.getElementById('message');
+
+	// Thêm sự kiện nhấp chuột vào cây thông
+	christmasTree.addEventListener('click', () => {
+		if (christmasMusic.paused) {
+			christmasMusic.play(); // Phát nhạc
+			message.textContent = "Nhạc Giáng Sinh đang phát! 🎄🎶";
+		} else {
+			christmasMusic.pause(); // Tạm dừng nhạc
+			message.textContent = "Nhạc đã tạm dừng. Nhấn lại để phát tiếp.";
+		}
+	});
+
+	function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+
+            // Tạo kích thước và vị trí ngẫu nhiên
+            const size = Math.random() * 30 + 5 + 'px';
+            const position = Math.random() * window.innerWidth + 'px';
+            const duration = Math.random() * 5 + 45 + 's';
+
+            snowflake.style.width = size;
+            snowflake.style.height = size;
+            snowflake.style.left = position;
+            snowflake.style.animationDuration = duration;
+
+            document.querySelector('.snow').appendChild(snowflake);
+
+            // Xóa bông tuyết sau khi rơi xong
+            setTimeout(() => {
+                snowflake.remove();
+            }, parseFloat(duration) * 1000);
+        }
+
+        // Tạo tuyết rơi liên tục
+        setInterval(createSnowflake, 100);
+</script>
+
+<script>
+	$(document).ready(function () {
+		// Khởi tạo slick slider
+		$('.logo-slider').slick({
+			dots: true,
+			infinite: true,
+			speed: 300,
+			slidesToShow: 5,
+			slidesToScroll: 1,
+			responsive: [
+				{
+					breakpoint: 1024,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 3,
+						dots: true
+					}
+				},
+				{
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 2,
+						dots: true
+					}
+				},
+				{
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 2,
+						dots: true,
+						prevArrow: '', // Xoá nút prev
+						nextArrow: '' // Xoá nút next
+					}
+				}
+			],
+
+		});
+	});
+
+
+
+
+	(function ($) {
+		// USE STRICT
+		"use strict";
+
+		/*==================================================================
+		[ Slick1 ]*/
+		$('.wrap-slick1').each(function () {
+			var wrapSlick1 = $(this);
+			var slick1 = $(this).find('.slick1');
+
+
+			var itemSlick1 = $(slick1).find('.item-slick1');
+			var layerSlick1 = $(slick1).find('.layer-slick1');
+			var actionSlick1 = [];
+
+
+			$(slick1).on('init', function () {
+				var layerCurrentItem = $(itemSlick1[0]).find('.layer-slick1');
+
+				for (var i = 0; i < actionSlick1.length; i++) {
+					clearTimeout(actionSlick1[i]);
+				}
+
+				$(layerSlick1).each(function () {
+					$(this).removeClass($(this).data('appear') + ' visible-true');
+				});
+
+				for (var i = 0; i < layerCurrentItem.length; i++) {
+					actionSlick1[i] = setTimeout(function (index) {
+						$(layerCurrentItem[index]).addClass($(layerCurrentItem[index]).data('appear') + ' visible-true');
+					}, $(layerCurrentItem[i]).data('delay'), i);
+				}
+			});
+
+
+			var showDot = false;
+			if ($(wrapSlick1).find('.wrap-slick1-dots').length > 0) {
+				showDot = true;
+			}
+
+			$(slick1).slick({
+				pauseOnFocus: false,
+				pauseOnHover: false,
+				slidesToShow: 1,
+				slidesToScroll: 1,
+				fade: true,
+				speed: 1000,
+				infinite: true,
+				autoplay: true,
+				autoplaySpeed: 6000,
+				arrows: true,
+				appendArrows: $(wrapSlick1),
+				prevArrow: '<button class="arrow-slick1 prev-slick1"><i class="zmdi zmdi-caret-left"></i></button>',
+				nextArrow: '<button class="arrow-slick1 next-slick1"><i class="zmdi zmdi-caret-right"></i></button>',
+				dots: showDot,
+				appendDots: $(wrapSlick1).find('.wrap-slick1-dots'),
+				dotsClass: 'slick1-dots',
+				customPaging: function (slick, index) {
+					var linkThumb = $(slick.$slides[index]).data('thumb');
+					var caption = $(slick.$slides[index]).data('caption');
+					return '<img src="' + linkThumb + '">' +
+						'<span class="caption-dots-slick1">' + caption + '</span>';
+				},
+			});
+
+			$(slick1).on('afterChange', function (event, slick, currentSlide) {
+
+				var layerCurrentItem = $(itemSlick1[currentSlide]).find('.layer-slick1');
+
+				for (var i = 0; i < actionSlick1.length; i++) {
+					clearTimeout(actionSlick1[i]);
+				}
+
+				$(layerSlick1).each(function () {
+					$(this).removeClass($(this).data('appear') + ' visible-true');
+				});
+
+				for (var i = 0; i < layerCurrentItem.length; i++) {
+					actionSlick1[i] = setTimeout(function (index) {
+						$(layerCurrentItem[index]).addClass($(layerCurrentItem[index]).data('appear') + ' visible-true');
+					}, $(layerCurrentItem[i]).data('delay'), i);
+				}
+
+			});
+
+		});
+
+		/*==================================================================
+		[ Slick2 ]*/
+		$('.wrap-slick2').each(function () {
+			$(this).find('.slick2').slick({
+				slidesToShow: 4,
+				slidesToScroll: 4,
+				infinite: false,
+				autoplay: false,
+				autoplaySpeed: 6000,
+				arrows: true,
+				appendArrows: $(this),
+				prevArrow: '<button class="arrow-slick2 prev-slick2"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
+				nextArrow: '<button class="arrow-slick2 next-slick2"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',
+				responsive: [
+					{
+						breakpoint: 1200,
+						settings: {
+							slidesToShow: 4,
+							slidesToScroll: 4
+						}
+					},
+					{
+						breakpoint: 992,
+						settings: {
+							slidesToShow: 3,
+							slidesToScroll: 3
+						}
+					},
+					{
+						breakpoint: 768,
+						settings: {
+							slidesToShow: 2,
+							slidesToScroll: 2
+						}
+					},
+					{
+						breakpoint: 576,
+						settings: {
+							slidesToShow: 1,
+							slidesToScroll: 1
+						}
+					}
+				]
+			});
+		});
+
+
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			var nameTab = $(e.target).attr('href');
+			$(nameTab).find('.slick2').slick('reinit');
+		});
+
+		/*==================================================================
+		[ Slick3 ]*/
+		$('.wrap-slick3').each(function () {
+			$(this).find('.slick3').slick({
+				slidesToShow: 1,
+				slidesToScroll: 1,
+				fade: true,
+				infinite: true,
+				autoplay: false,
+				autoplaySpeed: 6000,
+
+				arrows: true,
+				appendArrows: $(this).find('.wrap-slick3-arrows'),
+				prevArrow: '<button class="arrow-slick3 prev-slick3"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
+				nextArrow: '<button class="arrow-slick3 next-slick3"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',
+
+				dots: true,
+				appendDots: $(this).find('.wrap-slick3-dots'),
+				dotsClass: 'slick3-dots',
+				customPaging: function (slick, index) {
+					var portrait = $(slick.$slides[index]).data('thumb');
+					return '<img src=" ' + portrait + ' "/><div class="slick3-dot-overlay"></div>';
+				},
+			});
+		});
+
+
+
+	})(jQuery);
+
+</script>
+
+</html>
