@@ -100,22 +100,29 @@ h1 {
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item"><a href="/view-cart">View Cart</a></li>
-                <li class="breadcrumb-item active" aria-current="page">QR Code</a></li>
+                <li class="breadcrumb-item"><a href="/order_history">Order History</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Payment for: <%= o_id %>
+                </li>
             </ol>
         </nav>
 
     <div class="container">
+        <%
+        const amount = (orderTotal * 25255).toFixed(0);
+        const formattedAmount = Number(amount).toLocaleString('vi-VN');
+        console.log(formattedAmount);
+        %>
         <h1>Thanh toán</h1>
         <div class="payment-box">
             <h2>Thanh toán bằng chuyển khoản</h2>
             <div class="payment-info">
-                <p><strong>Tổng tiền:</strong> 200,000đ</p>
-                <p><strong>Thời gian còn lại:</strong> <span id="countdown">10:00</span></p>
+                <p><strong>Tổng tiền:</strong> <%= formattedAmount %>đ ($<%= orderTotal %>)</p>
+                <p><strong>Chuyển đổi ngoại tệ:</strong> $1 = 25.255 VND</p>
+                <!-- <p><strong>Thời gian còn lại:</strong> <span id="countdown">10:00</span></p> -->
             </div>
             <div class="qr-box">
                 <div class="qr-image">
-                    <img src="https://img.vietqr.io/image/VCB-1031355714-compact2.png?amount=200000&addInfo=Donate%20BrickShop&accountName=TRAN%20HUU%20DAT" alt="QR Code">
+                    <img src="https://img.vietqr.io/image/VCB-1031355714-compact2.png?amount=<%= (orderTotal * 25255).toFixed(0) %>&addInfo=THANHTOAN%20<%=o_id%>&accountName=TRAN%20HUU%20DAT" alt="QR Code">
                     <!-- <img src="https://img.vietqr.io/image/PVCB-107002908796-compact2.png?amount=200000&addInfo=Donate%20BrickShop&accountName=Tran%20Huu%20Dat" alt="QR Code"> -->
                 </div>
                 <div class="instructions">
@@ -123,13 +130,16 @@ h1 {
                     <ol>
                         <li>Mở ứng dụng Mobile Banking của ngân hàng.</li>
                         <li>Chọn "Thanh Toán" và quét mã QR tại hướng dẫn này.</li>
-                        <li>Nhập số tiền cần chuyển là <strong>200,000đ</strong> và nội dung chuyển tiền là <strong>Donate BrickShop</strong>.</li>
-                        <li>Hoàn thành các bước thanh toán theo hướng dẫn và đợi xử lý trong giây lát.</li>
+                        <li>Nhập số tiền cần chuyển là <strong><%= formattedAmount %>đ</strong> và nội dung chuyển tiền là <br><strong>THANHTOAN <%=o_id%></strong>.</li>
+                        <li>Hoàn thành các bước thanh toán theo hướng dẫn và đợi xử lý trong khoảng 15 đến 30 phút.</li>
+                        <li><strong>Giờ làm việc: </strong>8:00 đến 20:00</li>
                     </ol>
                     <p><strong>Ngân hàng:</strong> Vietcombank (VCB)</p>
                     <p><strong>Tên:</strong> TRAN HUU DAT</p>
                     <p><strong>Số tài khoản:</strong> 1031355714</p>
                     <p><strong>Chi nhánh:</strong> Trụ sở CN Hồ Chí Minh</p>
+                    <br>
+                    <p><strong>Lưu ý:</strong> Tính năng đang trong giai đoạn thử nghiệm, vui lòng không chuyển tiền!!</p>
                 </div>
             </div>
         </div>
@@ -145,27 +155,30 @@ h1 {
     
 </body>
 <script>
-    function startCountdown(duration, display) {
-        var timer = duration, minutes, seconds;
-        setInterval(function () {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
+    // function startCountdown(duration, display) {
+    //     var timer = duration, minutes, seconds;
+    //     setInterval(function () {
+    //         minutes = parseInt(timer / 60, 10);
+    //         seconds = parseInt(timer % 60, 10);
 
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
+    //         minutes = minutes < 10 ? "0" + minutes : minutes;
+    //         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-            display.textContent = minutes + ":" + seconds;
+    //         display.textContent = minutes + ":" + seconds;
 
-            if (--timer < 0) {
-                timer = duration;
-            }
-        }, 1000);
-    }
+    //         if (--timer < 0) {
+    //             timer = duration;
+    //         }
+    //     }, 1000);
+    // }
 
-    window.onload = function () {
-        var tenMinutes = 60 * 10,
-            display = document.querySelector('#countdown');
-        startCountdown(tenMinutes, display);
-    };
+    // window.onload = function () {
+    //     var tenMinutes = 60 * 10,
+    //         display = document.querySelector('#countdown');
+    //     startCountdown(tenMinutes, display);
+    // };
+
+    const number = 300000;
+    console.log(number.toLocaleString('vi-VN') + 'đ'); // Output: "300.000đ"
 </script>
 </html>
