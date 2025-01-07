@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <title>Thanh Toán</title>
+    <%- include('head.ejs') %>
+    <link rel="stylesheet" href="../css/category_product.css" />
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+nav {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.payment-box {
+    padding: 20px;
+}
+
+.payment-box h2 {
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.payment-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.payment-info p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.qr-box {
+    display: flex;
+    gap: 20px;
+}
+
+.qr-image img {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.instructions {
+    flex: 1;
+}
+
+.instructions h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.instructions ol {
+    margin: 0;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.instructions p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #333;
+}
+
+</style>
+<body>
+        <!-- Header Section -->
+        <header>
+            <%- include('header_home_en.ejs') %>
+        </header>
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/view-cart">View Cart</a></li>
+                <li class="breadcrumb-item active" aria-current="page">QR Code</a></li>
+            </ol>
+        </nav>
+
+    <div class="container">
+        <h1>Thanh toán</h1>
+        <div class="payment-box">
+            <h2>Thanh toán bằng chuyển khoản</h2>
+            <div class="payment-info">
+                <p><strong>Tổng tiền:</strong> 200,000đ</p>
+                <p><strong>Thời gian còn lại:</strong> <span id="countdown">10:00</span></p>
+            </div>
+            <div class="qr-box">
+                <div class="qr-image">
+                    <img src="https://img.vietqr.io/image/VCB-1031355714-compact2.png?amount=200000&addInfo=Donate%20BrickShop&accountName=TRAN%20HUU%20DAT" alt="QR Code">
+                    <!-- <img src="https://img.vietqr.io/image/PVCB-107002908796-compact2.png?amount=200000&addInfo=Donate%20BrickShop&accountName=Tran%20Huu%20Dat" alt="QR Code"> -->
+                </div>
+                <div class="instructions">
+                    <h3>Thực hiện theo hướng dẫn sau để thanh toán:</h3>
+                    <ol>
+                        <li>Mở ứng dụng Mobile Banking của ngân hàng.</li>
+                        <li>Chọn "Thanh Toán" và quét mã QR tại hướng dẫn này.</li>
+                        <li>Nhập số tiền cần chuyển là <strong>200,000đ</strong> và nội dung chuyển tiền là <strong>Donate BrickShop</strong>.</li>
+                        <li>Hoàn thành các bước thanh toán theo hướng dẫn và đợi xử lý trong giây lát.</li>
+                    </ol>
+                    <p><strong>Ngân hàng:</strong> Vietcombank (VCB)</p>
+                    <p><strong>Tên:</strong> TRAN HUU DAT</p>
+                    <p><strong>Số tài khoản:</strong> 1031355714</p>
+                    <p><strong>Chi nhánh:</strong> Trụ sở CN Hồ Chí Minh</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Footer Section -->
+        <footer id="footer-section">
+            <%- include('footer.ejs') %>
+        </footer>
+    
+        <!-- Cart Section -->
+        <%- include('cart.ejs') %>
+    
+</body>
+<script>
+    function startCountdown(duration, display) {
+        var timer = duration, minutes, seconds;
+        setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                timer = duration;
+            }
+        }, 1000);
+    }
+
+    window.onload = function () {
+        var tenMinutes = 60 * 10,
+            display = document.querySelector('#countdown');
+        startCountdown(tenMinutes, display);
+    };
+</script>
+</html>

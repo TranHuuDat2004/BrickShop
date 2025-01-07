@@ -208,6 +208,14 @@ app.get('/404', auth_user, cartMiddleware, (req, res) => {
   res.render('404', { website, userLogin, cartItems });
 });
 
+app.get('/QR', auth_user, cartMiddleware, (req, res) => {
+  const website = 'QR.ejs';
+  const userLogin = res.locals.userLogin;
+  const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+  const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng
+  res.render('QR', { website, userLogin, cartItems });
+});
+
 app.post('/change-password', cartMiddleware, async (req, res) => {
   const { userID, current_password, new_password, repeat_new_password } = req.body;
   const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
