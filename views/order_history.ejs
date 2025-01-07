@@ -427,6 +427,7 @@
                             <th>Total Amount</th>
                             <th>Status</th>
                             <th>Details</th>
+                            <th>Payment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -463,6 +464,10 @@
                                 </td>
                                 <td>
                                     <a href="order_details/<%= order.o_id %>">View More</a>
+                                </td>
+
+                                <td>
+                                    <a href="QRCode/<%= order.o_id %>">Tranfer</a>
                                 </td>
 
                             </tr>
