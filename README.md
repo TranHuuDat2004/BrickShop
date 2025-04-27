@@ -14,11 +14,11 @@ Welcome to BrickShop, an e-commerce website project dedicated to providing creat
 *   [Customer Experience](#customer-experience)
     *   [Key Features (For Customers)](#key-features-for-customers)
     *   [Main Pages Description (User)](#main-pages-description-user)
-    *   [Screenshots (Customer Interface)](#screenshots-customer-interface)
+    *   **[Customer Interface (Bootstrap)](#customer-interface-bootstrap)** <!-- <<< Sửa ở đây -->
 *   [Admin Panel](#admin-panel)
     *   [Key Features (For Administrators)](#key-features-for-administrators-admin)
     *   [Main Pages Description (Admin)](#main-pages-description-admin)
-    *   [Screenshots (Admin Interface)](#screenshots-admin-interface)
+    *   **[Admin Interface (Tailwind CSS)](#admin-interface-tailwind-css)** <!-- <<< Sửa ở đây -->
 *   [Installation & Setup Guide](#installation--setup-guide)
     *   [Prerequisites](#prerequisites)
     *   [Installation Steps](#installation-steps)
