@@ -3,7 +3,7 @@
 Chào mừng bạn đến với BrickShop, dự án website thương mại điện tử chuyên cung cấp các sản phẩm đồ chơi lắp ráp sáng tạo từ các thương hiệu hàng đầu như **Qman**, **Keeppley** và **LEGO**. Khám phá thế giới sáng tạo với đa dạng chủ đề từ Siêu nhân, Conan, Sanrio, Doraemon đến Ninjago, Chima, City và nhiều hơn nữa!
 
 <p align="center">
-  <img src="link_den_logo_brickshop.png" alt="BrickShop Logo" width="150"/>
+  <img src="Screenshot/logo.png" alt="BrickShop Logo" width="150"/>
   <!-- Thay thế link_den_logo_brickshop.png bằng link logo thật -->
 </p>
 
@@ -29,6 +29,22 @@ Chào mừng bạn đến với BrickShop, dự án website thương mại đi�
 
 BrickShop là một nền tảng e-commerce nơi những người yêu thích đồ chơi lắp ráp có thể tìm thấy bộ sưu tập phong phú từ các thương hiệu Qman, Keeppley và LEGO. Dự án cung cấp trải nghiệm mua sắm trực tuyến hoàn chỉnh từ việc khám phá sản phẩm đến thanh toán và theo dõi đơn hàng, cùng với hệ thống quản trị cho phép chủ shop vận hành hiệu quả.
 
+
+<!-- =================================================================== -->
+
+## Công nghệ sử dụng
+
+*   **Frontend:**
+    *   HTML5
+    *   CSS3
+        *   **Bootstrap:** Framework CSS chính cho giao diện người dùng (khách hàng).
+        *   **Tailwind CSS:** Framework CSS chính cho giao diện quản trị viên (admin).
+    *   JavaScript 
+*   **Backend:**
+    *   Node.js, Express.js
+*   **Database:**
+    *   MySQL
+    
 ## Tính năng chính
 
 ### Dành cho khách hàng
@@ -49,6 +65,20 @@ BrickShop là một nền tảng e-commerce nơi những người yêu thích đ
 *   🚚 **Quản lý Đơn hàng:**
     *   Xem lại lịch sử các đơn hàng đã đặt.
     *   **Theo dõi chi tiết đơn hàng:** Xem thông tin người nhận, địa chỉ, phương thức giao hàng, tổng tiền, ngày đặt, danh sách sản phẩm trong đơn hàng.
+
+
+### Giao diện Khách hàng (Bootstrap)
+| Trang chủ                               | Giới thiệu LEGO                       | Giới thiệu Qman                       |
+| :--------------------------------------: | :-----------------------------------: | :-----------------------------------: |
+| ![Trang chủ BrickShop](Screenshot/user_index.png) | ![Giới thiệu LEGO](Screenshot/lego.jpg) | ![Giới thiệu Qman](Screenshot/qman.jpg) |
+| **Giới thiệu Keeppley**                   | **Trang Sản phẩm**                    | **Trang Chi tiết Sản phẩm**           |
+| ![Giới thiệu Keeppley](Screenshot/keeppley.jpg)| ![Trang Sản phẩm](Screenshot/product.png)| ![Chi tiết sản phẩm](Screenshot/product_detail.png) |
+| **Cài đặt tài khoản - Thông tin**        | **Cài đặt tài khoản - Avatar**        | **Cài đặt tài khoản - Mạng xã hội**   |
+| ![Settings - Info](Screenshot/settings_profile.png)| ![Settings - Avatar](Screenshot/settings_avatar.png)| ![Settings - Social](Screenshot/settings_social.png)|
+| **Chi tiết Đơn hàng**                    |                                       |                                       |
+| ![Chi tiết Đơn hàng](Screenshot/order.png)|                                       |                                       |
+
+
 
 ### Dành cho quản trị viên (Admin)
 
@@ -76,33 +106,6 @@ BrickShop là một nền tảng e-commerce nơi những người yêu thích đ
 
 <!-- =================================================================== -->
 
-## Công nghệ sử dụng
-
-*   **Frontend:**
-    *   HTML5
-    *   CSS3
-        *   **Bootstrap:** Framework CSS chính cho giao diện người dùng (khách hàng).
-        *   **Tailwind CSS:** Framework CSS chính cho giao diện quản trị viên (admin).
-    *   JavaScript 
-*   **Backend:**
-    *   Node.js, Express.js
-*   **Database:**
-    *   MySQL
-
-## Ảnh chụp màn hình
-
-<!-- Cập nhật và thêm ảnh cho phần Admin -->
-
-### Giao diện Khách hàng (Bootstrap)
-| Trang chủ                               | Giới thiệu LEGO                       | Giới thiệu Qman                       |
-| :--------------------------------------: | :-----------------------------------: | :-----------------------------------: |
-| ![Trang chủ BrickShop](Screenshot/user_index.png) | ![Giới thiệu LEGO](Screenshot/lego.jpg) | ![Giới thiệu Qman](Screenshot/qman.jpg) |
-| **Giới thiệu Keeppley**                   | **Trang Sản phẩm**                    | **Trang Chi tiết Sản phẩm**           |
-| ![Giới thiệu Keeppley](Screenshot/keeppley.jpg)| ![Trang Sản phẩm](Screenshot/product.png)| ![Chi tiết sản phẩm](Screenshot/product_detail.png) |
-| **Cài đặt tài khoản - Thông tin**        | **Cài đặt tài khoản - Avatar**        | **Cài đặt tài khoản - Mạng xã hội**   |
-| ![Settings - Info](Screenshot/settings_profile.png)| ![Settings - Avatar](Screenshot/settings_avatar.png)| ![Settings - Social](Screenshot/settings_social.png)|
-| **Chi tiết Đơn hàng**                    |                                       |                                       |
-| ![Chi tiết Đơn hàng](Screenshot/order.png)|                                       |                                       |
 
 ### Giao diện Admin (Tailwind CSS)
 | Dashboard                              | Quản lý Người dùng                     | Quản lý Sản phẩm                     |
@@ -154,7 +157,6 @@ BrickShop là một nền tảng e-commerce nơi những người yêu thích đ
 ## Giấy phép (License)
 
 Dự án này được cấp phép dưới Giấy phép MIT. Xem file `LICENSE` để biết chi tiết.
-(Hãy đảm bảo bạn đã tạo file `LICENSE` trong thư mục gốc dự án với nội dung Giấy phép MIT).
 
 ## Liên hệ
 
