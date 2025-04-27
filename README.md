@@ -136,7 +136,7 @@ BrickShop là một nền tảng e-commerce nơi những người yêu thích đ
     ```
 3.  **Thiết lập Database:**
     *   Đăng nhập vào MySQL server.
-    *   Tạo database mới (ví dụ: `brickshop_db`).
+    *   Tạo database mới (ví dụ: `keeppley-shop`).
     *   Import schema/chạy migrations để tạo các bảng cần thiết.
 
 ### Biến môi trường
@@ -158,6 +158,6 @@ Dự án này được cấp phép dưới Giấy phép MIT. Xem file `LICENSE` 
 
 ## Liên hệ
 
-[Tên của bạn / Tên nhóm] - [Địa chỉ email]
+[Trưởng nhóm: Trần Hữu Đạt / Thành Viên: Thùy Linh - Huy Lê] - [huudat.peashooer@gmail.com]
 
 Link dự án: [https://github.com/TranHuuDat2004/Keeppley_Nodejs](https://github.com/TranHuuDat2004/Keeppley_Nodejs) <!-- Thay link repo thực tế -->
