@@ -1,165 +1,183 @@
-# BrickShop - Thiên đường Đồ chơi Lắp ráp 🧱
+# BrickShop - Building Block Toy Paradise 🧱
 
-Chào mừng bạn đến với BrickShop, dự án website thương mại điện tử chuyên cung cấp các sản phẩm đồ chơi lắp ráp sáng tạo từ các thương hiệu hàng đầu như **Qman**, **Keeppley** và **LEGO**. Khám phá thế giới sáng tạo với đa dạng chủ đề từ Siêu nhân, Conan, Sanrio, Doraemon đến Ninjago, Chima, City và nhiều hơn nữa!
+Welcome to BrickShop, an e-commerce website project dedicated to providing creative building block toys from leading brands like **Qman**, **Keeppley**, and **LEGO**. Explore a world of creativity with diverse themes ranging from Superheroes, Conan, Sanrio, Doraemon to Ninjago, Chima, City, and many more!
 
 <p align="center">
   <img src="Screenshot/logo.png" alt="BrickShop Logo" width="150"/>
-  <!-- Thay thế link_den_logo_brickshop.png bằng link logo thật -->
+  <!-- Make sure the logo path is correct -->
 </p>
 
-## Mục lục
+## Table of Contents
 
-*   [Giới thiệu](#giới-thiệu)
-*   [Tính năng chính](#tính-năng-chính)
-    *   [Dành cho khách hàng](#dành-cho-khách-hàng)
-    *   [Dành cho quản trị viên (Admin)](#dành-cho-quản-trị-viên-admin)
-*   [Mô tả các trang chính (User)](#mô-tả-các-trang-chính-user)
-*   **[Mô tả các trang chính (Admin)](#mô-tả-các-trang-chính-admin)** <!-- <<< THÊM MỤC NÀY -->
-*   [Công nghệ sử dụng](#công-nghệ-sử-dụng)
-*   [Ảnh chụp màn hình](#ảnh-chụp-màn-hình)
-*   [Hướng dẫn cài đặt & Chạy dự án](#hướng-dẫn-cài-đặt--chạy-dự-án)
-    *   [Yêu cầu](#yêu-cầu)
-    *   [Các bước cài đặt](#các-bước-cài-đặt)
-    *   [Biến môi trường](#biến-môi-trường)
-    *   [Chạy dự án](#chạy-dự-án)
-*   [Giấy phép (License)](#giấy-phép-license)
-*   [Liên hệ](#liên-hệ)
+*   [Introduction](#introduction)
+*   [Key Features](#key-features)
+    *   [For Customers](#for-customers)
+    *   [For Administrators (Admin)](#for-administrators-admin)
+*   [Main Pages Description (User)](#main-pages-description-user)
+*   [Main Pages Description (Admin)](#main-pages-description-admin)
+*   [Technology Stack](#technology-stack)
+*   [Screenshots](#screenshots)
+*   [Installation & Setup Guide](#installation--setup-guide)
+    *   [Prerequisites](#prerequisites)
+    *   [Installation Steps](#installation-steps)
+    *   [Environment Variables](#environment-variables)
+    *   [Running the Project](#running-the-project)
+*   [License](#license)
+*   [Contact](#contact)
 
-## Giới thiệu
+## Introduction
 
-BrickShop là một nền tảng e-commerce nơi những người yêu thích đồ chơi lắp ráp có thể tìm thấy bộ sưu tập phong phú từ các thương hiệu Qman, Keeppley và LEGO. Dự án cung cấp trải nghiệm mua sắm trực tuyến hoàn chỉnh từ việc khám phá sản phẩm đến thanh toán và theo dõi đơn hàng, cùng với hệ thống quản trị cho phép chủ shop vận hành hiệu quả.
+BrickShop is an e-commerce platform where building block enthusiasts can find an extensive collection from Qman, Keeppley, and LEGO brands. The project offers a complete online shopping experience, from product discovery to payment and order tracking, along with a robust administration system for efficient business management.
 
-
-<!-- =================================================================== -->
-
-## Công nghệ sử dụng
+## Technology Stack
 
 *   **Frontend:**
     *   HTML5
     *   CSS3
-        *   **Bootstrap:** Framework CSS chính cho giao diện người dùng (khách hàng).
-        *   **Tailwind CSS:** Framework CSS chính cho giao diện quản trị viên (admin).
-    *   JavaScript 
+        *   **Bootstrap:** Main CSS framework for the user-facing interface (customer pages).
+        *   **Tailwind CSS:** Main CSS framework for the administrator interface (admin pages).
+    *   JavaScript
 *   **Backend:**
     *   Node.js, Express.js
 *   **Database:**
     *   MySQL
-    
-## Tính năng chính
 
-### Dành cho khách hàng
+## Key Features
 
-*   👤 **Xác thực & Quản lý Tài khoản:**
-    *   Đăng ký, Đăng nhập, Đăng xuất.
-    *   **Cài đặt hồ sơ (Profile Settings):** Cập nhật thông tin cá nhân (tên, email), đổi mật khẩu, quản lý địa chỉ, tùy chỉnh ảnh đại diện (upload hoặc chọn từ bộ sưu tập có sẵn), thêm/sửa liên kết mạng xã hội.
-*   🧱 **Khám phá & Mua sắm:**
-    *   Xem giới thiệu về các thương hiệu Qman, Keeppley, LEGO trên trang chủ.
-    *   Duyệt toàn bộ sản phẩm hoặc lọc theo thương hiệu/chủ đề.
-    *   Xem chi tiết sản phẩm: Hình ảnh (gallery), mô tả, giá, mã SKU, độ tuổi phù hợp, nhà cung cấp, các biến thể (nếu có), thêm vào giỏ hàng.
-    *   Tìm kiếm sản phẩm.
-*   🛒 **Giỏ hàng & Thanh toán:**
-    *   Xem/chỉnh sửa sản phẩm trong giỏ hàng.
-    *   Áp dụng mã **Voucher/Coupon** hợp lệ để được giảm giá.
-    *   Thực hiện quy trình thanh toán (checkout).
-    *   Tùy chọn **Thanh toán bằng Mã QR**.
-*   🚚 **Quản lý Đơn hàng:**
-    *   Xem lại lịch sử các đơn hàng đã đặt.
-    *   **Theo dõi chi tiết đơn hàng:** Xem thông tin người nhận, địa chỉ, phương thức giao hàng, tổng tiền, ngày đặt, danh sách sản phẩm trong đơn hàng.
+### For Customers
 
+*   👤 **Authentication & Account Management:**
+    *   Register, Login, Logout.
+    *   **Profile Settings:** Update personal information (name, email), change password, manage shipping addresses, customize profile picture (upload or choose from available collections), add/edit social media links.
+*   🧱 **Browsing & Shopping:**
+    *   View introductions to Qman, Keeppley, and LEGO brands on the homepage.
+    *   Browse all products or filter by brand/theme.
+    *   View product details: Images (gallery), description, price, SKU, suitable age, supplier, variations (if any), add to cart.
+    *   Product Search.
+*   🛒 **Cart & Checkout:**
+    *   View/edit products in the shopping cart.
+    *   Apply valid **Voucher/Coupon** codes for discounts.
+    *   Proceed through the checkout process.
+    *   **QR Code Payment** option.
+*   🚚 **Order Management:**
+    *   Review past order history.
+    *   **Track order details:** View recipient information, address, shipping method, total amount, order date, and the list of products in the order.
 
-### Giao diện Khách hàng (Bootstrap)
-| Trang chủ                               | Giới thiệu LEGO                       | Giới thiệu Qman                       |
-| :--------------------------------------: | :-----------------------------------: | :-----------------------------------: |
-| ![Trang chủ BrickShop](Screenshot/user_index.png) | ![Giới thiệu LEGO](Screenshot/lego.jpg) | ![Giới thiệu Qman](Screenshot/qman.jpg) |
-| **Giới thiệu Keeppley**                   | **Trang Sản phẩm**                    | **Trang Chi tiết Sản phẩm**           |
-| ![Giới thiệu Keeppley](Screenshot/keeppley.jpg)| ![Trang Sản phẩm](Screenshot/product.png)| ![Chi tiết sản phẩm](Screenshot/product_detail.png) |
-| **Cài đặt tài khoản - Thông tin**        | **Cài đặt tài khoản - Avatar**        | **Cài đặt tài khoản - Mạng xã hội**   |
+### For Administrators (Admin)
+
+*   📊 **Dashboard:** Displays a quick overview: Total orders, user count, product count, comment count (?). (Staff list might be sample data).
+*   👥 **Manage Users:** View a list of all registered users with ID, Avatar, Username, Email. Provides actions like Edit and Delete user accounts.
+*   🧱 **Manage Products:** Displays a list of all products with ID, Image, Name, Age, Provider, Price, Status (e.g., new, bestseller), and Edit, Delete actions.
+*   💬 **Manage Comments:** (Based on menu) Allows administrators to view and potentially approve/delete product comments.
+*   📦 **Manage Orders:** Lists all placed orders with ID, Customer Name, Date, Price, Shipping Address, Delivery Method, Order Status (e.g., Pending, Delivered). Allows viewing details for each order.
+*   🏷️ **Manage Discounts / Coupons:** (Based on menu) Manage discount programs or coupon codes (vouchers).
+*   ➕ **Add Product:** A form allowing administrators to input information to add a new product, including Product Number, Name (English, Vietnamese), and upload multiple product images.
+*   📚 **Add Category:** (Based on menu) Allows administrators to add new brands or product themes.
+*   🎟️ **Add Coupons:** (Based on menu) A form to create new discount codes/vouchers.
+
+## Main Pages Description (User)
+
+*   **Home Page (Index):** The first landing page, providing a general overview of BrickShop and featured brands (Qman, Keeppley, LEGO), along with promotions (e.g., Black Friday). Displays featured themes/products for exploration.
+*   **Products Page:** Lists the available building block toy products. Allows users to view multiple products, potentially with filtering or pagination.
+*   **Product Detail Page:** Shows comprehensive information about a specific product, including multiple images, detailed description, price, attributes (brand, theme, SKU, age...), quantity selection, and "Add to Cart" / "Buy Now" buttons.
+*   **Account Settings Page:** Enables users to manage their personal information, change passwords, update profile pictures (upload new or select from predefined collections like People, Cute, Lego Ninjago), and manage social media links (Twitter, Facebook, Google+, LinkedIn, Instagram).
+*   **Order History/Detail Page:** Provides detailed information about a specific order placed by the user, including shipping info, product list, quantities, prices, and the total amount.
+
+## Main Pages Description (Admin)
+
+*   **Dashboard:** Offers a high-level view of the store's activity through key metric cards (Total Orders, Users, Products, Comments). The main interface for navigating to other management sections via the sidebar menu.
+*   **Manage Users:** Displays the user list in a table format, allowing admins to view basic information and perform management actions like editing or deleting accounts.
+*   **Manage Products:** Presents the product catalog in a table with essential details. Admins can easily search, review, and edit or remove products from the store.
+*   **Manage Order:** Lists orders chronologically, showing their processing status (Pending, Delivered...). Provides quick access to order details for review and status updates.
+*   **Add Product:** A detailed form interface for adding new products to the system, including multi-language name input and the ability to upload multiple images.
+
+## Screenshots
+
+### Customer Interface (Bootstrap)
+| Home Page                              | LEGO Introduction                      | Qman Introduction                      |
+| :------------------------------------: | :----------------------------------: | :----------------------------------: |
+| ![BrickShop Home](Screenshot/user_index.png) | ![LEGO Intro](Screenshot/lego.jpg)  | ![Qman Intro](Screenshot/qman.jpg)   |
+| **Keeppley Introduction**              | **Products Page**                    | **Product Detail Page**              |
+| ![Keeppley Intro](Screenshot/keeppley.jpg)| ![Products Page](Screenshot/product.png)| ![Product Detail](Screenshot/product_detail.png) |
+| **Account Settings - Info**          | **Account Settings - Avatar**       | **Account Settings - Social Links** |
 | ![Settings - Info](Screenshot/settings_profile.png)| ![Settings - Avatar](Screenshot/settings_avatar.png)| ![Settings - Social](Screenshot/settings_social.png)|
-| **Chi tiết Đơn hàng**                    |                                       |                                       |
-| ![Chi tiết Đơn hàng](Screenshot/order.png)|                                       |                                       |
+| **Order Detail**                       |                                      |                                      |
+| ![Order Detail](Screenshot/order.png) |                                      |                                      |
 
-
-
-### Dành cho quản trị viên (Admin)
-
-*   📊 **Dashboard:** Hiển thị thông tin tổng quan nhanh chóng: Tổng số đơn hàng, số lượng người dùng, số lượng sản phẩm, số lượng bình luận (?). (Phần danh sách Staff có thể là dữ liệu mẫu).
-*   👥 **Quản lý Người dùng (Manage Users):** Xem danh sách tất cả người dùng đã đăng ký với thông tin ID, Ảnh đại diện, Tên người dùng, Email. Cung cấp các hành động như Chỉnh sửa (Edit) và Xóa (Delete) tài khoản người dùng.
-*   🧱 **Quản lý Sản phẩm (Manage Product):** Hiển thị danh sách tất cả sản phẩm với ID, Ảnh, Tên, Độ tuổi, Nhà cung cấp (Provider), Giá, Trạng thái (ví dụ: new, bestseller), và các hành động Chỉnh sửa, Xóa.
-*   💬 **Quản lý Bình luận (Manage Comment):** (Dựa trên menu) Cho phép quản trị viên xem và có thể là duyệt/xóa các bình luận về sản phẩm.
-*   📦 **Quản lý Đơn hàng (Manage Order):** Liệt kê tất cả đơn hàng đã được đặt với ID, Tên khách hàng, Ngày đặt, Giá trị, Địa chỉ giao hàng, Phương thức vận chuyển, Trạng thái đơn hàng (ví dụ: Pending, Delivered). Cho phép xem chi tiết từng đơn hàng.
-*   🏷️ **Quản lý Giảm giá (Manage Discount) / Coupons:** (Dựa trên menu) Quản lý các chương trình giảm giá hoặc mã coupon (voucher).
-*   ➕ **Thêm Sản phẩm (Add Product):** Form cho phép quản trị viên nhập thông tin để thêm một sản phẩm mới, bao gồm Mã sản phẩm (Number), Tên (Tiếng Anh, Tiếng Việt), và tải lên nhiều hình ảnh sản phẩm.
-*   📚 **Thêm Danh mục (Add Category):** (Dựa trên menu) Cho phép quản trị viên thêm mới các thương hiệu hoặc chủ đề sản phẩm.
-*   🎟️ **Thêm Coupons (Add Coupons):** (Dựa trên menu) Form để tạo mã giảm giá/voucher mới.
-
-<!-- =================================================================== -->
-<!-- ===== THÊM PHẦN MÔ TẢ TRANG ADMIN ===== -->
-<!-- =================================================================== -->
-
-## Mô tả các trang chính (Admin)
-
-*   **Dashboard:** Cung cấp cái nhìn tổng thể về hoạt động của cửa hàng thông qua các thẻ số liệu chính (Tổng đơn hàng, Người dùng, Sản phẩm, Bình luận). Giao diện chính để điều hướng đến các khu vực quản lý khác thông qua thanh menu bên trái.
-*   **Manage Users (Quản lý Người dùng):** Hiển thị danh sách người dùng dưới dạng bảng, cho phép quản trị viên xem thông tin cơ bản và thực hiện các thao tác quản lý như sửa đổi hoặc xóa tài khoản.
-*   **Manage Products (Quản lý Sản phẩm):** Trình bày danh mục sản phẩm dưới dạng bảng với các thông tin quan trọng. Quản trị viên có thể dễ dàng tìm kiếm, xem xét và thực hiện chỉnh sửa hoặc loại bỏ sản phẩm khỏi cửa hàng.
-*   **Manage Order (Quản lý Đơn hàng):** Liệt kê các đơn hàng theo thời gian, hiển thị trạng thái xử lý (Pending, Delivered...). Cung cấp khả năng truy cập nhanh vào chi tiết đơn hàng để xem xét và cập nhật trạng thái khi cần thiết.
-*   **Add Product (Thêm Sản phẩm):** Giao diện form nhập liệu chi tiết để bổ sung sản phẩm mới vào hệ thống, bao gồm tên đa ngôn ngữ và khả năng tải lên nhiều hình ảnh.
-
-<!-- =================================================================== -->
-
-
-### Giao diện Admin (Tailwind CSS)
-| Dashboard                              | Quản lý Người dùng                     | Quản lý Sản phẩm                     |
-| :-------------------------------------: | :------------------------------------: | :-----------------------------------: |
-| ![Admin Dashboard](Screenshot/admin_index.png)| ![Admin Manage Users](Screenshot/manage_user.png) | ![Admin Manage Products](Screenshot/magage_product.png)|
-| **Quản lý Đơn hàng**                   | **Thêm Sản phẩm**                      |                                       |
+### Admin Interface (Tailwind CSS)
+| Dashboard                             | Manage Users                         | Manage Products                       |
+| :-----------------------------------: | :----------------------------------: | :-----------------------------------: |
+| ![Admin Dashboard](Screenshot/admin_index.png)| ![Admin Manage Users](Screenshot/manage_user.png)| ![Admin Manage Products](Screenshot/magage_product.png)|
+| **Manage Orders**                    | **Add Product**                      |                                       |
 | ![Admin Manage Order](Screenshot/manage_order.png)| ![Admin Add Product](Screenshot/add_product.png) |                                       |
 
-<!-- Thay thế link_anh_...png bằng đường dẫn đến ảnh chụp màn hình của bạn -->
+<!-- Make sure image paths are correct -->
 
-## Hướng dẫn cài đặt & Chạy dự án
+## Installation & Setup Guide
 
-<!-- Giữ nguyên phần này như trước, đảm bảo nó chính xác -->
-### Yêu cầu
-*   Node.js (Phiên bản >= 16.x)
+### Prerequisites
+
+*   Node.js (Version >= 16.x recommended)
 *   npm / yarn
-*   MySQL Server (Đã cài đặt và đang chạy)
+*   MySQL Server (Installed and running)
 *   Git
 
-### Các bước cài đặt
-1.  **Clone repository:**
+### Installation Steps
+
+1.  **Clone the repository:**
     ```bash
     git clone https://github.com/TranHuuDat2004/Keeppley_Nodejs
-    cd ten_thu_muc_du_an
+    cd your_project_directory_name # e.g., cd Keeppley_Nodejs
     ```
-2.  **Cài đặt dependencies cho Backend:**
+2.  **Install Backend Dependencies:**
     ```bash
-    cd backend # Hoặc thư mục backend của bạn
+    cd backend # Or your backend directory name
     npm install
-    # hoặc: yarn install
+    # or: yarn install
     ```
-3.  **Thiết lập Database:**
-    *   Đăng nhập vào MySQL server.
-    *   Tạo database mới (ví dụ: `keeppley-shop`).
-    *   Import schema/chạy migrations để tạo các bảng cần thiết.
+3.  **Database Setup:**
+    *   Log in to your MySQL server.
+    *   Create a new database (e.g., `keeppley-shop` or `brickshop_db`).
+    *   Import the database schema or run migrations to create the necessary tables (e.g., `users`, `products`, `categories`, `orders`, `vouchers`...).
 
-### Biến môi trường
-1.  Trong thư mục `backend`, tạo file `.env`.
-2.  Thêm các biến môi trường cần thiết (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PORT, JWT_SECRET...).
+### Environment Variables
 
-### Chạy dự án
-1.  **Chạy Backend Server:**
+1.  In the `backend` directory, create a `.env` file.
+2.  Add the required environment variables. Example:
+    ```dotenv
+    DB_HOST=localhost
+    DB_USER=your_mysql_user
+    DB_PASSWORD=your_mysql_password
+    DB_NAME=brickshop_db # Use the name you created
+    DB_PORT=3306
+    PORT=3001 # Port for the backend server
+    JWT_SECRET=your_super_secret_key_for_jwt # Important for security
+    # Add other keys if needed (e.g., QR Payment Gateway keys)
+    ```
+3.  Replace placeholder values (`your_mysql_user`, `your_mysql_password`, etc.) with your actual configuration.
+
+### Running the Project
+
+1.  **Start the Backend Server:**
     ```bash
     cd backend
-    npm start # Hoặc npm run dev
+    npm start
+    # Or if you have a development script: npm run dev
     ```
-2.  **Mở Frontend:** Mở các file HTML trong trình duyệt, đảm bảo JS gọi đúng API backend.
+    The server will run on the port specified in your `.env` file (e.g., `http://localhost:3001`).
 
-## Giấy phép (License)
+2.  **Open the Frontend:**
+    *   Open the user interface HTML files (e.g., `index.html`, `products.html`) directly in your web browser.
+    *   Open the admin interface HTML files (e.g., `admin/index.html`) directly in your web browser.
+    *   **Important:** Ensure the JavaScript files in the frontend are configured to make API calls to the correct backend address (e.g., `fetch('http://localhost:3001/api/products')`).
 
-Dự án này được cấp phép dưới Giấy phép MIT. Xem file `LICENSE` để biết chi tiết.
+## License
 
-## Liên hệ
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+(Ensure you have created a `LICENSE` file in the project root with the MIT License text).
 
-[Trưởng nhóm: Trần Hữu Đạt / Thành Viên: Thùy Linh - Huy Lê] - [huudat.peashooer@gmail.com]
+## Contact
 
-Link dự án: [https://github.com/TranHuuDat2004/Keeppley_Nodejs](https://github.com/TranHuuDat2004/Keeppley_Nodejs) <!-- Thay link repo thực tế -->
+[Team Lead: Tran Huu Dat / Members: Thuy Linh - Huy Le] - [huudat.peashooer@gmail.com]
+
+Project Link: [https://github.com/TranHuuDat2004/Keeppley_Nodejs](https://github.com/TranHuuDat2004/Keeppley_Nodejs)
