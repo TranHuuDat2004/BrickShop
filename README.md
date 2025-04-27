@@ -63,6 +63,29 @@ BrickShop is an e-commerce platform where building block enthusiasts can find an
     *   Review past order history.
     *   **Track order details:** View recipient information, address, shipping method, total amount, order date, and the list of products in the order.
 
+## Main Pages Description (User)
+
+*   **Home Page (Index):** The first landing page, providing a general overview of BrickShop and featured brands (Qman, Keeppley, LEGO), along with promotions (e.g., Black Friday). Displays featured themes/products for exploration.
+*   **Products Page:** Lists the available building block toy products. Allows users to view multiple products, potentially with filtering or pagination.
+*   **Product Detail Page:** Shows comprehensive information about a specific product, including multiple images, detailed description, price, attributes (brand, theme, SKU, age...), quantity selection, and "Add to Cart" / "Buy Now" buttons.
+*   **Account Settings Page:** Enables users to manage their personal information, change passwords, update profile pictures (upload new or select from predefined collections like People, Cute, Lego Ninjago), and manage social media links (Twitter, Facebook, Google+, LinkedIn, Instagram).
+*   **Order History/Detail Page:** Provides detailed information about a specific order placed by the user, including shipping info, product list, quantities, prices, and the total amount.
+
+
+
+### Customer Interface (Bootstrap)
+| Home Page                              | LEGO Introduction                      | Qman Introduction                      |
+| :------------------------------------: | :----------------------------------: | :----------------------------------: |
+| ![BrickShop Home](Screenshot/user_index.png) | ![LEGO Intro](Screenshot/lego.jpg)  | ![Qman Intro](Screenshot/qman.jpg)   |
+| **Keeppley Introduction**              | **Products Page**                    | **Product Detail Page**              |
+| ![Keeppley Intro](Screenshot/keeppley.jpg)| ![Products Page](Screenshot/product.png)| ![Product Detail](Screenshot/product_detail.png) |
+| **Account Settings - Info**          | **Account Settings - Avatar**       | **Account Settings - Social Links** |
+| ![Settings - Info](Screenshot/settings_profile.png)| ![Settings - Avatar](Screenshot/settings_avatar.png)| ![Settings - Social](Screenshot/settings_social.png)|
+| **Order Detail**                       |                                      |                                      |
+| ![Order Detail](Screenshot/order.png) |                                      |                                      |
+
+
+
 ### For Administrators (Admin)
 
 *   📊 **Dashboard:** Displays a quick overview: Total orders, user count, product count, comment count (?). (Staff list might be sample data).
@@ -75,13 +98,6 @@ BrickShop is an e-commerce platform where building block enthusiasts can find an
 *   📚 **Add Category:** (Based on menu) Allows administrators to add new brands or product themes.
 *   🎟️ **Add Coupons:** (Based on menu) A form to create new discount codes/vouchers.
 
-## Main Pages Description (User)
-
-*   **Home Page (Index):** The first landing page, providing a general overview of BrickShop and featured brands (Qman, Keeppley, LEGO), along with promotions (e.g., Black Friday). Displays featured themes/products for exploration.
-*   **Products Page:** Lists the available building block toy products. Allows users to view multiple products, potentially with filtering or pagination.
-*   **Product Detail Page:** Shows comprehensive information about a specific product, including multiple images, detailed description, price, attributes (brand, theme, SKU, age...), quantity selection, and "Add to Cart" / "Buy Now" buttons.
-*   **Account Settings Page:** Enables users to manage their personal information, change passwords, update profile pictures (upload new or select from predefined collections like People, Cute, Lego Ninjago), and manage social media links (Twitter, Facebook, Google+, LinkedIn, Instagram).
-*   **Order History/Detail Page:** Provides detailed information about a specific order placed by the user, including shipping info, product list, quantities, prices, and the total amount.
 
 ## Main Pages Description (Admin)
 
@@ -91,18 +107,8 @@ BrickShop is an e-commerce platform where building block enthusiasts can find an
 *   **Manage Order:** Lists orders chronologically, showing their processing status (Pending, Delivered...). Provides quick access to order details for review and status updates.
 *   **Add Product:** A detailed form interface for adding new products to the system, including multi-language name input and the ability to upload multiple images.
 
-## Screenshots
 
-### Customer Interface (Bootstrap)
-| Home Page                              | LEGO Introduction                      | Qman Introduction                      |
-| :------------------------------------: | :----------------------------------: | :----------------------------------: |
-| ![BrickShop Home](Screenshot/user_index.png) | ![LEGO Intro](Screenshot/lego.jpg)  | ![Qman Intro](Screenshot/qman.jpg)   |
-| **Keeppley Introduction**              | **Products Page**                    | **Product Detail Page**              |
-| ![Keeppley Intro](Screenshot/keeppley.jpg)| ![Products Page](Screenshot/product.png)| ![Product Detail](Screenshot/product_detail.png) |
-| **Account Settings - Info**          | **Account Settings - Avatar**       | **Account Settings - Social Links** |
-| ![Settings - Info](Screenshot/settings_profile.png)| ![Settings - Avatar](Screenshot/settings_avatar.png)| ![Settings - Social](Screenshot/settings_social.png)|
-| **Order Detail**                       |                                      |                                      |
-| ![Order Detail](Screenshot/order.png) |                                      |                                      |
+
 
 ### Admin Interface (Tailwind CSS)
 | Dashboard                             | Manage Users                         | Manage Products                       |
