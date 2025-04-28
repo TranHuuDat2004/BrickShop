@@ -174,7 +174,7 @@ BrickShop is an e-commerce platform where building block enthusiasts can find an
     ```
     The server will run on the port specified in your `.env` file (e.g., `http://localhost:3001`).
 
-2.  **Open the Frontend:**
+2.  **Open the Frontend: (Folder views)**
     *   Open the user interface HTML files (e.g., `index.html`, `products.html`) directly in your web browser.
     *   Open the admin interface HTML files (e.g., `admin/index.html`) directly in your web browser.
     *   **Important:** Ensure the JavaScript files in the frontend are configured to make API calls to the correct backend address (e.g., `fetch('http://localhost:3001/api/products')`).
