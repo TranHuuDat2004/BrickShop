@@ -174,11 +174,15 @@ BrickShop is an e-commerce platform where building block enthusiasts can find an
     ```
     The server will run on the port specified in your `.env` file (e.g., `http://localhost:3001`).
 
-2.  **Open the Frontend: (Folder views)**
-    *   Open the user interface HTML files (e.g., `index.html`, `products.html`) directly in your web browser.
-    *   Open the admin interface HTML files (e.g., `admin/index.html`) directly in your web browser.
-    *   **Important:** Ensure the JavaScript files in the frontend are configured to make API calls to the correct backend address (e.g., `fetch('http://localhost:3001/api/products')`).
+2.  **Access the Frontend (Served by Backend):**
 
+    Once the backend server is running (typically on `http://localhost:3001` as specified in your `.env` file or server configuration):
+
+    *   **Open your web browser** and navigate to the main application URL. For example:
+        *   User Interface: `http://localhost:3001/` (or a specific route like `/home`, `/products`)
+        *   Admin Interface: `http://localhost:3001/admin` (or a specific route for the admin panel)
+
+    *   **Note:** The exact URLs will depend on how you have configured your routes in your Express.js application to render the EJS views.
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
@@ -188,4 +192,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 [Team Lead: Tran Huu Dat / Members: Thuy Linh - Huy Le] - [huudat.peashooer@gmail.com]
 
-Project Link: [https://github.com/TranHuuDat2004/Keeppley_Nodejs](https://github.com/TranHuuDat2004/Keeppley_Nodejs)
+Project Link: [https://github.com/TranHuuDat2004/BrickShop](https://github.com/TranHuuDat2004/BrickShop)
