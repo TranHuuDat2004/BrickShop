@@ -183,10 +183,22 @@ BrickShop is an e-commerce platform where building block enthusiasts can find an
         *   Admin Interface: `http://localhost:3001/admin` (or a specific route for the admin panel)
 
     *   **Note:** The exact URLs will depend on how you have configured your routes in your Express.js application to render the EJS views.
+  
+      
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-(Ensure you have created a `LICENSE` file in the project root with the MIT License text).
+This work is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
+
+You are free to:
+- **Share** — copy and redistribute the material in any medium or format
+- **Adapt** — remix, transform, and build upon the material
+
+Under the following terms:
+- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made.
+- **NonCommercial** — You may not use the material for commercial purposes.
+
+![License: CC BY-NC 4.0](https://licensebuttons.net/l/by-nc/4.0/88x31.png)
+
 
 ## Contact
 
