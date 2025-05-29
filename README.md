@@ -7,6 +7,16 @@ Welcome to BrickShop, an e-commerce website project dedicated to providing creat
   <!-- Make sure the logo path is correct -->
 </p>
 
+
+## 👤 Author
+
+*   **[Team Engineering]**
+    *   **Trần Hữu Đạt** - Full-Stack Web Developer - [@TranHuuDat2004](https://github.com/TranHuuDat2004)
+    *   **Lê Tấn Huy ( Huy Lê )** - Member - [@CodeSades](https://github.com/Codesades)
+    *   **Dương Thị Thùy Linh** - Member - - [@thuylinh1501](https://github.com/thuylinh1501)
+
+Project Link: [https://github.com/TranHuuDat2004/BrickShop](https://github.com/TranHuuDat2004/BrickShop)
+
 ## Table of Contents
 
 *   [Introduction](#introduction)
@@ -200,11 +210,3 @@ Under the following terms:
 ![License: CC BY-NC 4.0](https://licensebuttons.net/l/by-nc/4.0/88x31.png)
 
 
-## 👤 Author
-
-*   **[Team Engineering]**
-    *   **Trần Hữu Đạt** - Full-Stack Web Developer - [@TranHuuDat2004](https://github.com/TranHuuDat2004)
-    *   **Lê Tấn Huy ( Huy Lê )** - Member - [@CodeSades](https://github.com/Codesades)
-    *   **Dương Thị Thùy Linh** - Member - - [@thuylinh1501](https://github.com/thuylinh1501)
-
-Project Link: [https://github.com/TranHuuDat2004/BrickShop](https://github.com/TranHuuDat2004/BrickShop)
