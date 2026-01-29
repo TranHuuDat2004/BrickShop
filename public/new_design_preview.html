@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brick Shop - Modern 2025 Redesign</title>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
+    <link rel="stylesheet" href="css/modern-style.css">
+</head>
+<body>
+
+    <!-- Navigation (Mock) -->
+    <nav style="position: absolute; width: 100%; padding: 2rem; z-index: 100; display: flex; justify-content: space-between; color: white;">
+        <div style="font-size: 1.5rem; font-weight: 800;">BRICKSHOP</div>
+        <div style="display: flex; gap: 2rem; font-weight: 600;">
+            <a href="#">Home</a>
+            <a href="#">Shop</a>
+            <a href="#">Sale</a>
+            <a href="#">Contact</a>
+        </div>
+        <div style="display: flex; gap: 1.5rem;">
+            <i class="fa-light fa-search" style="font-size: 1.2rem;"></i>
+            <i class="fa-light fa-shopping-bag" style="font-size: 1.2rem;"></i>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-tag">Black Friday Special</span>
+                <h1>Build Your <br>Dream World</h1>
+                <p>Experience the ultimate collection of LEGO, Qman, and Keeppley sets. Up to 80% off this week.</p>
+                <a href="#" class="btn btn-primary">Start Building <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features / Value Props -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                
+                <div class="feature-card">
+                    <i class="fa-duotone fa-fire feature-icon"></i>
+                    <h3>Hot Deals</h3>
+                    <p>Don't miss out on trending products with massive discounts up to 80%.</p>
+                    <a href="#" style="margin-top: auto; color: var(--primary-color); font-weight: 700;">Shop Deals &rarr;</a>
+                </div>
+
+                <div class="feature-card">
+                    <i class="fa-duotone fa-ticket feature-icon"></i>
+                    <h3>Exclusive Coupons</h3>
+                    <p>Grab limited-time discount codes and save big on your next masterpiece.</p>
+                    <a href="#" style="margin-top: auto; color: var(--primary-color); font-weight: 700;">Get Coupons &rarr;</a>
+                </div>
+
+                <div class="feature-card">
+                    <i class="fa-duotone fa-box-open feature-icon"></i>
+                    <h3>New Arrivals</h3>
+                    <p>Fresh sets arriving every month. Be the first to build the latest designs.</p>
+                    <a href="#" style="margin-top: auto; color: var(--primary-color); font-weight: 700;">View New &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEGO Interactive Section -->
+    <section class="brand-section">
+        <div class="container" style="display: flex; align-items: center; gap: 4rem;">
+            <div class="brand-info">
+                <img src="images/LEGO_logo.png" alt="LEGO" class="brand-logo">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 1rem;">The Icon of Creativity</h2>
+                <p class="brand-desc">
+                    Founded in 1932, LEGO has inspired generations to build, create, and imagine. 
+                    From <b>City</b> to <b>Ninjago</b>, explore the sets that started it all.
+                </p>
+                <a href="#" class="btn btn-primary">Shop LEGO</a>
+            </div>
+            <div class="brand-visual">
+                <img src="images/logo_banner_1.jpg" onerror="this.src='https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?auto=format&fit=crop&q=80&w=600'" class="brand-img" alt="Lego Banner">
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Showcase (Qman) -->
+    <section class="brand-section reverse" style="background: var(--bg-light);">
+        <div class="container" style="display: flex; align-items: center; gap: 4rem; flex-direction: row-reverse;">
+            <div class="brand-info">
+                <img src="images/2022101014476761.png" alt="Qman" class="brand-logo" style="height: 60px;">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 1rem;">Dreams Made Real</h2>
+                <p class="brand-desc">
+                    Since 1994, Qman has been a leading Asian brand, proving that <br>
+                    "Qman blocks make dreams come true."
+                </p>
+                <div class="scroller-wrapper">
+                    <!-- Mock Products -->
+                    <div class="product-card">
+                        <img src="images/lego1.png" class="product-img" alt="Product">
+                        <div class="product-title">Qman City Police</div>
+                        <div class="product-price">$29.99</div>
+                    </div>
+                    <div class="product-card">
+                        <img src="images/lego2.png" class="product-img" alt="Product">
+                        <div class="product-title">Qman Fire Station</div>
+                        <div class="product-price">$45.00</div>
+                    </div>
+                    <div class="product-card">
+                        <img src="images/lego3.png" class="product-img" alt="Product">
+                        <div class="product-title">Qman Space</div>
+                        <div class="product-price">$32.50</div>
+                    </div>
+                </div>
+                <br>
+                <a href="#" class="btn btn-primary">Explore Qman</a>
+            </div>
+             <div class="brand-visual">
+                <!-- Fallback image if local not found -->
+                <img src="images/logo_banner_2.jpg" onerror="this.src='https://images.unsplash.com/photo-1560961911-29340c31d863?auto=format&fit=crop&q=80&w=600'" class="brand-img" alt="Qman Banner">
+            </div>
+        </div>
+    </section>
+
+    <!-- Keeppley Section -->
+    <section class="brand-section">
+        <div class="container" style="display: flex; align-items: center; gap: 4rem;">
+            <div class="brand-info">
+                <img src="images/2022082419251955.png" alt="Keeppley" class="brand-logo" style="height: 50px;">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 1rem;">Anime & Pop Culture</h2>
+                <p class="brand-desc">
+                    The new generation. Pokemon, Duraemon, and beautiful architectural sets. 
+                    High-quality licensed products that bring your favorite characters to life.
+                </p>
+                <a href="#" class="btn btn-primary">Discover Keeppley</a>
+            </div>
+            <div class="brand-visual">
+                 <img src="images/logo_banner_3.jpg" onerror="this.src='https://images.unsplash.com/photo-1559793125-99aec44c4c23?auto=format&fit=crop&q=80&w=600'" class="brand-img" alt="Keeppley Banner">
+            </div>
+        </div>
+    </section>
+
+    <footer style="background: #222; color: white; padding: 4rem 0; text-align: center;">
+        <div class="container">
+            <h2 style="margin-bottom: 2rem;">Ready to Build?</h2>
+            <p style="margin-bottom: 2rem; color: #888;">Join thousands of happy builders today.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <i class="fab fa-facebook fa-2x"></i>
+                <i class="fab fa-instagram fa-2x"></i>
+                <i class="fab fa-tiktok fa-2x"></i>
+            </div>
+            <br>
+            <p>&copy; 2025 BrickShop. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
