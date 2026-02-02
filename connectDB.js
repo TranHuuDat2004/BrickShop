@@ -1,13 +1,17 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
+const fs = require('fs');
 
 // Tạo kết nối cơ sở dữ liệu
 const conn = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'keeppley-shop',
-  port : 3306,
-  connectTimeout : 10000
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASS || '',
+  database: process.env.DB_NAME || 'keeppley-shop',
+  port: process.env.DB_PORT || 3306,
+  ssl: process.env.DB_SSL === 'true'
+    ? (process.env.DB_SSL_CA_PATH ? { ca: fs.readFileSync(process.env.DB_SSL_CA_PATH) } : { rejectUnauthorized: false })
+    : undefined,
+  connectTimeout: 10000
 });
 
 // Kết nối với cơ sở dữ liệu

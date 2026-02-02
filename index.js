@@ -1,5 +1,7 @@
 
 
+require('dotenv').config();
+
 // Import các thư viện cần thiết
 const express = require('express');
 const path = require('path');
@@ -261,63 +263,63 @@ app.post('/change-password', cartMiddleware, async (req, res) => {
   req.session.error_pass1 = null;
 
   try {
-      // 1. Lấy mật khẩu hiện tại từ cơ sở dữ liệu
-      const sql = "SELECT loginpassword FROM User WHERE userID = ?";
-      conn.query(sql, [userID], async (err, results) => {
-          if (err) {
-              console.error("Lỗi truy vấn:", err);
-              return res.status(500).send("Có lỗi xảy ra.");
-          }
+    // 1. Lấy mật khẩu hiện tại từ cơ sở dữ liệu
+    const sql = "SELECT loginpassword FROM User WHERE userID = ?";
+    conn.query(sql, [userID], async (err, results) => {
+      if (err) {
+        console.error("Lỗi truy vấn:", err);
+        return res.status(500).send("Có lỗi xảy ra.");
+      }
 
-          if (results.length === 0) {
-              req.session.error_pass0 = "Tài khoản không tồn tại.";
-              return res.redirect('/change-password');
-          }
+      if (results.length === 0) {
+        req.session.error_pass0 = "Tài khoản không tồn tại.";
+        return res.redirect('/change-password');
+      }
 
-          const hashedPassword = results[0].loginpassword;
+      const hashedPassword = results[0].loginpassword;
 
-          // 2. Kiểm tra mật khẩu hiện tại
-          const isMatch = await bcrypt.compare(current_password, hashedPassword);
-          if (!isMatch) {
-              error_message = "Mật khẩu hiện tại không đúng.";
-              success_message = ''
-              const website = 'Password.ejs';
-              res.render('Password', { userLogin: req.session.userLogin, error_message, success_message, website });
-          }
+      // 2. Kiểm tra mật khẩu hiện tại
+      const isMatch = await bcrypt.compare(current_password, hashedPassword);
+      if (!isMatch) {
+        error_message = "Mật khẩu hiện tại không đúng.";
+        success_message = ''
+        const website = 'Password.ejs';
+        res.render('Password', { userLogin: req.session.userLogin, error_message, success_message, website });
+      }
 
-          // 3. Kiểm tra mật khẩu mới và mật khẩu xác nhận
-          if (new_password !== repeat_new_password) {
-              error_message = "Mật khẩu mới không khớp.";
-              success_message = ''
-              const website = 'Password.ejs';
-              const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-              const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
-              res.render('Password', { userLogin: req.session.userLogin, error_message, success_message, website, cartItems });
+      // 3. Kiểm tra mật khẩu mới và mật khẩu xác nhận
+      if (new_password !== repeat_new_password) {
+        error_message = "Mật khẩu mới không khớp.";
+        success_message = ''
+        const website = 'Password.ejs';
+        const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+        const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
+        res.render('Password', { userLogin: req.session.userLogin, error_message, success_message, website, cartItems });
 
-          }
+      }
 
-          // 4. Mã hóa và cập nhật mật khẩu mới
-          const newHashedPassword = await bcrypt.hash(new_password, 10);
-          const updateSql = "UPDATE User SET loginpassword = ? WHERE userID = ?";
-          conn.query(updateSql, [newHashedPassword, userID], (updateErr) => {
-              if (updateErr) {
-                  console.error("Lỗi cập nhật mật khẩu:", updateErr);
-                  return res.status(500).send("Có lỗi xảy ra.");
-              }
+      // 4. Mã hóa và cập nhật mật khẩu mới
+      const newHashedPassword = await bcrypt.hash(new_password, 10);
+      const updateSql = "UPDATE User SET loginpassword = ? WHERE userID = ?";
+      conn.query(updateSql, [newHashedPassword, userID], (updateErr) => {
+        if (updateErr) {
+          console.error("Lỗi cập nhật mật khẩu:", updateErr);
+          return res.status(500).send("Có lỗi xảy ra.");
+        }
 
-              // Thông báo thành công
-              error_message = ''
-              success_message = "Cập nhật mật khẩu thành công!";
-              // Cập nhật ảnh trong session
-              const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
-              const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
-              const website = 'Password.ejs';
-              res.render('Password', { userLogin: req.session.userLogin, error_message, success_message, website, cartItems  });
-          });
+        // Thông báo thành công
+        error_message = ''
+        success_message = "Cập nhật mật khẩu thành công!";
+        // Cập nhật ảnh trong session
+        const cartItems = res.locals.cartItems;  // Giỏ hàng đã được truyền vào từ middleware
+        const totalAmount = res.locals.totalAmount;  // Tổng số tiền giỏ hàng;
+        const website = 'Password.ejs';
+        res.render('Password', { userLogin: req.session.userLogin, error_message, success_message, website, cartItems });
       });
+    });
   } catch (err) {
-      console.error("Lỗi hệ thống:", err);
-      res.status(500).send("Có lỗi xảy ra.");
+    console.error("Lỗi hệ thống:", err);
+    res.status(500).send("Có lỗi xảy ra.");
   }
 });
 
@@ -1689,42 +1691,42 @@ app.get('/Admin/index', auth_user, cartMiddleware, (req, res) => {
       return res.status(500).send("Database query error");
     }
     // Pass the user count to the EJS template
-  const orderCount = results[0].orderCount;
+    const orderCount = results[0].orderCount;
 
-  //Get the actual numbers of user
-  const sqlUser = 'SELECT COUNT(*) AS userCount FROM `user`';
+    //Get the actual numbers of user
+    const sqlUser = 'SELECT COUNT(*) AS userCount FROM `user`';
 
-  conn.query(sqlUser, (err, results) => {
-    if (err) {
-      console.error("Error querying users: " + err.stack);
-      return res.status(500).send("Database query error");
-    }
-  
-    // Pass the user count to the EJS template
-  const userCount = results[0].userCount;
+    conn.query(sqlUser, (err, results) => {
+      if (err) {
+        console.error("Error querying users: " + err.stack);
+        return res.status(500).send("Database query error");
+      }
 
-  const sqlProduct = 'SELECT COUNT(*) AS productCount FROM `product`';
+      // Pass the user count to the EJS template
+      const userCount = results[0].userCount;
 
-  conn.query(sqlProduct, (err, results) => {
-    if (err) {
-      console.error("Error querying users: " + err.stack);
-      return res.status(500).send("Database query error");
-    }
-  const productCount = results[0].productCount;
+      const sqlProduct = 'SELECT COUNT(*) AS productCount FROM `product`';
 
-  const sqlComment = 'SELECT COUNT(*) AS commentCount FROM `comment`';
+      conn.query(sqlProduct, (err, results) => {
+        if (err) {
+          console.error("Error querying users: " + err.stack);
+          return res.status(500).send("Database query error");
+        }
+        const productCount = results[0].productCount;
 
-  conn.query(sqlComment, (err, results) => {
-    if (err) {
-      console.error("Error querying users: " + err.stack);
-      return res.status(500).send("Database query error");
-    }
-  
-    // Pass the user count to the EJS template
-  const commentCount = results[0].commentCount;
+        const sqlComment = 'SELECT COUNT(*) AS commentCount FROM `comment`';
 
-  res.render('Admin/index', { website, userLogin, orderCount, userCount, productCount ,commentCount});
-      });  
+        conn.query(sqlComment, (err, results) => {
+          if (err) {
+            console.error("Error querying users: " + err.stack);
+            return res.status(500).send("Database query error");
+          }
+
+          // Pass the user count to the EJS template
+          const commentCount = results[0].commentCount;
+
+          res.render('Admin/index', { website, userLogin, orderCount, userCount, productCount, commentCount });
+        });
       });
     });
   });
@@ -1952,7 +1954,7 @@ app.post('/Admin/updateOrder', (req, res) => {
     }
 
     console.log(`Order ${id} updated to status ${o_status}`);
-    res.redirect(`/Admin/ManageOrder`); 
+    res.redirect(`/Admin/ManageOrder`);
   });
 });
 

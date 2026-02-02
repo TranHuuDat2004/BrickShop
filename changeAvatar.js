@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const path = require('path');
 const multer = require('multer');
 
@@ -35,7 +35,7 @@ const changeAvatar = (req, res) => {
             const website = 'Avatar.ejs';
             res.render('Avatar', { userLogin: req.session.userLogin, success_message: req.session.success_message, website });
         });
-    } 
+    }
     // Kiểm tra xem có ảnh mới nào được tải lên không
     else if (req.file) {
         const imagePath = req.file.filename;

@@ -1,6 +1,6 @@
 // changeGeneral.js
 const multer = require('multer');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const path = require('path');
 
 // Cấu hình thư mục upload
