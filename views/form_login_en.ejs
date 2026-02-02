@@ -15,10 +15,21 @@
 
     /* SVG */
     @keyframes blink {
-      0% { ry: 5; }
-      49% { ry: 5; }
-      50% { ry: 0; }
-      51% { ry: 5; }
+      0% {
+        ry: 5;
+      }
+
+      49% {
+        ry: 5;
+      }
+
+      50% {
+        ry: 0;
+      }
+
+      51% {
+        ry: 5;
+      }
     }
 
     .skin {
@@ -40,11 +51,17 @@
       stroke-width: 2px;
     }
 
-    .arm, #mouth, #smile, .eyes, .hand, .eyebrow {
+    .arm,
+    #mouth,
+    #smile,
+    .eyes,
+    .hand,
+    .eyebrow {
       transition: all 0.25s;
     }
 
-    html, body {
+    html,
+    body {
       --light-main-color: #b0d2e5;
       --dark-main-color: rgba(102, 153, 204, 0.4);
       --darker-main-color: rgba(51, 102, 153, 0.9);
@@ -210,7 +227,7 @@
 
 
   <form method="post" action="/login">
-    
+
     <svg width="250" height="250" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg" role="img"
       aria-labelledby="title  desc">
       <title id="title">Teacher</title>
@@ -285,50 +302,58 @@
             <div class="placeholder">e.g. ABC123</div>
           </div>
           </fieldset> -->
-          <% if (errorMessage) { %>
-            <div class="alert alert-danger"><%= errorMessage %></div>
+    <% if (errorMessage) { %>
+      <div class="alert alert-danger">
+        <%= errorMessage %>
+      </div>
+      <% } %>
+        <% if (successMessage) { %>
+          <div class="alert alert-success">
+            <%= successMessage %>
+          </div>
           <% } %>
-          <% if (successMessage) { %>
-            <div class="alert alert-success"><%= successMessage %></div>
-          <% } %>
-          
-          <fieldset id="email-field" class="with-placeholder">
-        <legend style="font-size: 18px;">Username</legend>
-        <div>
-            <input type="text" name="username" id="email" autocomplete="off" autocorrect="off" autocapitalize="off"
-                spellcheck="false" required />
-            <div class="placeholder">e.g. ABC123</div>
-        </div>
-    </fieldset>
-    <!-- <div class="error-message">Lỗi</div> -->
-    <!-- <?php
+
+            <fieldset id="email-field" class="with-placeholder">
+              <legend style="font-size: 18px;">Username</legend>
+              <div>
+                <input type="text" name="username" id="email" autocomplete="off" autocorrect="off" autocapitalize="off"
+                  spellcheck="false" required />
+                <div class="placeholder">e.g. ABC123</div>
+              </div>
+            </fieldset>
+            <!-- <div class="error-message">Lỗi</div> -->
+            <!-- <?php
     
      if (isset($_SESSION['error0'])): ?>
         <div class="error-message"><?php echo $_SESSION['error0']; ?></div>
     <?php endif; ?> -->
 
-    <fieldset id="password-field">
-        <legend style="font-size: 18px;">Password</legend>
-        <span id="show-password-container">
-            <span></span> Show Password
-        </span>
-        <div>
-            <input type="password" name="password" id="password" autocomplete="nope" autocorrect="off" autocapitalize="off"
-                spellcheck="false" required />
-        </div>
-    </fieldset>
-    <fieldset id="submit-field">
-        
-        <div>
-            <input type="submit" name="submit" id="submit" value="Login" />
-        </div>
-    </fieldset>
-    <p class="text-muted-foreground mt-4 text-center"><a href="#" class="text-primary">Forgot your password?</a></p>
+            <fieldset id="password-field">
+              <legend style="font-size: 18px;">Password</legend>
+              <span id="show-password-container">
+                <span></span> Show Password
+              </span>
+              <div>
+                <input type="password" name="password" id="password" autocomplete="nope" autocorrect="off"
+                  autocapitalize="off" spellcheck="false" required />
+              </div>
+            </fieldset>
+            <fieldset id="submit-field">
 
-    <a href="/auth/facebook">Login with Facebook</a>
+              <div>
+                <input type="submit" name="submit" id="submit" value="Login" />
+              </div>
+            </fieldset>
+            <p class="text-muted-foreground mt-4 text-center"><a href="#" class="text-primary">Forgot your password?</a>
+            </p>
 
-    <p class="text-muted-foreground mt-4 text-center">You don't have account <a href="/Signup_en" class="text-primary">Click here</a></p>
-</form>
+            <a href="/auth/facebook">Login with Facebook</a>
+            <br>
+            <a href="/auth/google">Login with Google</a>
+
+            <p class="text-muted-foreground mt-4 text-center">You don't have account <a href="/Signup_en"
+                class="text-primary">Click here</a></p>
+  </form>
 
   <script>
     let svg = document.querySelector("svg");

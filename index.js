@@ -479,6 +479,9 @@ app.post('/changeAvatar', avatarUpload.single('profileImage'), (req, res) => {
 const countryList = require('./countryList'); // Đường dẫn đến file countryList.js
 // Tích hợp Facebook Login
 loginFacebook(app);
+// Tích hợp Google Login
+const loginGoogle = require('./login_google');
+loginGoogle(app);
 
 
 // Trong tệp router hoặc controller
